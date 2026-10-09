@@ -310,9 +310,16 @@ const grid = $("#grid");
 let tab = (new Date().getHours() >= 4 && new Date().getHours() < 17) ? "morning" : "evening";
 let hideDone = false;
 let fontSize = parseInt(localStorage.getItem("adhkari-font") || "20", 10);
+if(!Number.isFinite(fontSize)) fontSize = 20;
+fontSize = Math.min(30, Math.max(14, fontSize));
 let left = {}; // remaining per dhikr id
 
-function todayKey(){ return new Date().toISOString().slice(0,10); }
+function todayKey(){
+  const d = new Date();
+  const mm = String(d.getMonth()+1).padStart(2,"0");
+  const dd = String(d.getDate()).padStart(2,"0");
+  return d.getFullYear()+"-"+mm+"-"+dd;
+}
 function storeKey(){ return "adhkari-"+todayKey()+"-"+tab; }
 function loadLeft(list){
   try{
@@ -336,7 +343,11 @@ function applyFont(){ document.documentElement.style.setProperty("--text-size", 
 function applyTheme(t){
   document.documentElement.dataset.theme = t;
   localStorage.setItem("adhkari-theme", t);
-  $("#themeBtn").firstChild.textContent = t === "dark" ? "☀️ " : "🌙 ";
+  const btn = $("#themeBtn");
+  const icon = t === "dark" ? "☀️ " : "🌙 ";
+  const first = btn.childNodes[0];
+  if(first && first.nodeType === 3){ first.textContent = icon; }
+  else{ btn.insertBefore(document.createTextNode(icon), btn.firstChild); }
 }
 
 function toast(msg){
@@ -387,8 +398,22 @@ function render(){
       }
     };
     copyBtn.onclick = async () => {
-      try{ await navigator.clipboard.writeText(textOf(d)); toast("📋 تم نسخ الذكر"); }
-      catch{ toast("تعذّر النسخ"); }
+      const txt = textOf(d);
+      try{
+        if(navigator.clipboard && window.isSecureContext !== false){
+          await navigator.clipboard.writeText(txt);
+        }else{ throw new Error("no-clipboard"); }
+        toast("📋 تم نسخ الذكر");
+      }catch{
+        try{
+          const ta = document.createElement("textarea");
+          ta.value = txt;
+          ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
+          document.execCommand("copy"); ta.remove();
+          toast("📋 تم نسخ الذكر");
+        }catch{ toast("تعذّر النسخ"); }
+      }
     };
     resetOne.onclick = () => { left[d.id] = d.repeat; save(); render(); };
     grid.appendChild(card);
