@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أذكاري</title>
+<style>
+body{font-family:Tahoma,Arial,sans-serif;background:#f5f6fa;margin:0;padding:20px;text-align:center}
+h1{color:#2c5f2d}
+.card{background:#fff;border-radius:12px;padding:15px;margin:10px auto;max-width:500px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+button{background:#2c5f2d;color:#fff;border:0;border-radius:8px;padding:10px 20px;font-size:16px;cursor:pointer}
+.count{font-size:28px;font-weight:bold;margin:10px 0}
+.reset{background:#888;margin-top:20px}
+</style>
+</head>
+<body>
+<h1>📿 أذكاري</h1>
+<p>أذكار المسلم اليومية</p>
+<div id="list"></div>
+<button class="reset" onclick="resetAll()">إعادة التصفير</button>
+<script>
+const adhkar=[
+{id:"s1",text:"سبحان الله وبحمده",total:100},
+{id:"s2",text:"أستغفر الله العظيم",total:100},
+{id:"s3",text:"لا إله إلا الله",total:100},
+{id:"s4",text:"الحمد لله",total:33},
+{id:"s5",text:"الله أكبر",total:33},
+{id:"s6",text:"آية الكرسي",total:1},
+{id:"s7",text:"سورة الإخلاص",total:3}
+];
+let state=JSON.parse(localStorage.getItem("azkari")||"{}");
+function render(){
+const box=document.getElementById("list");box.innerHTML="";
+adhkar.forEach(z=>{
+const cur=state[z.id]||0;
+const div=document.createElement("div");div.className="card";
+div.innerHTML=`<div>${z.text}</div><div class="count">${cur} / ${z.total}</div>`;
+const b=document.createElement("button");b.textContent=cur>=z.total?"✔ تم":"ذكر";
+b.disabled=cur>=z.total;b.onclick=()=>{if(state[z.id]==null)state[z.id]=0;state[z.id]++;save();render();};
+div.appendChild(b);box.appendChild(div);
+});
+}
+function save(){localStorage.setItem("azkari",JSON.stringify(state));}
+function resetAll(){state={};save();render();}
+render();
+</script>
+</body>
+</html>
