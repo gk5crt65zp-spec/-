@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 540">
+  <!-- شعار غراس — البرامج والمشاريع (نسخة ويب مطابقة للأصل) -->
+  <!-- النقطة العلوية -->
+  <circle cx="200" cy="28" r="13" fill="#A6C835"/>
+  <!-- الشريط الأخضر -->
+  <path d="M152 58 L200 100 L248 58 L248 86 L200 128 L152 86 Z" fill="#7AB52E"/>
+  <!-- الشريط الفيروزي -->
+  <path d="M140 102 L200 156 L260 102 L260 132 L200 186 L140 132 Z" fill="#38A9C4"/>
+  <!-- الغرسة الكحلية: ساقان منحنيتان -->
+  <path d="M200 316 C198 250 162 212 114 194 L114 164 C170 184 202 228 209 300 Z" fill="#1E4178"/>
+  <path d="M200 316 C202 250 238 212 286 194 L286 164 C230 184 198 228 191 300 Z" fill="#1E4178"/>
+  <!-- القاعدة -->
+  <rect x="104" y="312" width="192" height="26" rx="4" fill="#1E4178"/>
+  <rect x="196" y="288" width="16" height="28" fill="#1E4178"/>
+  <!-- الاسم عربي -->
+  <text x="200" y="418" text-anchor="middle" font-family="Tahoma, Arial" font-size="72" font-weight="bold" fill="#1E4178">غراس</text>
+  <!-- الاسم لاتيني -->
+  <text x="200" y="476" text-anchor="middle" font-family="Arial, Tahoma" font-size="58" font-weight="bold" fill="#1E4178">Gheras</text>
+  <!-- الوصف -->
+  <text x="200" y="522" text-anchor="middle" font-family="Tahoma, Arial" font-size="30" font-weight="bold" fill="#1E4178">البرامج والمشاريع</text>
+</svg>

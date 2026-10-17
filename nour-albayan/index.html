@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>غراس | منهج نور البيان — مرجع المعلمات المتكامل</title>
+<meta name="description" content="موقع غراس التعليمي: مكتبة نور البيان، حقيبة المعلم، ركن التهجي، الخطط العلاجية، متابعة الأطفال، ركن التحفيز">
+<link rel="icon" href="assets/ghiras-logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <img id="logoImg" src="assets/ghiras-logo.svg" alt="شعار غراس">
+      <h1>غراس <span>| نور البيان</span><small>مرجع المعلمات المتكامل — نغرس الحرف فينبت الإتقان 🌱</small></h1>
+    </div>
+    <div class="top-tools">
+      <div class="search">🔍 <input id="globalSearch" placeholder="بحث في الكتب والأنشطة والخطط..."></div>
+      <button class="btn small soft" id="lockBtn" title="وضع المعلمة">🔓 دخول المعلمة</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-page="home">🏠 الرئيسية</button>
+  <button class="tab" data-page="library">📚 المكتبة</button>
+  <button class="tab" data-page="bag">🎒 حقيبة المعلم</button>
+  <button class="tab" data-page="spelling">🔤 ركن التهجي</button>
+  <button class="tab" data-page="levels">🎓 المستويات السبعة</button>
+  <button class="tab" data-page="dashboard">🧭 لوحة المتابعة</button>
+  <button class="tab" data-page="method">🌳 شجرة المنهج</button>
+  <button class="tab" data-page="plans">📝 الخطط العلاجية</button>
+  <button class="tab" data-page="tracking">📊 متابعة الأطفال</button>
+  <button class="tab" data-page="supervisor">👩‍🏫 الإشراف</button>
+  <button class="tab" data-page="analytics">📈 الإحصائيات والأثر</button>
+  <button class="tab" data-page="motivation">⭐ التحفيز</button>
+  <button class="tab" data-page="admin">⚙️ الإدارة</button>
+</nav>
+
+<main>
+  <!-- الرئيسية -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <img id="heroLogo" src="assets/ghiras-logo.svg" alt="شعار غراس">
+      <h2>أهلاً بكِ في <span>غراس</span> لتعليم نور البيان</h2>
+      <p>بيئة تعليمية منظمة تدعم المعلمة: موارد جاهزة، خطط تطبيقية وعلاجية، متابعة دقيقة لكل طفل، وتحفيز ممتع — كل ذلك في مكان واحد يعمل على الجوال والآيباد والحاسوب.</p>
+      <div class="quick" id="homeStats"></div>
+    </div>
+    <div class="quick" style="margin-top:14px">
+      <button class="qcard" data-go="library"><span class="ic">📚</span><b>مكتبة الكتب</b><small>PDF وأوراق عمل</small></button>
+      <button class="qcard" data-go="bag"><span class="ic">🎒</span><b>حقيبة المعلم</b><small>تحضير وخطط</small></button>
+      <button class="qcard" data-go="spelling"><span class="ic">🔤</span><b>ركن التهجي</b><small>تدريب تفاعلي</small></button>
+      <button class="qcard" data-go="levels"><span class="ic">🎓</span><b>المستويات السبعة</b><small>دروس وتدريبات واختبارات</small></button>
+      <button class="qcard" data-go="dashboard"><span class="ic">🧭</span><b>لوحة المتابعة</b><small>إتقان كل مستوى وطفل</small></button>
+      <button class="qcard" data-go="method"><span class="ic">🌳</span><b>شجرة المنهج</b><small>المسار التفاعلي</small></button>
+      <button class="qcard" data-go="plans"><span class="ic">📝</span><b>الخطط العلاجية</b><small>فردية وجماعية</small></button>
+      <button class="qcard" data-go="tracking"><span class="ic">📊</span><b>متابعة الأطفال</b><small>تقارير ورسوم</small></button>
+      <button class="qcard" data-go="supervisor"><span class="ic">👩‍🏫</span><b>الإشراف</b><small>المعلمات والورش</small></button>
+      <button class="qcard" data-go="analytics"><span class="ic">📈</span><b>الإحصائيات والأثر</b><small>قياس التقدم</small></button>
+      <button class="qcard" data-go="motivation"><span class="ic">⭐</span><b>ركن التحفيز</b><small>نقاط وأوسمة</small></button>
+    </div>
+  </section>
+
+  <!-- المكتبة -->
+  <section class="page" id="page-library">
+    <div class="sec-head"><h2>📚 مكتبة الكتب والموارد</h2><span class="hint">معاينة قبل التحميل — تنظيم حسب المستوى + بحث فوري شامل</span></div>
+    <div class="card" style="margin-bottom:12px"><h3>🔍 بحث متطور</h3>
+      <div class="frow">
+        <div><label class="fl">كلمة البحث</label><input class="in" id="advSearch" placeholder="مثال: مد، شدة، بطاقات خاطفة، بيت الحروف..."></div>
+        <div><label class="fl">نوع المحتوى</label><select class="in" id="advType"><option value="all">الكل</option><option value="library">كتب وملفات</option><option value="guide">أدلة التهجي</option><option value="strat">استراتيجيات</option><option value="workshop">ورش تدريبية</option><option value="audio">وسائط صوتية</option></select></div>
+      </div>
+      <div id="advResults" style="margin-top:10px"></div>
+    </div>
+    <div class="filters" id="libFilters"></div>
+    <div class="grid3" id="libGrid"></div>
+    <div class="card" style="margin-top:14px"><h3>🖼️ مكتبة الملفات المصورة — أركان الصف</h3>
+      <p style="font-size:13px;color:var(--muted)">صور عالية الدقة: بيت الحروف، البطاقات الخاطفة، بطاقات التلوين والخط. اضغطي معاينة ثم حمّلي أو اطبعي.</p>
+      <div class="filters" id="picFilters"></div>
+      <div class="grid3" id="picGrid"></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>➕ إضافة مورد (للمعلمة)</h3>
+      <div class="frow">
+        <div><label class="fl">عنوان المورد</label><input class="in" id="libTitle" placeholder="مثال: كتاب نور البيان — المستوى الثاني"></div>
+        <div><label class="fl">المستوى</label><select class="in" id="libLevel"><option>المستوى الأول — الحروف</option><option>المستوى الثاني — الحركات</option><option>المستوى الثالث — المدود والتنوين</option><option>المستوى الرابع — اللامات والقراءة</option><option>أوراق عمل وأنشطة</option><option>أدلة وخطط</option></select></div>
+      </div>
+      <label class="fl">وصف مختصر</label><input class="in" id="libDesc" placeholder="نبذة عن المحتوى">
+      <label class="fl">ملف PDF (اختياري — يُحفظ على جهازك)</label><input type="file" id="libFile" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xlsx" class="in">
+      <div style="margin-top:10px"><button class="btn primary" id="libAdd">📥 إضافة للمكتبة</button></div>
+    </div>
+  </section>
+
+  <!-- حقيبة المعلم -->
+  <section class="page" id="page-bag">
+    <div class="sec-head"><h2>🎒 حقيبة المعلم</h2><span class="hint">دليل + تحضير + استراتيجيات + تقييم — كلها قابلة للطباعة</span></div>
+    <div class="grid2">
+      <div class="card"><h3>📖 دليل المعلمة في نور البيان</h3><div id="guideList"></div></div>
+      <div class="card"><h3>🗓️ الخطط التدريسية وتوزيع الدروس</h3><div id="termPlans"></div>
+        <div style="margin-top:10px"><button class="btn soft small" id="printTerm">🖨️ طباعة الخطة الفصلية</button></div></div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3>📝 نموذج تحضير درس (يطبع)</h3>
+        <div class="frow">
+          <div><label class="fl">الدرس</label><input class="in" id="prepLesson" placeholder="مثال: حرف الباء مع الفتح"></div>
+          <div><label class="fl">التاريخ</label><input class="in" type="date" id="prepDate"></div>
+        </div>
+        <div class="frow">
+          <div><label class="fl">الأهداف</label><textarea class="in" id="prepGoals" placeholder="أن يتعرف الطفل على..."></textarea></div>
+          <div><label class="fl">الأنشطة والوسائل</label><textarea class="in" id="prepActs" placeholder="بطاقات، سبورة، لعب..."></textarea></div>
+        </div>
+        <label class="fl">التقويم والواجب</label><input class="in" id="prepEval" placeholder="تسميع + ورقة عمل">
+        <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary" id="printPrep">🖨️ طباعة التحضير</button><button class="btn" id="savePrep">💾 حفظ في المكتبة</button></div>
+      </div>
+      <div class="card"><h3>💡 استراتيجيات تبسيط المعلومة</h3><div id="stratList"></div>
+        <h3 style="margin-top:12px">📋 نماذج التقييم والاختبارات</h3><div id="evalList"></div></div>
+      <div class="card"><h3>🖨️ نماذج جاهزة للطباعة — المتابعة الميدانية</h3>
+        <p style="font-size:13px;color:var(--muted)">كل نموذج يطبع فوراً بمقاس A4.</p>
+        <div class="grid2" id="printModels"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>📅 سير الخطط الأسبوعية للمعلمات</h3>
+      <p style="font-size:13px;color:var(--muted)">تُعبأ من صفحة «الإشراف» وتُعرض هنا للمعلمة للمتابعة والطباعة.</p>
+      <div id="bagWeekly"></div>
+      <div style="margin-top:8px"><button class="btn soft small" id="printWeekly">🖨️ طباعة الخطط الأسبوعية</button></div>
+    </div>
+  </section>
+
+  <!-- ركن التهجي -->
+  <section class="page" id="page-spelling">
+    <div class="sec-head"><h2>🔤 ركن التهجي</h2><span class="hint">من الحرف إلى الكلمة — تدريب تفاعلي ناطق</span></div>
+    <div class="card"><h3>١) بطاقات الحروف — اضغطي الحرف ليسمعه الطفل 🔊</h3><div class="letters" id="letterCards"></div>
+      <div style="text-align:center"><button class="btn soft" id="speakAbjad">🔊 تسميع الحروف كاملة</button></div></div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3>٢) لعبة: أين الحرف؟ 🎯</h3><p style="font-size:13px;color:var(--muted)">اسمعي الصوت واختاري الحرف الصحيح من البطاقات.</p>
+        <div style="text-align:center"><button class="btn gold" id="quizNew">▶️ سؤال جديد</button> <button class="btn soft" id="quizHear">🔊 استمعي مجدداً</button></div>
+        <div class="quiz-opts" id="quizOpts"></div><div class="score" id="quizScore"></div></div>
+      <div class="card"><h3>٣) ركّبي المقطع 🧩</h3>
+        <div class="frow">
+          <div><label class="fl">الحرف</label><select class="in" id="sylLetter"></select></div>
+          <div><label class="fl">الحركة</label><select class="in" id="sylHarakah"><option value="َ">فتحة ( َ )</option><option value="ُ">ضمة ( ُ )</option><option value="ِ">كسرة ( ِ )</option><option value="ْ">سكون ( ْ )</option><option value="ً">تنوين فتح</option><option value="ٌ">تنوين ضم</option><option value="ٍ">تنوين كسر</option></select></div>
+        </div>
+        <div style="text-align:center;margin:10px 0"><div id="sylOut" style="font-size:56px;color:var(--green-dark)">بَ</div>
+        <button class="btn soft" id="sylSpeak">🔊 انطقي المقطع</button> <button class="btn" id="sylPrint">🖨️ ورقة عمل مقاطع</button></div></div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3>٤) تهجية كلمات 🌟</h3><div id="wordSteps"></div>
+        <div style="text-align:center;margin-top:8px"><button class="btn gold" id="wordNew">🔄 كلمة جديدة</button> <button class="btn soft" id="wordSpeak">🔊 استمعي للكلمة</button></div></div>
+      <div class="card"><h3>٥) تقييم سريع لمستوى التهجي ✅</h3>
+        <label class="fl">اسم الطفل (يُحفظ عند المعلمة فقط)</label><input class="in" id="evName" placeholder="اسم الطفل">
+        <div id="evChecks"></div>
+        <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary" id="evSave">💾 حفظ التقييم</button><button class="btn" id="evPrint">🖨️ طباعة ورقة التقييم</button></div>
+        <h3 style="margin-top:12px">⚠️ معالجة الأخطاء الشائعة</h3><div id="mistakes"></div></div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3>📖 بنك أدلة التهجي التفاعلية</h3><p style="font-size:13px;color:var(--muted)">الركائز الأساسية: شرح ركيزة التهجي، مواضع الحروف، الحركات، المدود، الشدات — حمّلي الدليل أو اعرضيه وشاركيه.</p><div id="spellGuides"></div></div>
+      <div class="card"><h3>🎧 وسائط التهجي المسموعة — عزل صوتي (بدون موسيقى) 🎙️</h3>
+        <p style="font-size:13px;color:var(--muted)">نطق بشري عبر جهازك (أكابيلا، بلا مؤثرات) لتدريب المعلمات والأطفال على النطق والتجويد. يمكن رفع مقطع صوتي خاص بك.</p>
+        <div id="audioList"></div>
+        <div class="frow"><div><label class="fl">عنوان المقطع</label><input class="in" id="audTitle" placeholder="مثال: نطق الحروف المفخمة"></div>
+        <div><label class="fl">نص النطق / الوصف</label><input class="in" id="audText" placeholder="النص الذي سيُنطق عند الضغط"></div></div>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn primary small" id="audAdd">➕ إضافة مقطع ناطق</button>
+        <label class="btn small" style="cursor:pointer">🎤 رفع ملف صوتي<input type="file" id="audFile" accept="audio/*" hidden></label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- المستويات السبعة -->
+  <section class="page" id="page-levels">
+    <div class="sec-head"><h2>🎓 المستويات السبعة لنور البيان</h2><span class="hint">كل مستوى قسم مستقل: دروس مرتبة ← تدريبات تفاعلية ← اختبار ← تقرير إتقان</span></div>
+    <div id="levelsHub"></div>
+    <div id="levelDetail" style="display:none"></div>
+  </section>
+
+  <!-- لوحة المتابعة -->
+  <section class="page" id="page-dashboard">
+    <div class="sec-head"><h2>🧭 لوحة المتابعة الشاملة</h2><span class="hint">تربط المستويات السبعة بالأطفال والمعلمات — صورة واحدة واضحة</span></div>
+    <div id="dashZone"></div>
+  </section>
+
+  <!-- شجرة المنهج -->
+  <section class="page" id="page-method">
+    <div class="sec-head"><h2>🌳 شجرة منهجية نور البيان</h2><span class="hint">مسار تفاعلي من فتح الحروف حتى التهجي السريع — اعرضي المهارة الحالية وشاركيها</span></div>
+    <div class="card"><h3>المسار التفاعلي للطالب</h3>
+      <p style="font-size:13px;color:var(--muted)">اضغطي أي مرحلة لعرض مهاراتها وأنشطتها، وحددي «المهارة الحالية» لتُحفظ وتُشارك مع الأهل أو الموجهة.</p>
+      <div class="tree" id="methodTree"></div>
+      <div id="methodDetail" style="margin-top:12px"></div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn gold small" id="methodShare">📤 مشاركة المهارة الحالية</button><button class="btn soft small" id="methodPrint">🖨️ طباعة المسار</button></div>
+    </div>
+  </section>
+
+  <!-- الخطط العلاجية -->
+  <section class="page" id="page-plans">
+    <div class="sec-head"><h2>📝 الخطط العلاجية</h2><span class="hint">خطة فردية لكل طفل: مهارات ← أهداف ← أنشطة ← مدة ← نتائج</span></div>
+    <div class="grid2">
+      <div class="card"><h3>➕ إعداد خطة علاجية جديدة</h3>
+        <div class="frow">
+          <div><label class="fl">الطفل</label><select class="in" id="planChild"></select></div>
+          <div><label class="fl">المدة (أسابيع)</label><input class="in" type="number" id="planWeeks" value="4" min="1" max="12"></div>
+        </div>
+        <label class="fl">المهارات المحتاجة علاجاً</label><div id="planSkills"></div>
+        <label class="fl">الأهداف العلاجية</label><textarea class="in" id="planGoals" placeholder="مثال: إتقان الحروف المتشابهة (ب ت ث) نطقاً وكتابة خلال 4 أسابيع"></textarea>
+        <label class="fl">الأنشطة المناسبة</label><textarea class="in" id="planActs" placeholder="بطاقات + لعبة + ورقة عمل يومية..."></textarea>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn primary" id="planSave">💾 حفظ الخطة</button>
+          <button class="btn" id="planTemplate1">📄 نموذج: الحروف المتشابهة</button>
+          <button class="btn" id="planTemplate2">📄 نموذج: المدود</button>
+        </div></div>
+      <div class="card"><h3>📂 الخطط المحفوظة</h3><div id="planList" class="grid2"></div></div>
+    </div>
+  </section>
+
+  <!-- المتابعة -->
+  <section class="page" id="page-tracking">
+    <div class="sec-head"><h2>📊 متابعة الأطفال</h2><span class="hint">بيانات محمية — تظهر بعد دخول المعلمة 🔒</span></div>
+    <div id="trackingZone"></div>
+  </section>
+
+  <!-- التحفيز -->
+  <section class="page" id="page-motivation">
+    <div class="sec-head"><h2>⭐ ركن تحفيز الأطفال</h2><span class="hint">نقاط • أوسمة • تحديات • شهادات فورية • صدارة • بطاقات يومية 🎉</span></div>
+    <div class="card" style="margin-bottom:14px"><h3>🏆 لوحة الصدارة والتميز — فصل الشهر / معلمة الشهر / الطفل المتقن</h3><div id="leaderboard"></div></div>
+    <div class="grid2">
+      <div class="card"><h3>🏆 لوحة الإنجازات (بالأسماء المستعارة)</h3><div class="board" id="achBoard"></div>
+        <h3 style="margin-top:12px">🎯 التحدي الأسبوعي</h3><div id="challengeBox"></div></div>
+      <div class="card"><h3>➕ منح نقاط وأوسمة + شهادة فورية</h3>
+        <div class="frow">
+          <div><label class="fl">الطفل</label><select class="in" id="motChild"></select></div>
+          <div><label class="fl">النقاط</label><input class="in" type="number" id="motPts" value="5" min="1" max="50"></div>
+        </div>
+        <label class="fl">السبب</label><input class="in" id="motReason" placeholder="مثال: أتقن تهجية كلمات الدرس">
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn gold" id="motAdd">⭐ منح النقاط</button><button class="btn primary" id="certAuto">🎓 إصدار شهادة إتقان فورية</button></div>
+        <label class="fl">الأوسمة</label><div class="filters" id="badgeBtns"></div>
+        <h3 style="margin-top:12px">💬 عبارات تشجيعية</h3><div id="praiseBox" style="font-size:20px;text-align:center;color:var(--gold-dark);min-height:60px"></div>
+        <div style="text-align:center"><button class="btn soft small" id="praiseNew">💬 عبارة جديدة</button> <button class="btn small" id="certPrint">🖨️ طباعة شهادة تقدير</button></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>💌 بطاقات التحفيز اليومية — جاهزة للطباعة والمشاركة</h3>
+      <p style="font-size:13px;color:var(--muted)">ملصقات شكر لمسابقات القراءة والخط — اطبعيها أو شاركيها واتساب.</p>
+      <div class="grid3" id="dailyCards"></div>
+    </div>
+  </section>
+
+  <!-- الإشراف -->
+  <section class="page" id="page-supervisor">
+    <div class="sec-head"><h2>👩‍🏫 لوحة الإشراف (الموجهة / المدربة)</h2><span class="hint">متابعة المعلمات • الخطط الأسبوعية • السجل المهني • تقييم الأداء • ورش التطوير المهني</span></div>
+    <div id="supervisorZone"></div>
+    <div class="card" style="margin-top:14px"><h3>📁 السجل المهني لكل معلمة — متابعة قابلة للقياس</h3>
+      <p style="font-size:13px;color:var(--muted)">ليس مجرد رفع ملفات: ٥ محاور مُدرَّجة + توصيات تتحول لخطوات تُتابَع + مقارنة الأول باللاحق + تقرير مهني يطبع.</p>
+      <div id="trecordZone"></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>🎥 ورش العمل والتطوير المهني — مكتبة الفيديو</h3>
+      <p style="font-size:13px;color:var(--muted)">حقائب وتسجيلات: كيفية تدريس المنهج وإدارة الصفوف لرفع كفاءة المعلمات المستجدات.</p>
+      <div class="grid3" id="workshopGrid"></div>
+      <div class="frow"><div><label class="fl">عنوان الورشة</label><input class="in" id="wsTitle" placeholder="مثال: إدارة الحلقة بفعالية"></div>
+      <div><label class="fl">رابط الفيديو (يوتيوب / درايف)</label><input class="in" id="wsUrl" placeholder="https://..."></div></div>
+      <label class="fl">الوصف والمدة</label><input class="in" id="wsDesc" placeholder="نبذة + المدة">
+      <div style="margin-top:8px"><button class="btn primary small" id="wsAdd">➕ إضافة ورشة</button></div>
+    </div>
+  </section>
+
+  <!-- الإحصائيات -->
+  <section class="page" id="page-analytics">
+    <div class="sec-head"><h2>📈 إحصائيات الأداء وقياس الأثر</h2><span class="hint">إتقان كل طفل لكل مهارة • تحويل تلقائي للعلاجي • تقدم المعلمات فصلياً</span></div>
+    <div class="grid2">
+      <div class="card"><h3>👧 نسبة إتقان كل طفل لكل مهارة</h3><div id="anKids"></div></div>
+      <div class="card"><h3>👩‍🏫 مؤشرات تقدم المعلمات — التقرير الفصلي</h3><div id="anTeachers"></div>
+        <div style="margin-top:8px"><button class="btn soft small" id="anPrint">🖨️ طباعة تقرير الأثر</button></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><h3>⚠️ تحويل تلقائي للخطط العلاجية</h3><p style="font-size:13px;color:var(--muted)">أي طفل تقل نسبة إتقانه عن 60٪ في مهارة يُقترح له خطة علاجية بنقرة واحدة.</p><div id="anReferral"></div></div>
+  </section>
+
+  <!-- الإدارة -->
+  <section class="page" id="page-admin">
+    <div class="sec-head"><h2>⚙️ لوحة تحكم المسؤولة</h2><span class="hint">إضافة المحتوى • الشعار • النسخ الاحتياطي • كلمة الدخول</span></div>
+    <div id="adminZone"></div>
+  </section>
+</main>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+<div id="print-area"></div>
+
+<footer>
+  <img id="footLogo" src="assets/ghiras-logo.svg" alt="غراس"> <b>غراس | نور البيان</b> — صُنع بحب لغرس القرآن في قلوب الصغار 🌱<br>
+  البيانات محفوظة على جهازك فقط — خصوصية الأطفال أمانة.
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
