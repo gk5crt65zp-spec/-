@@ -1,0 +1,43 @@
+{
+  "name": "أذكاري | أذكار الصباح والمساء",
+  "short_name": "أذكاري",
+  "description": "تطبيق أذكار المسلم اليومية بصبح ومساء مع مسبحة إلكترونية وم Sources من كتب السنة",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e1512",
+  "theme_color": "#0d3b2e",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "qrcode.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "label": "أذكار الصباح والمساء"
+    }
+  ],
+  "categories": ["lifestyle", "religion", "utilities"],
+  "shortcuts": [
+    {
+      "name": "أذكار الصباح",
+      "short_name": "الصباح",
+      "url": "./index.html?tab=morning",
+      "icons": [{ "src": "icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "أذكار المساء",
+      "short_name": "المساء",
+      "url": "./index.html?tab=evening",
+      "icons": [{ "src": "icon.svg", "sizes": "any" }]
+    }
+  ]
+}
