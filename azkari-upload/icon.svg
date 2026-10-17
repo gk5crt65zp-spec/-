@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d3b2e"/>
+      <stop offset="100%" stop-color="#1c5c46"/>
+    </linearGradient>
+  </defs>
+  <!-- خلفية مستديرة -->
+  <rect width="1024" height="1024" rx="220" fill="url(#g)"/>
+  <!-- حدود ذهبية -->
+  <rect width="1024" height="1024" rx="220" fill="none" stroke="#c9a45c" stroke-width="24"/>
+  <!-- رمز الذال في الوسط -->
+  <text x="512" y="620" font-family="'Aref Ruqaa', serif" font-size="560" fill="#f5eeda" text-anchor="middle" dominant-baseline="middle">ذ</text>
+  <!-- خيط مسبحة -->
+  <circle cx="512" cy="420" r="46" fill="none" stroke="#c9a45c" stroke-width="14"/>
+  <circle cx="512" cy="620" r="46" fill="none" stroke="#c9a45c" stroke-width="14"/>
+  <circle cx="512" cy="820" r="46" fill="none" stroke="#c9a45c" stroke-width="14"/>
+</svg>
