@@ -179,6 +179,12 @@
   }
   .toast.show{transform:translateX(50%) translateY(0)}
   .empty{text-align:center;color:var(--muted);padding:50px 20px;font-size:16px}
+  .page-nav{display:flex;gap:10px}
+  .page-nav a{
+    color:var(--ink);text-decoration:none;padding:8px 14px;border:1px solid var(--line);
+    border-radius:50px;font-size:14px;transition:var(--transition);font-family:inherit;
+  }
+  .page-nav a:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-soft)}
 </style>
 </head>
 <body>
@@ -188,6 +194,10 @@
       <div class="mark">ذ</div>
       <h1>أذكاري<small>حصنك اليومي من الأذكار الصحيحة</small></h1>
     </div>
+    <nav class="page-nav">
+      <a href="../welcome.html">الصفحة الرئيسية</a>
+      <a href="../about.html">عن الأذكار ومourcesها</a>
+    </nav>
     <div class="controls">
       <button class="ctl" id="fontMinus" title="تصغير الخط">A− <b>تصغير</b></button>
       <button class="ctl" id="fontPlus" title="تكبير الخط">A+ <b>تكبير</b></button>

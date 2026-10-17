@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مرحباً بك في أذكاري</title>
+<meta name="theme-color" content="#0d3b2e">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif;
+    background:#0e1512;
+    color:#f2ecdd;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    background:rgba(14,21,18,.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(201,164,92,.22);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;flex-wrap:wrap;gap:10px}
+  .logo{display:flex;align-items:center;gap:10px}
+  .mark{
+    width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#0d3b2e,#1c5c46);
+    border:1px solid #c9a45c;color:#c9a45c;
+    font-family:'Aref Ruqaa',serif;font-size:26px;
+  }
+  .logo h1{font-family:'Aref Ruqaa',serif;font-size:28px;color:#c9a45c}
+  .logo small{display:block;font-size:12px;color:#a9b3a6}
+  nav a{
+    color:#f2ecdd;text-decoration:none;padding:8px 16px;border:1px solid rgba(201,164,92,.3);
+    border-radius:50px;font-size:14px;transition:.2s;
+  }
+  nav a:hover{border-color:#c9a45c;color:#c9a45c;background:rgba(201,164,92,.1)}
+  .hero{
+    flex:1;display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:60px 20px;background-image:
+      radial-gradient(circle at 85% 5%, rgba(201,164,92,.15), transparent 45%),
+      radial-gradient(circle at 10% 90%, rgba(201,164,92,.15), transparent 40%);
+  }
+  .hero-content{max-width:700px}
+  .badge{
+    display:inline-block;border:1px solid #c9a45c;color:#c9a45c;
+    border-radius:50px;padding:6px 16px;font-size:13px;margin-bottom:16px;background:rgba(201,164,92,.15);
+  }
+  h2{font-family:'Aref Ruqaa',serif;font-size:clamp(32px,7vw,56px);line-height:1.6;margin-bottom:16px}
+  h2 span{color:#c9a45c}
+  p.lead{color:#a9b3a6;font-size:18px;line-height:1.9;margin-bottom:30px}
+  .features{display:grid;gap:16px;margin:40px 0}
+  @media(min-width:600px){.features{grid-template-columns:1fr 1fr}}
+  .feat{
+    background:#182723;border:1px solid rgba(201,164,92,.22);border-radius:18px;
+    padding:24px;text-align:center;
+  }
+  .feat .icon{font-size:32px;margin-bottom:12px;display:block}
+  .feat h3{color:#c9a45c;margin-bottom:10px;font-size:18px}
+  .feat p{color:#a9b3a6;font-size:15px;line-height:1.7}
+  .cta-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+  .btn{
+    padding:14px 32px;border-radius:50px;font-size:17px;font-weight:700;
+    font-family:inherit;cursor:pointer;border:none;transition:.25s;display:inline-flex;
+    align-items:center;gap:8px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,#0d3b2e,#1c5c46);color:#f5eeda;border:1px solid #c9a45c;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .btn-outline{
+    background:transparent;color:#c9a45c;border:1px solid #c9a45c;
+  }
+  .btn-outline:hover{background:rgba(201,164,92,.15);color:#f5eeda}
+  footer{text-align:center;color:#7a7264;font-size:13px;padding:30px 16px 50px;border-top:1px solid rgba(201,164,92,.22)}
+  footer b{color:#c9a45c}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap topbar">
+    <div class="logo">
+      <div class="mark">ذ</div>
+      <div>
+        <h1>أذكاري</h1>
+        <small>أذكار الصباح والمساء</small>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">الذهاب إلى التطبيق</a>
+      <a href="about.html">عن الأذكار ومourcesها</a>
+    </nav>
+  </div>
+</header>
+
+<main class="hero">
+  <div class="wrap hero-content">
+    <div class="badge">📿 حصنك اليومي من الذكر</div>
+    <h2>ابدأ يومك <span>بذكر الله</span> واختمه <span>بحمده</span></h2>
+    <p class="lead">تطبيق إلكتروني مجاني لأذكار المسلم اليومية بمصادرها الصحيحة من كتب السنة، مع مسبحة إلكترونية لكل ذكر تتبع تقدمك وتحفظه في جهازك.</p>
+    <div class="features">
+      <div class="feat">
+        <span class="icon">🌅</span>
+        <h3>أذكار الصباح</h3>
+        <p>أذكار مخصصة لبدء يومك بحماية وذكر الله من الفجر حتى الظهر.</p>
+      </div>
+      <div class="feat">
+        <span class="icon">🌙</span>
+        <h3>أذكار المساء</h3>
+        <p>أذكار مخصصة لختم يومك بالسكينة والتوكل على الله من العصر حتى الليل.</p>
+      </div>
+      <div class="feat">
+        <span class="icon">🔢</span>
+        <h3>مسبحة إلكترونية</h3>
+        <p>عدّاد لكل ذكر يظهر عدد التكرارات المتبقية ويحتفل معك عند الإكمال.</p>
+      </div>
+      <div class="feat">
+        <span class="icon">📖</span>
+        <h3>مصادر موثقة</h3>
+        <p>كل ذكر مرفق بمصدره من كتب السنة الصحيحة وفصله وفضله.</p>
+      </div>
+    </div>
+    <div class="cta-group">
+      <a href="index.html" class="btn btn-primary">ابدأ 기억 الآن ▶</a>
+      <a href="about.html" class="btn btn-outline">عن الأذكار ومourcesها</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  صُنع بحُب لذكر الله • <b>أذكاري</b> • جميع الأذكار من <b>حصن المسلم</b> وكتب السنة الصحيحة<br>
+  قال ﷺ: «مثل الذي يذكر ربه والذي لا يذكر ربه مثل الحي والميت» — متفق عليه
+</footer>
+</body>
+</html>

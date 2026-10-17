@@ -2,6 +2,8 @@ const CACHE_NAME = "azkari-v1";
 const ASSETS = [
   "./",
   "./index.html",
+  "./welcome.html",
+  "./about.html",
   "./icon.svg",
   "./manifest.json"
 ];
