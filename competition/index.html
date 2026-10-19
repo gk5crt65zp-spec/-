@@ -412,7 +412,8 @@ if ("serviceWorker" in navigator) {
   const ua = navigator.userAgent;
   const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const standalone = window.navigator.standalone || (navigator.matchMedia && navigator.matchMedia("(display-mode: standalone)").matches);
-  if (isIOS && !standalone) {
+  const online = location.protocol === "https:" || location.protocol === "http:";
+  if (isIOS && !standalone && online) {
     setTimeout(() => document.getElementById("install").classList.add("on"), 1500);
   }
 })();
