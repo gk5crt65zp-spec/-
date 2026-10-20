@@ -149,6 +149,7 @@
       <span class="t" id="tDisp">05:00</span>
       <button class="btn ghost" id="tStart">ابدئي ⏱️</button>
       <button class="btn ghost" id="tReset">إعادة ↺</button>
+      <button class="btn ghost" id="sndBtn" title="تشغيل/إيقاف الصوت">🔊</button>
       <button class="btn ghost" id="refresh" title="تحديث نسخة التطبيق">⟳ تحديث</button>
     </div>
   </header>
@@ -324,7 +325,7 @@ function choose(btn){
     $("banner").textContent="🎉 أحسنتِ! إجابة صحيحة — "+(selected==="A"?"الأميرات":"الملكات")+" +"+pts;
     $("banner").className="banner ok";
     $("note").textContent="✅ "+q.note; $("note").classList.add("on");
-    confetti();
+    clapSound(); confetti();
   }else{
     btn.classList.add("wrong");
     $("banner").textContent="🙂 حاولي مرة أخرى…"; $("banner").className="banner no";
@@ -357,10 +358,45 @@ function showFinal(){
   }
 }
 
-/* ============ صوت الفائز فقط (نغمة هادئة) ============ */
+/* ============ الأصوات: تصفيق خفيف للإجابة + نغمة الفائز ============ */
 let AC=null;
 const ac=()=>{ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return AC; };
+let soundOn=true;
+try{ soundOn = localStorage.getItem("mos_sound") !== "off"; }catch(e){}
+function setSound(on){
+  soundOn=!!on;
+  try{ localStorage.setItem("mos_sound", soundOn?"on":"off"); }catch(e){}
+  $("sndBtn").textContent = soundOn ? "🔊" : "🔇";
+  $("sndBtn").title = soundOn ? "إيقاف الصوت" : "تشغيل الصوت";
+}
+$("sndBtn").onclick = ()=> setSound(!soundOn);
+setSound(soundOn);
+
+/* تصفيق خفيف (نقرات يد هادئة) عند الإجابة الصحيحة */
+function clap(vol, freq){
+  const c=ac(); if(!c) return;
+  const dur=0.07, len=Math.floor(c.sampleRate*dur);
+  const buf=c.createBuffer(1,len,c.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.4); }
+  const src=c.createBufferSource(); src.buffer=buf;
+  const hp=c.createBiquadFilter(); hp.type="bandpass"; hp.frequency.value=freq; hp.Q.value=0.8;
+  const g=c.createGain(); g.gain.value=vol;
+  src.connect(hp); hp.connect(g); g.connect(c.destination); src.start();
+}
+function clapSound(){
+  if(!soundOn) return;
+  const c=ac(); if(!c) return;
+  if(c.state==="suspended") c.resume();
+  const N=9;
+  for(let i=0;i<N;i++){
+    const t = 0.02 + i*0.055 + Math.random()*0.03;
+    setTimeout(()=>clap(0.10+Math.random()*0.07, 1400+Math.random()*1800), t*1000);
+  }
+}
+
+/* نغمة انتصار هادئة عند حسم النتيجة */
 function winnerSound(){
+  if(!soundOn) return;
   const c=ac(); if(!c) return;
   if(c.state==="suspended") c.resume();
   const notes=[523.25, 659.25, 783.99, 1046.50];   // دو - مي - صول - دو (أعلى)
@@ -415,7 +451,7 @@ addEventListener("keydown",e=>{
 });
 
 /* ============ التطبيق على الآيباد (PWA) ============ */
-const APP_VERSION = "v4";
+const APP_VERSION = "v5";
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js?v=" + APP_VERSION).catch(()=>{});
