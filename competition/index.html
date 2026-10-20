@@ -147,6 +147,7 @@
       <span class="t" id="tDisp">05:00</span>
       <button class="btn ghost" id="tStart">ابدئي ⏱️</button>
       <button class="btn ghost" id="tReset">إعادة ↺</button>
+      <button class="btn ghost" id="refresh" title="تحديث نسخة التطبيق">⟳ تحديث</button>
     </div>
   </header>
 
@@ -191,12 +192,7 @@
     <h1 id="finalTitle">🏆🏆 🏆</h1>
     <div class="word" id="finalWord"></div>
     <div id="tieBox">
-      <p class="tietxt">🤝 تعادل! لا يوجد فائز بعد… هيّئوا المفاضلة 👇</p>
-      <div class="bar">
-        <button class="btn gold" id="roll">🎲 قرعة حاسمة</button>
-        <button class="btn" id="winA">👑 فوز الأميرات</button>
-        <button class="btn" id="winB">👸 فوز الملكات</button>
-      </div>
+      <p class="tietxt">🤝 تعادلٌ في النقاط! 🏆🏆 <b>فوزٌ للفريقين معًا</b> 🏆🏆 — أحسنتوا جميعًا!</p>
     </div>
     <div class="bar">
       <button class="btn gold" id="again">🔄 مسابقة جديدة</button>
@@ -343,83 +339,25 @@ $("toFinal").onclick=()=>showFinal();
 $("again").onclick=()=>{ scores.A=scores.B=0; tieWinner=null; drawScores(); timeLeft=300; drawTime(); rIdx=0;qIdx=0; render();
   document.querySelectorAll("#roundbar .chip").forEach((x,i)=>x.classList.toggle("on",i===0)); stage.style.display="flex"; };
 
-/* ============ النتيجة وحسم التعادل ============ */
+/* ============ النتيجة (والتعادل = فوز للفريقين) ============ */
 let tieWinner=null, tieHow="", rolling=false;
 function showFinal(){
   stage.style.display="none"; finalBox.classList.add("on");
   const tie = scores.A===scores.B;
   $("tieBox").classList.toggle("on", tie);
   if(tie){
-    const how = tieHow==="roll" ? " بالقرعة" : " (بالمفاضلة)";
-    if(tieWinner==="A") $("finalWord").textContent = "👑 فريق الأميرات فاز" + how + "! 👑  —  " + scores.A + " : " + scores.B;
-    else if(tieWinner==="B") $("finalWord").textContent = "👸 فريق الملكات فازت" + how + "! 👸  —  " + scores.A + " : " + scores.B;
-    else $("finalWord").textContent = "🤝 تعادل! — هيّئوا المفاضلة 🎲";
+    $("finalWord").textContent = "🤝 تعادل " + scores.A + " : " + scores.B + " — 🏆🏆 فوزٌ للفريقين معًا! 🏆🏆";
   }else{
     const w = scores.A>scores.B ? "الأميرات" : "الملكات";
     $("finalWord").textContent = (w==="الأميرات"?"👑 فريق الأميرات فاز! 👑":"👸 فريق الملكات فازت! 👸") + "  —  " + scores.A + " : " + scores.B;
-    applause(); confetti();
+    confetti();
   }
 }
-$("roll").onclick=()=>{
-  if(rolling) return; rolling=true;
-  const names=["👑 فريق الأميرات…","👸 فريق الملكات…","👑 الأميرات","👸 الملكات"];
-  let i=0;
-  const iv=setInterval(()=>{ $("finalWord").textContent=names[i%names.length]; i++; beep(480+Math.random()*320,60); },170);
-  setTimeout(()=>{
-    clearInterval(iv); rolling=false;
-    tieWinner = Math.random()<0.5 ? "A" : "B"; tieHow="roll";
-    showFinal();
-    $("finalWord").textContent = (tieWinner==="A" ? "👑 فريق الأميرات فاز بالقرعة! 👑" : "👸 فريق الملكات فازت بالقرعة! 👸")
-      + "  —  " + scores.A + " : " + scores.B;
-    applause(); confetti();
-  },1750);
-};
-$("winA").onclick=()=>{ tieWinner="A"; tieHow="manual"; showFinal(); applause(); confetti(); };
-$("winB").onclick=()=>{ tieWinner="B"; tieHow="manual"; showFinal(); applause(); confetti(); };
 
-/* ============ الأصوات (بدون ملفات) ============ */
-let AC=null; const ac=()=>{ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return AC; };
-function clap(t, f){
-  const c=ac(); if(!c) return;
-  const dur=0.09, len=Math.floor(c.sampleRate*dur);
-  const buf=c.createBuffer(1,len,c.sampleRate), d=buf.getChannelData(0);
-  for(let i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2); }
-  const src=c.createBufferSource(); src.buffer=buf;
-  const hp=c.createBiquadFilter(); hp.type="bandpass"; hp.frequency.value=f||1800; hp.Q.value=0.9;
-  const g=c.createGain(); g.gain.value=t||0.5;
-  src.connect(hp); hp.connect(g); g.connect(c.destination); src.start();
-}
-function applause(){
-  const c=ac(); if(!c) return;
-  if(c.state==="suspended") c.resume();
-  const N=34, dur=1.7;
-  for(let i=0;i<N;i++){
-    const t=Math.random()*dur;
-    setTimeout(()=>clap(0.22+Math.random()*0.3, 1200+Math.random()*2600), t*1000);
-  }
-  // هتاف خفيف
-  const len=Math.floor(c.sampleRate*dur), buf=c.createBuffer(1,len,c.sampleRate), d=buf.getChannelData(0);
-  for(let i=0;i<len;i++){ d[i]=(Math.random()*2-1)*0.35*Math.sin(Math.PI*i/len); }
-  const src=c.createBufferSource(); src.buffer=buf;
-  const lp=c.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=1400;
-  const g=c.createGain(); g.gain.value=0.35;
-  src.connect(lp); lp.connect(g); g.connect(c.destination); src.start();
-}
-function nope(){
-  const c=ac(); if(!c) return;
-  const o=c.createOscillator(), g=c.createGain();
-  o.type="triangle"; o.frequency.setValueAtTime(320,c.currentTime);
-  o.frequency.exponentialRampToValueAtTime(180,c.currentTime+0.25);
-  g.gain.setValueAtTime(0.25,c.currentTime); g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.3);
-  o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+0.32);
-}
-function beep(f,dur){
-  const c=ac(); if(!c) return;
-  const o=c.createOscillator(), g=c.createGain();
-  o.type="square"; o.frequency.value=f;
-  g.gain.setValueAtTime(0.18,c.currentTime); g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+dur);
-  o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime+dur);
-}
+/* ============ بدون صوت (القصاصات فقط) ============ */
+function applause(){ /* تم حذف الصوت المزعج */ }
+function nope(){ /* تم حذف الصوت المزعج */ }
+function beep(){ /* تم حذف صوت التنبيه */ }
 
 /* ============ القصاصات ============ */
 const cv=$("confetti"), ctx=cv.getContext("2d"); let parts=[], rafId=null;
@@ -453,11 +391,19 @@ addEventListener("keydown",e=>{
 });
 
 /* ============ التطبيق على الآيباد (PWA) ============ */
+const APP_VERSION = "v3";
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(()=>{});
+    navigator.serviceWorker.register("sw.js?v=" + APP_VERSION).catch(()=>{});
   });
 }
+$("refresh").onclick = async () => {
+  try{
+    if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); }
+    if(navigator.serviceWorker){ const rs=await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r=>r.unregister())); }
+  }catch(e){}
+  location.reload();
+};
 (function(){
   const ua = navigator.userAgent;
   const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
