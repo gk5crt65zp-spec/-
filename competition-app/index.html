@@ -230,14 +230,12 @@ const ROUNDS = [
   { title:"الجولة 2 — ما نوع التنوين؟", emoji:"🎨", qs:[
     { q:"ما نوع التنوين في (جَمِيعًا)؟", word:"جَمِيعًا", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:0, note:"فتحتان فوق الحرف الأخير." },
     { q:"ما نوع التنوين في (خَاشِعَةٌ)؟", word:"خَاشِعَةٌ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:1, note:"ضمّتان فوق الحرف الأخير." },
-    { q:"ما نوع التنوين في (عَاوِلَةٌ)؟", word:"عَاوِلَةٌ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:1, note:"ضمّتان فوق الحرف الأخير." },
     { q:"ما نوع التنوين في (خَمْسَةٍ)؟", word:"خَمْسَةٍ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:2, note:"كسرتان تحت الحرف الأخير." },
     { q:"ما نوع التنوين في (مِنْ جُوعٍ)؟", word:"مِنْ جُوعٍ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:2, note:"كسرتان تحت الحرف الأخير." },
     { q:"ما نوع التنوين في (تَارًا)؟", word:"تَارًا", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:0, note:"فتحتان فوق الألف." }
   ]},
   { title:"الجولة 3 — ضعي تنوين الكسر", emoji:"✏️", qs:[
     { q:"اختاري الكلمة الصحيحة:", word:"دَافِقَ", options:["دَافِقٍ","دَافِقًا","دَافِقٌ"], a:0, note:"كسرتان: دَافِقٍ" },
-    { q:"اختاري الكلمة الصحيحة:", word:"يَضْبَاجَ", options:["يَضْبَاجٍ","يَضْبَاجًا","يَضْبَاجٌ"], a:0, note:"كسرتان: يَضْبَاجٍ" },
     { q:"اختاري الكلمة الصحيحة:", word:"جَفَانَ", options:["جَفَانٍ","جَفَانًا","جَفَانٌ"], a:0, note:"كسرتان: جَفَانٍ" },
     { q:"اختاري الكلمة الصحيحة:", word:"سَمَاء", options:["سَمَاءٍ","سَمَاءً","سَمَاءٌ"], a:0, note:"نكتب الكسرة على الحرف قبل الألف: سَمَاءٍ" },
     { q:"اختاري الكلمة الصحيحة:", word:"غُيُورَ", options:["غُيُورٍ","غُيُورًا","غُيُورٌ"], a:0, note:"كسرتان: غُيُورٍ" },
@@ -351,14 +349,39 @@ function showFinal(){
   $("tieBox").classList.toggle("on", tie);
   if(tie){
     $("finalWord").textContent = "🤝 تعادل " + scores.A + " : " + scores.B + " — 🏆🏆 فوزٌ للفريقين معًا! 🏆🏆";
+    winnerSound();
   }else{
     const w = scores.A>scores.B ? "الأميرات" : "الملكات";
     $("finalWord").textContent = (w==="الأميرات"?"👑 فريق الأميرات فاز! 👑":"👸 فريق الملكات فازت! 👸") + "  —  " + scores.A + " : " + scores.B;
-    confetti();
+    winnerSound(); confetti();
   }
 }
 
-/* ============ بدون صوت إطلاقًا (القصاصات فقط) ============ */
+/* ============ صوت الفائز فقط (نغمة هادئة) ============ */
+let AC=null;
+const ac=()=>{ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return AC; };
+function winnerSound(){
+  const c=ac(); if(!c) return;
+  if(c.state==="suspended") c.resume();
+  const notes=[523.25, 659.25, 783.99, 1046.50];   // دو - مي - صول - دو (أعلى)
+  notes.forEach((f,i)=>{
+    const t0=c.currentTime+i*0.14;
+    const o=c.createOscillator(), g=c.createGain();
+    o.type="triangle"; o.frequency.setValueAtTime(f,t0);
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(0.16,t0+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+0.5);
+    o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0+0.55);
+  });
+  // جرس خفيف في النهاية
+  const t1=c.currentTime+0.62;
+  const b=c.createOscillator(), bg=c.createGain();
+  b.type="sine"; b.frequency.setValueAtTime(1568,t1);
+  bg.gain.setValueAtTime(0.0001,t1);
+  bg.gain.exponentialRampToValueAtTime(0.14,t1+0.03);
+  bg.gain.exponentialRampToValueAtTime(0.0001,t1+0.9);
+  b.connect(bg); bg.connect(c.destination); b.start(t1); b.stop(t1+1);
+}
 
 /* ============ القصاصات ============ */
 const cv=$("confetti"), ctx=cv.getContext("2d"); let parts=[], rafId=null;
