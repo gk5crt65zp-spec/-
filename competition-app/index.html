@@ -330,7 +330,6 @@ function choose(btn){
   }else{
     btn.classList.add("wrong");
     $("banner").textContent="🙂 حاولي مرة أخرى…"; $("banner").className="banner no";
-    nope();
     setTimeout(()=>btn.classList.remove("wrong"),500);
   }
 }
