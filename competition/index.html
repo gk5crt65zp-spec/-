@@ -107,6 +107,9 @@
   .final{text-align:center;display:none}
   .final.on{display:block}
   .final h1{font-size:clamp(28px,5.6vw,64px);margin:10px 0;background:linear-gradient(120deg,var(--purple-d),var(--pink-d));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #tieBox{display:none;margin-top:16px}
+  #tieBox.on{display:block}
+  .tietxt{font-size:clamp(16px,2.2vw,24px);font-weight:800;color:#a06a1f;background:#fff6e2;border:3px dashed var(--gold);border-radius:18px;padding:10px 18px;margin:0 0 12px}
   .keys{margin-top:14px;font-size:14px;color:#7a6a86;text-align:center;line-height:1.9}
   kbd{background:#fff;border:1px solid #e0d3ee;border-bottom-width:3px;border-radius:8px;padding:2px 9px;font-family:inherit;font-weight:700;color:var(--purple-d)}
   #confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
@@ -187,6 +190,14 @@
   <div class="stage final" id="final">
     <h1 id="finalTitle">🏆🏆 🏆</h1>
     <div class="word" id="finalWord"></div>
+    <div id="tieBox">
+      <p class="tietxt">🤝 تعادل! لا يوجد فائز بعد… هيّئوا المفاضلة 👇</p>
+      <div class="bar">
+        <button class="btn gold" id="roll">🎲 قرعة حاسمة</button>
+        <button class="btn" id="winA">👑 فوز الأميرات</button>
+        <button class="btn" id="winB">👸 فوز الملكات</button>
+      </div>
+    </div>
     <div class="bar">
       <button class="btn gold" id="again">🔄 مسابقة جديدة</button>
     </div>
@@ -204,45 +215,55 @@ const ROUNDS = [
   { title:"الجولة 1 — أين التنوين؟", emoji:"🔍", qs:[
     { q:"أين نضع التنوين؟", word:"", options:["في أول الكلمة","في وسط الكلمة","في آخر الكلمة"], a:2,
       note:"التنوين يُكتب في آخر الاسم دائمًا." },
-    { q:"أيُّ كلمةٍ فيها تنوين؟", word:"", options:["دَافِق","جَفَانَ","نَحْو"], a:1,
+    { q:"أيُّ كلمةٍ فيها تنوين؟", word:"", options:["دَافِقَ","جَفَانَ","نَحْو"], a:1,
       note:"جَفَانَ فيها تنوين، وننطقها: جَفَانٍ" },
     { q:"في كلمة (سَمَاءٍ) أين وُضعت علامة التنوين؟", word:"سَمَاءٍ", options:["على الألف","على الحرف الذي قبل الألف","في وسط الكلمة"], a:1,
       note:"نكتب تنوين الكسر على الحرف قبل الألف: سَمَاءٍ" },
     { q:"التنوين: ننطقه أم نكتبه؟", word:"", options:["ننطقه مثل النون ونكتبه","ننطقه مثل النون ولا نكتبه","لا ننطقه ولا نكتبه"], a:1,
       note:"التنوين نونٌ ساكنة تُنطق ولا تُكتب." },
-    { q:"أيُّ جملةٍ فيها تنوين كسر؟", word:"", options:["فَكِيدُونِي جَمِيعًا","وَأَوْجِي إِلَى نُوحٍ","قَدَّمَ لِشَعْرِكَ"], a:1,
-      note:"فيها تنوين الكسر، وننطقها: نُوحٍ" },
-    { q:"أيُّ كلمةٍ فيها تنوين كسر؟", word:"", options:["جَمِيعًا","خَمْسَةٍ","صَرِيحٌ"], a:1,
+    { q:"أيُّ جملةٍ فيها تنوين كسر؟", word:"", options:["فَكِيدُونِي جَمِيعًا","مِنْ جُوعٍ","قَدَّمَ لِشَعْرِكَ"], a:1,
+      note:"مِنْ جُوعٍ فيها تنوين الكسر." },
+    { q:"أيُّ كلمةٍ فيها تنوين كسر؟", word:"", options:["جَمِيعًا","خَمْسَةٍ","خَاشِعَةٌ"], a:1,
       note:"خَمْسَةٍ فيها تنوين كسر." }
   ]},
   { title:"الجولة 2 — ما نوع التنوين؟", emoji:"🎨", qs:[
     { q:"ما نوع التنوين في (جَمِيعًا)؟", word:"جَمِيعًا", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:0, note:"فتحتان فوق الحرف الأخير." },
-    { q:"ما نوع التنوين في (صَرِيحٌ)؟", word:"صَرِيحٌ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:1, note:"ضمّتان فوق الحرف الأخير." },
+    { q:"ما نوع التنوين في (خَاشِعَةٌ)؟", word:"خَاشِعَةٌ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:1, note:"ضمّتان فوق الحرف الأخير." },
+    { q:"ما نوع التنوين في (عَاوِلَةٌ)؟", word:"عَاوِلَةٌ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:1, note:"ضمّتان فوق الحرف الأخير." },
     { q:"ما نوع التنوين في (خَمْسَةٍ)؟", word:"خَمْسَةٍ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:2, note:"كسرتان تحت الحرف الأخير." },
     { q:"ما نوع التنوين في (مِنْ جُوعٍ)؟", word:"مِنْ جُوعٍ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:2, note:"كسرتان تحت الحرف الأخير." },
-    { q:"ما نوع التنوين في (سَمَاءً)؟", word:"سَمَاءً", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:0, note:"فتحتان فوق الألف." },
-    { q:"ما نوع التنوين في (جَمِيلٌ)؟", word:"جَمِيلٌ", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:1, note:"ضمّتان فوق الحرف الأخير." }
+    { q:"ما نوع التنوين في (تَارًا)؟", word:"تَارًا", options:["تنوين فتح","تنوين ضم","تنوين كسر"], a:0, note:"فتحتان فوق الألف." }
   ]},
   { title:"الجولة 3 — ضعي تنوين الكسر", emoji:"✏️", qs:[
-    { q:"اختاري الكلمة الصحيحة:", word:"دَافِق", options:["دَافِقٍ","دَافِقًا","دَافِقٌ"], a:0, note:"كسرتان: دَافِقٍ" },
-    { q:"اختاري الكلمة الصحيحة:", word:"يَضْبَاج", options:["يَضْبَاجٍ","يَضْبَاجًا","يَضْبَاجٌ"], a:0, note:"كسرتان: يَضْبَاجٍ" },
-    { q:"اختاري الكلمة الصحيحة:", word:"جَفَان", options:["جَفَانٍ","جَفَانًا","جَفَانٌ"], a:0, note:"كسرتان: جَفَانٍ" },
+    { q:"اختاري الكلمة الصحيحة:", word:"دَافِقَ", options:["دَافِقٍ","دَافِقًا","دَافِقٌ"], a:0, note:"كسرتان: دَافِقٍ" },
+    { q:"اختاري الكلمة الصحيحة:", word:"يَضْبَاجَ", options:["يَضْبَاجٍ","يَضْبَاجًا","يَضْبَاجٌ"], a:0, note:"كسرتان: يَضْبَاجٍ" },
+    { q:"اختاري الكلمة الصحيحة:", word:"جَفَانَ", options:["جَفَانٍ","جَفَانًا","جَفَانٌ"], a:0, note:"كسرتان: جَفَانٍ" },
     { q:"اختاري الكلمة الصحيحة:", word:"سَمَاء", options:["سَمَاءٍ","سَمَاءً","سَمَاءٌ"], a:0, note:"نكتب الكسرة على الحرف قبل الألف: سَمَاءٍ" },
-    { q:"اختاري الكلمة الصحيحة:", word:"غُيُور", options:["غُيُورٍ","غُيُورًا","غُيُورٌ"], a:0, note:"كسرتان: غُيُورٍ" },
-    { q:"اختاري الكلمة الصحيحة:", word:"قُدُور", options:["قُدُورٍ","قُدُورًا","قُدُورٌ"], a:0, note:"كسرتان: قُدُورٍ" }
+    { q:"اختاري الكلمة الصحيحة:", word:"غُيُورَ", options:["غُيُورٍ","غُيُورًا","غُيُورٌ"], a:0, note:"كسرتان: غُيُورٍ" },
+    { q:"اختاري الكلمة الصحيحة:", word:"قُدُورَ", options:["قُدُورٍ","قُدُورًا","قُدُورٌ"], a:0, note:"كسرتان: قُدُورٍ" }
   ]},
   { title:"الجولة 4 — جولة الكلمات (الماضي البعيد والقريب)", emoji:"📖", qs:[
-    { q:"ما نوع التنوين في هذه الكلمة؟", word:"سَمَاءً", options:["فتح","ضم","كسر","لا يوجد تنوين"], a:0, note:"تنوين فتح." },
-    { q:"ما نوع التنوين في هذه الكلمة؟", word:"جَمِيعًا", options:["فتح","ضم","كسر","لا يوجد تنوين"], a:0, note:"تنوين فتح." },
-    { q:"ما نوع التنوين في هذه الكلمة؟", word:"خَمْسَةٍ", options:["فتح","ضم","كسر","لا يوجد تنوين"], a:2, note:"تنوين كسر." },
-    { q:"ما نوع التنوين في هذه الكلمة؟", word:"عَظُمَ حِكْمَتُهُ", options:["فتح","ضم","كسر","لا يوجد تنوين"], a:3, note:"لا تنوين فيها." },
-    { q:"ما نوع التنوين في هذه الكلمة؟", word:"لَا أَضِيعُ عَمَلَ", options:["فتح","ضم","كسر","لا يوجد تنوين"], a:3, note:"لا تنوين فيها." },
-    { q:"ما نوع التنوين في هذه الكلمة؟", word:"يَسْأَلُكَ", options:["فتح","ضم","كسر","لا يوجد تنوين"], a:3, note:"لا تنوين فيها." }
+    { q:"هل في هذه الكلمة تنوين؟", word:"عَظُمَ حِكْمَتَهُ", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:2,
+      note:"لا تنوين فيها: عَظُمَ حِكْمَتَهُ." },
+    { q:"هل في هذه الكلمة تنوين؟", word:"لَا أُضِيعُ عَمَلَ", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:2,
+      note:"لا تنوين فيها: لَا أُضِيعُ عَمَلَ." },
+    { q:"هل في هذه الكلمة تنوين؟", word:"وَلَا يَغُوتُ وَيَغُوثُ", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:2,
+      note:"لا تنوين فيها." },
+    { q:"هل في هذه الكلمة تنوين؟", word:"يَسْأَلُكَ", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:2,
+      note:"لا تنوين فيها." },
+    { q:"هل في هذه الكلمة تنوين؟", word:"سَمَاءً", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:0,
+      note:"تنوين فتح." },
+    { q:"هل في هذه الكلمة تنوين؟", word:"جَمِيعًا", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:0,
+      note:"تنوين فتح." },
+    { q:"هل في هذه الجملة تنوين؟", word:"فَكِيدُونِي جَمِيعًا", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:0,
+      note:"جَمِيعًا حالٌ منصوبة، وتنوينها فتح." },
+    { q:"هل في هذه الكلمة تنوين؟", word:"خَمْسَةٍ", options:["نعم — فتح","نعم — كسر","لا يوجد تنوين"], a:1,
+      note:"تنوين كسر." }
   ]},
   { title:"الجولة 5 — الكرة الذهبية (نقطتان)", emoji:"⭐", pts:2, qs:[
-    { q:"اختاري الكلمة التي فيها تنوين كسر:", word:"", options:["صَرِيحٌ","خَمْسَةٍ","جَمِيعًا"], a:1, note:"خَمْسَةٍ" },
-    { q:"اختاري الكلمة التي فيها تنوين فتح:", word:"", options:["جَمِيلٌ","بِنَتَيْنَ","جُوعٍ"], a:1, note:"بِنَتَيْنَ" },
-    { q:"اختاري الجملة التي فيها تنوين كسر:", word:"", options:["طِباقًا","مِنْ جُوعٍ","جَمِيعًا"], a:1, note:"مِنْ جُوعٍ" }
+    { q:"اختاري الكلمة التي فيها تنوين كسر:", word:"", options:["خَاشِعَةٌ","خَمْسَةٍ","جَمِيعًا"], a:1, note:"خَمْسَةٍ" },
+    { q:"اختاري الكلمة التي فيها تنوين فتح:", word:"", options:["عَيْنٍ","تَارًا","مِنْ جُوعٍ"], a:1, note:"تَارًا" },
+    { q:"اختاري الجملة التي فيها تنوين كسر:", word:"", options:["فَكِيدُونِي جَمِيعًا","مِنْ جُوعٍ","نَاصِيَةٌ"], a:1, note:"مِنْ جُوعٍ" }
   ]}
 ];
 
@@ -270,6 +291,7 @@ $("teamA").onclick=()=>pickTeam("A"); $("teamB").onclick=()=>pickTeam("B");
 document.querySelectorAll("[data-add]").forEach(b=>b.onclick=e=>{
   e.stopPropagation(); const t=b.dataset.team, v=parseInt(b.dataset.add,10);
   scores[t]=Math.max(0,scores[t]+v); drawScores();
+  if(tieWinner!==null || (scores.A===scores.B && finalBox.classList.contains("on"))){ tieWinner=null; showFinal(); }
 });
 
 /* ============ العرض ============ */
@@ -318,14 +340,42 @@ $("next").onclick=()=>{ const r=ROUNDS[rIdx]; if(qIdx<r.qs.length-1){qIdx++;rend
   document.querySelectorAll("#roundbar .chip").forEach((x,i)=>x.classList.toggle("on",i===rIdx));} else showFinal(); };
 $("prev").onclick=()=>{ if(qIdx>0){qIdx--;render();} };
 $("toFinal").onclick=()=>showFinal();
-$("again").onclick=()=>{ scores.A=scores.B=0; drawScores(); timeLeft=300; drawTime(); rIdx=0;qIdx=0; render();
+$("again").onclick=()=>{ scores.A=scores.B=0; tieWinner=null; drawScores(); timeLeft=300; drawTime(); rIdx=0;qIdx=0; render();
   document.querySelectorAll("#roundbar .chip").forEach((x,i)=>x.classList.toggle("on",i===0)); stage.style.display="flex"; };
+
+/* ============ النتيجة وحسم التعادل ============ */
+let tieWinner=null, tieHow="", rolling=false;
 function showFinal(){
   stage.style.display="none"; finalBox.classList.add("on");
-  const w=scores.A>scores.B?"الأميرات":(scores.B>scores.A?"الملكات":"تعادل");
-  $("finalWord").textContent = (w==="تعادل"?"👑 تعادل! 👑":(w==="الأميرات"?"👑 فريق الأميرات فاز! 👑":"👸 فريق الملكات فاز! 👸")) + "  —  " + scores.A + " : " + scores.B;
-  if(scores.A!==scores.B){ applause(); confetti(); }
+  const tie = scores.A===scores.B;
+  $("tieBox").classList.toggle("on", tie);
+  if(tie){
+    const how = tieHow==="roll" ? " بالقرعة" : " (بالمفاضلة)";
+    if(tieWinner==="A") $("finalWord").textContent = "👑 فريق الأميرات فاز" + how + "! 👑  —  " + scores.A + " : " + scores.B;
+    else if(tieWinner==="B") $("finalWord").textContent = "👸 فريق الملكات فازت" + how + "! 👸  —  " + scores.A + " : " + scores.B;
+    else $("finalWord").textContent = "🤝 تعادل! — هيّئوا المفاضلة 🎲";
+  }else{
+    const w = scores.A>scores.B ? "الأميرات" : "الملكات";
+    $("finalWord").textContent = (w==="الأميرات"?"👑 فريق الأميرات فاز! 👑":"👸 فريق الملكات فازت! 👸") + "  —  " + scores.A + " : " + scores.B;
+    applause(); confetti();
+  }
 }
+$("roll").onclick=()=>{
+  if(rolling) return; rolling=true;
+  const names=["👑 فريق الأميرات…","👸 فريق الملكات…","👑 الأميرات","👸 الملكات"];
+  let i=0;
+  const iv=setInterval(()=>{ $("finalWord").textContent=names[i%names.length]; i++; beep(480+Math.random()*320,60); },170);
+  setTimeout(()=>{
+    clearInterval(iv); rolling=false;
+    tieWinner = Math.random()<0.5 ? "A" : "B"; tieHow="roll";
+    showFinal();
+    $("finalWord").textContent = (tieWinner==="A" ? "👑 فريق الأميرات فاز بالقرعة! 👑" : "👸 فريق الملكات فازت بالقرعة! 👸")
+      + "  —  " + scores.A + " : " + scores.B;
+    applause(); confetti();
+  },1750);
+};
+$("winA").onclick=()=>{ tieWinner="A"; tieHow="manual"; showFinal(); applause(); confetti(); };
+$("winB").onclick=()=>{ tieWinner="B"; tieHow="manual"; showFinal(); applause(); confetti(); };
 
 /* ============ الأصوات (بدون ملفات) ============ */
 let AC=null; const ac=()=>{ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return AC; };
@@ -399,7 +449,7 @@ addEventListener("keydown",e=>{
   if(e.key.toLowerCase()==="f"){ if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); }
   if(e.key==="1"){ scores.A++; drawScores(); }
   if(e.key==="2"){ scores.B++; drawScores(); }
-  if(e.key==="0"){ scores.A=scores.B=0; drawScores(); }
+  if(e.key==="0"){ scores.A=scores.B=0; tieWinner=null; drawScores(); }
 });
 
 /* ============ التطبيق على الآيباد (PWA) ============ */
