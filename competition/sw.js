@@ -1,7 +1,7 @@
 /* =========================================================
    service worker لتطبيق مسابقة التنوين (يعمل بدون إنترنت)
    ========================================================= */
-const CACHE_NAME = "mosabaqa-tanween-v1";
+const CACHE_NAME = "mosabaqa-tanween-v2";
 const ASSETS = [
   "./",
   "./index.html",
