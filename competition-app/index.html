@@ -150,6 +150,7 @@
       <button class="btn ghost" id="tStart">ابدئي ⏱️</button>
       <button class="btn ghost" id="tReset">إعادة ↺</button>
       <button class="btn ghost" id="sndBtn" title="تشغيل/إيقاف الصوت">🔊</button>
+      <button class="btn ghost" id="installBtn" title="تثبيت التطبيق على الجهاز" style="display:none">📲 تثبيت</button>
       <button class="btn ghost" id="refresh" title="تحديث نسخة التطبيق">⟳ تحديث</button>
     </div>
   </header>
@@ -473,6 +474,26 @@ $("refresh").onclick = async () => {
     setTimeout(() => document.getElementById("install").classList.add("on"), 1500);
   }
 })();
+
+/* ============ تثبيت التطبيق على الجهاز ============ */
+let deferredPrompt=null;
+const isIOSDevice = ()=> /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+const isStandalone = ()=> window.navigator.standalone || (navigator.matchMedia && navigator.matchMedia("(display-mode: standalone)").matches);
+function syncInstallBtn(){
+  const show = (isIOSDevice() && !isStandalone()) || !!deferredPrompt;
+  $("installBtn").style.display = show ? "inline-block" : "none";
+}
+window.addEventListener("beforeinstallprompt", e=>{ e.preventDefault(); deferredPrompt=e; syncInstallBtn(); });
+$("installBtn").onclick = async ()=>{
+  if(isStandalone()){ alert("التطبيق مثبَّت بالفعل على جهازك ✅\nافتحيه من أيقونة الشاشة الرئيسية."); return; }
+  if(isIOSDevice()){
+    alert("لتثبيت المسابقة على الآيباد:\n\n1) اضغطي زر المشاركة ↑ (أعلى يسار الشاشة في سفاري)\n2) اختاري «إضافة إلى الشاشة الرئيسية»\n3) اضغطي «إضافة»\n\nثم ستجدينها بأيقونة التاج 👑 على شاشتك، وتعمل بدون إنترنت.");
+    return;
+  }
+  if(deferredPrompt){ deferredPrompt.prompt(); try{ await deferredPrompt.userChoice; }catch(e){} deferredPrompt=null; syncInstallBtn(); return; }
+  alert("لتثبيت التطبيق: افتحي قائمة المتصفح (⋮) واختاري «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».");
+};
+syncInstallBtn();
 
 /* ============ البداية ============ */
 buildRounds(); drawScores(); drawTime(); pickTeam("A"); render();
