@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عرض تفاعلي: مهارة التحفيز (٢٠ دقيقة)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --pink: #e91e63;
+    --pink-light: #f8bbd0;
+    --purple: #9c27b0;
+    --teal: #00897b;
+    --gold: #ffb300;
+    --green: #2e7d32;
+    --red: #c62828;
+    --dark: #263238;
+    --cream: #fff8e1;
+    --white: #ffffff;
+    --shadow: 0 8px 22px rgba(0,0,0,0.16);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #fce4ec 0%, #ede7f6 55%, #e0f2f1 100%);
+    min-height: 100vh;
+    direction: rtl;
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+  .deco { position: fixed; z-index: -1; border-radius: 50%; opacity: .55; pointer-events: none; }
+  .d1 { top: -12%; right: -8%; width: 420px; height: 420px; background: var(--pink); filter: blur(70px); }
+  .d2 { bottom: -15%; left: -10%; width: 520px; height: 520px; background: var(--purple); filter: blur(80px); }
+  .d3 { top: 40%; left: 35%; width: 300px; height: 300px; background: var(--gold); filter: blur(60px); opacity: .35; }
+
+  /* ===== Header ===== */
+  header {
+    background: rgba(255,255,255,.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid var(--pink);
+    padding: 10px 18px;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: var(--pink); }
+  .mark { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,var(--pink),var(--purple)); color:#fff; display: grid; place-items: center; font-weight: bold; }
+  .head-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .timer-badge {
+    font-weight: 800; font-size: 17px; color: #fff; background: linear-gradient(135deg,var(--teal),#00695c);
+    padding: 7px 14px; border-radius: 40px; letter-spacing: 1px;
+  }
+  .timer-badge.warn { background: linear-gradient(135deg,#ef6c00,#e65100); animation: pulse 1s infinite; }
+  .timer-badge.over { background: linear-gradient(135deg,#c62828,#b71c1c); animation: pulse .6s infinite; }
+  @keyframes pulse { 50% { transform: scale(1.06); } }
+  .mini-team {
+    display:flex; align-items:center; gap:7px; background:#fff; border:2px solid var(--pink-light);
+    border-radius: 40px; padding: 4px 8px 4px 6px; font-weight: 800; font-size: 14px;
+  }
+  .mini-team.b { border-color: #ce93d8; }
+  .mini-team .pts { background: var(--pink); color:#fff; border-radius: 20px; padding: 2px 10px; font-size: 15px; }
+  .mini-team.b .pts { background: var(--purple); }
+  .mini-team .plus {
+    border:none; background:#f3e5f5; color:var(--purple); border-radius:50%; width:26px; height:26px;
+    cursor:pointer; font-weight:900; font-size:15px; transition:.2s;
+  }
+  .mini-team .plus:hover { background: var(--purple); color:#fff; transform: scale(1.15); }
+  .header-teams { display:flex; gap:7px; flex-wrap:wrap; align-items:center; }
+  .mini-team .tn { max-width:96px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tool-btn {
+    border: 2px solid #ddd; background: #fff; border-radius: 40px; padding: 7px 13px;
+    font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; transition: .2s;
+  }
+  .tool-btn:hover { border-color: var(--pink); color: var(--pink); }
+  .tool-btn.on { background: var(--pink); color: #fff; border-color: var(--pink); }
+
+  /* slide progress */
+  .topbar { position: sticky; top: 0; z-index: 99; height: 7px; background: rgba(0,0,0,.07); }
+  .topbar > div { height: 100%; width: 0%; background: linear-gradient(90deg,var(--pink),var(--purple),var(--teal)); transition: width .5s; }
+
+  /* ===== Slides ===== */
+  .slide { display: none; min-height: calc(100vh - 70px); padding: 34px 18px 110px; animation: fade .5s; }
+  .slide.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+  .wrap { max-width: 950px; margin: 0 auto; }
+  .card {
+    background: #fff; border-radius: 24px; padding: 28px; box-shadow: var(--shadow);
+    border: 2px solid #fce4ec; margin-bottom: 22px;
+  }
+  .card.gold { border-color: var(--gold); background: #fffdf5; }
+  .card.teal { border-color: var(--teal); }
+  .card.purple { border-color: var(--purple); }
+
+  h1 { font-size: 40px; line-height: 1.4; color: var(--pink); }
+  h2 { font-size: 28px; color: var(--purple); margin-bottom: 14px; line-height: 1.5; }
+  h3 { font-size: 20px; color: var(--teal); margin-bottom: 10px; }
+  p, li { font-size: 18px; line-height: 1.9; }
+  ul { padding-right: 22px; }
+  .muted { color: #607d8b; font-size: 15px; }
+  .chip { display:inline-block; background:#f3e5f5; color:var(--purple); border-radius:30px; padding:5px 14px; font-weight:700; font-size:15px; margin:4px; }
+  .chip.gold { background:#fff8e1; color:#b26a00; border:1px solid #ffe082; }
+  .chip.teal { background:#e0f2f1; color:#00695c; }
+
+  .slide-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+  .time-tag { background:#e0f2f1; color:#00695c; border:2px solid #80cbc4; border-radius:30px; padding:5px 14px; font-weight:800; font-size:15px; white-space:nowrap; }
+  .step-tag { background:#fce4ec; color:var(--pink); border-radius:30px; padding:5px 14px; font-weight:800; font-size:14px; }
+
+  .btn {
+    padding: 13px 26px; border: none; border-radius: 50px; font-size: 16px;
+    font-weight: 700; cursor: pointer; transition: .22s; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 8px; color: #fff;
+  }
+  .btn-pink { background: linear-gradient(135deg,var(--pink),#c2185b); }
+  .btn-purple { background: linear-gradient(135deg,var(--purple),#7b1fa2); }
+  .btn-teal { background: linear-gradient(135deg,var(--teal),#00695c); }
+  .btn-gold { background: linear-gradient(135deg,#fbc02d,#f9a825); color: var(--dark); }
+  .btn-ghost { background:#eceff1; color:#546e7a; }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0,0,0,.2); }
+  .btn-group { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+
+  /* navigation */
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 98;
+    background: rgba(255,255,255,.95); backdrop-filter: blur(8px);
+    border-top: 2px solid #f8bbd0; padding: 10px 16px;
+    display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .nav .label { font-weight:800; font-size:14px; color:#607d8b; }
+
+  /* ===== elements ===== */
+  .grid2 { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 16px; }
+  .grid3 { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 14px; }
+
+  .flip {
+    background: linear-gradient(135deg,#fff,#fce4ec); border: 2px solid var(--pink-light);
+    border-radius: 20px; padding: 20px; cursor: pointer; transition: .3s; text-align:center;
+  }
+  .flip:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  .flip .ico { font-size: 42px; display:block; margin-bottom: 8px; }
+  .flip .ttl { font-weight: 900; font-size: 20px; color: var(--pink); }
+  .flip .back { display:none; margin-top: 12px; font-size: 16px; line-height: 1.8; color:#455a64; }
+  .flip.open .back { display:block; animation: fade .3s; }
+  .flip.open { background: linear-gradient(135deg,#fff8e1,#fff); border-color: var(--gold); }
+
+  .poll-row { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+  .poll {
+    background:#fff; border:2px solid #e0e0e0; border-radius:18px; padding:14px 18px; cursor:pointer;
+    font-size:30px; transition:.2s; text-align:center; min-width:96px;
+  }
+  .poll small { display:block; font-size:13px; font-weight:700; color:#607d8b; margin-top:4px; }
+  .poll:hover { border-color: var(--pink); transform: translateY(-4px); }
+  .poll .cnt { display:none; font-weight:900; color:var(--pink); font-size:20px; }
+
+  /* scenario cards */
+  .scen { background:#fff; border:2px solid #b2dfdb; border-radius:20px; padding:18px; }
+  .scen .q { font-weight:800; color:#00695c; margin-bottom:8px; font-size:17px; }
+  .scen .a { display:none; background:#e8f5e9; border:1px dashed #81c784; border-radius:14px; padding:12px; margin-top:10px; font-size:16px; line-height:1.8; }
+  .scen.open .a { display:block; animation: fade .35s; }
+  .scen .q::before { content:"🧭 "; }
+
+  /* matching game */
+  .match { background:#fff; border:2px solid #e1bee7; border-radius:18px; padding:16px; }
+  .match.done { border-color: var(--green); background:#f1f8e9; }
+  .match .ex { font-size:19px; font-weight:800; margin-bottom:10px; color:#4a148c; }
+  .match .opts { display:flex; gap:7px; flex-wrap:wrap; }
+  .match .opts button {
+    border:2px solid #e0e0e0; background:#fafafa; border-radius:30px; padding:7px 12px;
+    font-family:inherit; font-size:14px; font-weight:700; cursor:pointer; transition:.2s;
+  }
+  .match .opts button:hover { border-color: var(--purple); color: var(--purple); }
+  .match .opts button.ok { background:#e8f5e9; border-color:var(--green); color:var(--green); }
+  .match .opts button.no { background:#ffebee; border-color:var(--red); color:var(--red); animation: shake .3s; }
+  @keyframes shake { 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+  /* roles */
+  .roles { display:grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+  .role { background:linear-gradient(135deg,#f3e5f5,#fff); border:2px dashed var(--purple); border-radius:18px; padding:16px; text-align:center; }
+  .role .nm { font-weight:900; font-size:18px; color:var(--purple); min-height:28px; }
+  .role .em { font-size:34px; }
+
+  .checklist label { display:flex; gap:10px; align-items:flex-start; background:#fff; border:2px solid #eceff1;
+    border-radius:14px; padding:12px 14px; margin-bottom:9px; cursor:pointer; font-size:16px; line-height:1.7; transition:.2s; }
+  .checklist label:hover { border-color: var(--teal); }
+  .checklist input { margin-top:6px; width:19px; height:19px; accent-color: var(--teal); }
+  .checklist label.done { background:#e0f2f1; border-color:var(--teal); }
+
+  .big-timer { font-size: 54px; font-weight: 900; color: var(--purple); text-align:center; letter-spacing:3px; }
+  .big-timer.small { font-size: 34px; }
+
+  /* feedback notes */
+  .note-input { display:flex; gap:10px; flex-wrap:wrap; }
+  .note-input input[type=text] {
+    flex:1; min-width:200px; padding:13px 16px; border:2px solid #e0e0e0; border-radius:16px;
+    font-family:inherit; font-size:16px;
+  }
+  .note-input input[type=text]:focus { outline:none; border-color: var(--pink); }
+  .notes { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+  .note {
+    background:#fffde7; border:2px solid #ffe082; border-radius:16px; padding:12px 14px;
+    font-size:16px; max-width:300px; animation: fade .35s; position:relative;
+  }
+  .note b { color:#b26a00; }
+  .reacts { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .react { border:2px solid #eceff1; background:#fff; border-radius:30px; padding:8px 14px;
+    font-family:inherit; font-size:15px; font-weight:700; cursor:pointer; transition:.2s; }
+  .react:hover { border-color:var(--pink); transform:translateY(-3px); }
+
+  /* quiz */
+  .quiz-q { background:#fff3e0; border:3px solid #ffe082; border-radius:20px; padding:24px; }
+  .quiz-text { font-size:23px; font-weight:900; margin-bottom:20px; min-height:60px; }
+  .quiz-opts { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
+  .qopt {
+    background:#fff; border:2px solid #e0e0e0; border-radius:16px; padding:15px;
+    font-size:17px; font-weight:700; cursor:pointer; transition:.2s; font-family:inherit; color:var(--dark);
+  }
+  .qopt:hover { border-color: var(--pink); color: var(--pink); transform: translateY(-3px); }
+  .qopt.correct { border-color: var(--green); color: var(--green); background:#e8f5e9; }
+  .qopt.wrong { border-color: var(--red); color: var(--red); background:#ffebee; animation: shake .3s; }
+  .quiz-fb { font-size:20px; font-weight:900; text-align:center; margin-top:16px; min-height:32px; }
+  .quiz-fb.ok { color: var(--green); }
+  .quiz-fb.no { color: var(--red); }
+  .turn-tag { font-weight:900; font-size:16px; color:#fff; background:var(--pink); border-radius:30px; padding:6px 16px; display:inline-block; }
+  .turn-tag.b { background: var(--purple); }
+
+  /* plan */
+  .plan-item { display:flex; gap:12px; align-items:flex-start; background:#fff; border:2px solid #f3e5f5;
+    border-radius:16px; padding:14px; margin-bottom:10px; cursor:pointer; transition:.2s; }
+  .plan-item:hover { border-color: var(--purple); }
+  .plan-item.done { background:#f3e5f5; border-color: var(--purple); }
+  .plan-item .n { background:var(--purple); color:#fff; width:30px; height:30px; border-radius:50%;
+    display:grid; place-items:center; font-weight:900; flex:none; }
+  .plan-item.done .n { background: var(--green); }
+
+  .result-row { display:flex; justify-content:space-between; align-items:center; background:#fff;
+    border:2px solid #fce4ec; border-radius:18px; padding:16px 20px; margin-bottom:12px; font-weight:800; font-size:19px; }
+  .result-row .v { font-size:30px; color: var(--pink); }
+  .result-row.b .v { color: var(--purple); }
+
+  /* modal */
+  .modal {
+    position: fixed; inset:0; background: rgba(0,0,0,.6); z-index: 200;
+    display:none; padding: 24px; overflow:auto;
+  }
+  .modal.open { display:block; }
+  .modal .box { background:#fff; max-width: 860px; margin: 30px auto; border-radius: 24px; padding: 26px; animation: fade .3s; }
+  .modal table { width:100%; border-collapse: collapse; margin-top: 14px; }
+  .modal th, .modal td { border: 1px solid #e0e0e0; padding: 10px; font-size: 15px; line-height: 1.7; text-align: right; }
+  .modal th { background: linear-gradient(135deg,var(--pink),var(--purple)); color:#fff; font-size:16px; }
+  .modal tr:nth-child(even) td { background:#faf7fc; }
+  .modal .pts { font-weight:900; color:var(--pink); }
+
+  .confetti { position: fixed; width: 11px; height: 11px; top: -12px; z-index: 999; pointer-events: none; animation: fall 2.4s linear forwards; }
+  @keyframes fall { to { transform: translateY(112vh) rotate(760deg); opacity:.9; } }
+  .hidden { display: none !important; }
+
+  .banner { background: linear-gradient(135deg,#fff8e1,#fff); border: 2px dashed var(--gold);
+    border-radius: 18px; padding: 14px 18px; font-weight: 700; color:#b26a00; margin-bottom: 18px; font-size:16px; }
+  .banner b { color:#e65100; }
+
+  /* ===== زخارف هندسية وشرائط ===== */
+  .ribbon-strip { height:10px; border-radius:10px; margin:0 0 16px;
+    background: linear-gradient(90deg,var(--pink) 0%,var(--pink-light) 25%,#f3e5f5 50%,#ce93d8 75%,var(--pink) 100%); }
+  .geo { display:inline-grid; place-items:center; width:44px; height:44px; border-radius:50%; background:#f3e5f5; vertical-align:middle; margin-left:8px; }
+  .role .geo { margin:0 auto 8px; display:grid; }
+
+  /* ===== إدارة أسماء المشاركين (شريحة ٧) ===== */
+  .pname-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .pname-row input { flex:1; min-width:220px; padding:13px 16px; border:2px solid #e1bee7; border-radius:16px; font-family:inherit; font-size:16px; background:#fff; }
+  .pname-row input:focus { outline:none; border-color:var(--purple); }
+  .plist { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+  .prow { display:flex; align-items:center; gap:10px; background:linear-gradient(135deg,#f3e5f5,#fff); border:2px solid #e1bee7; border-radius:14px; padding:9px 14px; animation:fade .3s; }
+  .prow .idx { background:var(--purple); color:#fff; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; font-weight:900; font-size:14px; flex:none; }
+  .prow .pn { flex:1; font-weight:800; font-size:17px; color:#4a148c; word-break:break-word; }
+  .prow .pempty { color:#9e9e9e; font-size:15px; font-style:italic; }
+  .mini-btn { border:2px solid #e0e0e0; background:#fff; border-radius:30px; padding:6px 13px; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer; transition:.2s; flex:none; }
+  .mini-btn:hover { transform:translateY(-2px); }
+  .mini-btn.edit { border-color:#ffb300; color:#b26a00; } .mini-btn.edit:hover { background:#fff8e1; }
+  .mini-btn.del { border-color:var(--red); color:var(--red); } .mini-btn.del:hover { background:#ffebee; }
+  .mini-btn.clear { border-color:var(--red); color:var(--red); margin-top:12px; } .mini-btn.clear:hover { background:#ffebee; }
+
+  /* ===== الفرق الأربعة (شريحة ٩) ===== */
+  .teams { display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:12px; margin-bottom:16px; }
+  .tm-card { border-radius:18px; padding:14px; background:#fff; border:2px solid #f8bbd0; transition:.2s; }
+  .tm-card.tm0 { border-color:var(--pink); background:linear-gradient(150deg,#fff,#fce4ec); }
+  .tm-card.tm1 { border-color:#ce93d8; background:linear-gradient(150deg,#fff,#f3e5f5); }
+  .tm-card.tm2 { border-style:dashed; border-color:#f48fb1; background:#fff; }
+  .tm-card.tm3 { border-style:dashed; border-color:#ba68c8; background:#fff; }
+  .tm-card.turn { box-shadow:0 0 0 3px rgba(233,30,99,.25), var(--shadow); transform:translateY(-3px); }
+  .tm-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .tm-name { flex:1; min-width:0; border:none; border-bottom:2px dashed #e1bee7; background:transparent; font-family:inherit; font-weight:900; font-size:17px; color:#4a148c; padding:4px 2px; }
+  .tm-name:focus { outline:none; border-bottom-color:var(--pink); }
+  .tm-pts { background:var(--pink); color:#fff; border-radius:20px; padding:2px 11px; font-weight:900; font-size:15px; flex:none; }
+  .tm-card.tm1 .tm-pts, .tm-card.tm3 .tm-pts { background:var(--purple); }
+  .mem-row { display:flex; gap:7px; margin:8px 0; }
+  .mem-row input { flex:1; min-width:0; padding:9px 12px; border:2px solid #eceff1; border-radius:12px; font-family:inherit; font-size:14px; }
+  .mem-row input:focus { outline:none; border-color:var(--pink); }
+  .mlist { display:flex; flex-direction:column; gap:5px; margin-bottom:8px; }
+  .mrow { display:flex; align-items:center; gap:7px; background:#fff; border:1.5px solid #f3e5f5; border-radius:12px; padding:5px 10px; font-size:14px; animation:fade .25s; }
+  .mrow .mn { flex:1; font-weight:700; color:#546e7a; word-break:break-word; }
+  .tm-card .mini-btn { padding:4px 10px; font-size:13px; }
+  .reg-line { font-size:13.5px; font-weight:700; color:#9e9e9e; background:#fafafa; border:1.5px dashed #e0e0e0;
+    border-radius:12px; padding:7px 10px; margin-bottom:8px; transition:.2s; }
+  .reg-line.on { color:var(--green); background:#e8f5e9; border-color:#a5d6a7; }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 30px; }
+    h2 { font-size: 22px; }
+    .card { padding: 20px; }
+    .big-timer { font-size: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deco d1"></div>
+<div class="deco d2"></div>
+<div class="deco d3"></div>
+
+<header>
+  <div class="logo"><div class="mark">ح</div>مهارة التحفيز — عرض تفاعلي</div>
+  <div class="head-tools">
+    <span class="timer-badge" id="globalTimer" title="الوقت المحدد: ٢٠ دقيقة">٢٠:٠٠</span>
+    <span class="header-teams" id="headerTeams"></span>
+    <button class="tool-btn" id="cheerBtn" onclick="toggleCheer()">👏 التشجيع</button>
+    <button class="tool-btn" onclick="openModal()">📋 المعاير</button>
+  </div>
+</header>
+<div class="topbar"><div id="slideBar"></div></div>
+
+<!-- ============ 1) الافتتاح ============ -->
+<section class="slide active" id="s1" data-min="1">
+  <div class="wrap">
+    <div class="card" style="text-align:center; padding-top:46px; padding-bottom:46px; background:linear-gradient(135deg,#ffffff,#fce4ec);">
+      <div style="font-size:84px; margin-bottom:12px;">🚀</div>
+      <h1>مهارة التحفيز</h1>
+      <p style="font-size:24px; color:var(--purple); font-weight:800; margin:8px 0 18px;">فن إثارة الدافعية وصناعة التفاعل</p>
+      <p style="max-width:620px; margin:0 auto 10px; color:#546e7a;">
+        عرض تفاعلي متكامل مدّته <b>٢٠ دقيقة</b>، يشمل شرحاً واضحاً، أمثلة من إدارة الحلقات القرآنية،
+        نشاطاً جماعياً، وتمارين تطبيقية، ومسابقة تعزيزية.
+      </p>
+      <div>
+        <span class="chip">🎯 تعريف مبسّط</span>
+        <span class="chip teal">🕌 أمثلة من الحلقات القرآنية</span>
+        <span class="chip gold">🎭 مشهد تمثيلي</span>
+        <span class="chip">🏆 مسابقة</span>
+        <span class="chip teal">💬 تغذية راجعة</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-pink" onclick="begin()">▶ ابدأ العرض (٢٠ دقيقة)</button>
+        <button class="btn btn-purple" onclick="openModal()">معايير التقييم</button>
+      </div>
+      <p class="muted" style="margin-top:16px;">يبدأ المؤقّت العام عند الضغط على «ابدأ العرض» • استخدم ← → للتنقل بين الشرائح</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2) التهيئة ============ -->
+<section class="slide" id="s2" data-min="2">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٢ · تهيئة وتسخين</span>
+      <span class="time-tag">⏱ ٢:٠٠ دقيقة</span>
+    </div>
+    <div class="card teal" style="text-align:center;">
+      <h2>🤝 مشاركة الجميع تبدأ من هنا</h2>
+      <p style="margin-bottom:6px;"><b>سؤال التهيئة:</b> ما الموقف الصغير الذي رفع دافعيتِ/دافعيتك اليوم؟</p>
+      <p class="muted">اضغط على الانطباع الذي يناسبك — تظهر نتائج الجميع فوراً على الشاشة (تغذية راجعة مباشرة).</p>
+      <div class="poll-row">
+        <div class="poll" onclick="vote(this)">😊<small>تشجيع وصلني</small><span class="cnt">0</span></div>
+        <div class="poll" onclick="vote(this)">🎯<small>هدف واضح</small><span class="cnt">0</span></div>
+        <div class="poll" onclick="vote(this)">👥<small>عمل جماعي</small><span class="cnt">0</span></div>
+        <div class="poll" onclick="vote(this)">🏅<small>تقدير ونجمة</small><span class="cnt">0</span></div>
+        <div class="poll" onclick="vote(this)">☕<small>راحة كافية</small><span class="cnt">0</span></div>
+      </div>
+      <div id="pollSummary" class="banner hidden" style="margin-top:18px; text-align:right;"></div>
+      <div class="btn-group">
+        <button class="btn btn-teal" onclick="award(10,turn())">⭐ تعزيز للمشارك الأول</button>
+        <button class="btn btn-ghost" onclick="go(2)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3) التعريف والأهداف ============ -->
+<section class="slide" id="s3" data-min="2">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٣ · وضوح عرض المهارة</span>
+      <span class="time-tag">⏱ ٢:٠٠ دقيقة</span>
+    </div>
+    <div class="card">
+      <h2>📖 ما مهارة التحفيز؟ <span class="chip gold">لغة مبسّطة</span></h2>
+      <p style="background:#f8f9fa; border-radius:16px; padding:16px; border-right:6px solid var(--pink);">
+        <b>تعريف مبسّط:</b> قدرة معلّم الحلقة ومشرفها على <b>إيقاظ الدافع الداخلي</b> لدى الحافظين وتوجيه طاقتهم
+        نحو هدف معلوم، عبر كلمات وتقدير وفرص نجاح <b>متكررة</b>، لا عبر التهديد أو الإجبار.
+      </p>
+      <div class="grid2" style="margin-top:16px;">
+        <div class="scen" style="border-color:#f8bbd0;">
+          <div class="q" style="color:var(--pink);">أمثلة من الحلقة القرآنية</div>
+          <ul style="font-size:16px;">
+            <li>«لاحظتُ انتظام حفظك يا خالد… واصل بحفظك الجديد».</li>
+            <li>«من أخطأ في التلاوة نمنحة فرصة ثانية بعد الاستماع».</li>
+            <li>وسام حفظ على لوحة الحلقة + ذكر إسمهم في كشف المتميزين.</li>
+          </ul>
+        </div>
+        <div class="scen" style="border-color:#b2dfdb;">
+          <div class="q">أهداف المهارة (ما سيتقنه المتدرب)</div>
+          <ul style="font-size:16px;">
+            <li>أن يميّز بين التحفيز الداخلي والخارجي.</li>
+            <li>أن يختار أسلوب التحفيز المناسب لكل موقف.</li>
+            <li>أن يبني جملة تحفيزية فعّالة في ١٠ ثوانٍ.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-pink" onclick="quickCheck()">⚡ تمرين سريع (١٠ ثوانٍ)</button>
+        <button class="btn btn-ghost" onclick="go(3)">التالي ←</button>
+      </div>
+      <div id="quickBox" class="banner hidden" style="margin-top:14px; text-align:right;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4) العناصر ============ -->
+<section class="slide" id="s4" data-min="2">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٤ · مرونة وأساليب إبداعية</span>
+      <span class="time-tag">⏱ ٢:٠٠ دقيقة</span>
+    </div>
+    <div class="card purple">
+      <h2>🧩 عناصر التحفيز الأربعة <span class="muted">اضغط على كل بطاقة لقلبها</span></h2>
+      <div class="grid2">
+        <div class="flip" onclick="this.classList.toggle('open')">
+          <span class="ico">👁️</span><div class="ttl">الاعتراف الفردي</div>
+          <div class="back">أن يشعر كل متعلم بأنك <b>رأيته شخصياً</b>.<br>مثال: «الفكرة من فمك يا نورة، سجّلناها على اللوحة».</div>
+        </div>
+        <div class="flip" onclick="this.classList.toggle('open')">
+          <span class="ico">👏</span><div class="ttl">التقدير العلني</div>
+          <div class="back">إشادة علنية بالمحاولة لا بالنتيجة فقط.<br>مثال: «أقدّر تعب جدول أسبوعيّك… تقدّم واضح».</div>
+        </div>
+        <div class="flip" onclick="this.classList.toggle('open')">
+          <span class="ico">⛰️</span><div class="ttl">التحدي الممكن</div>
+          <div class="back">هدف <b>قريب الإمكانية</b> يثير الحماس دون إحباط.<br>مثال: «٩ من ١٠ حافظين ختموا… هل نلحق بالعاشر؟».</div>
+        </div>
+        <div class="flip" onclick="this.classList.toggle('open')">
+          <span class="ico">⚖️</span><div class="ttl">الإنصاف والاستمرارية</div>
+          <div class="back">عدالة في الفرص وثبات في التقدير.<br>مثال: منح «نجمة محاولة» لمن أخطأ لكنه جرّب.</div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-gold" onclick="award(10,turn()); toast('👏 تعزيز: مشارك فتح البطاقة الأولى')">🌟 تعزيز للمشارك الأول</button>
+        <button class="btn btn-ghost" onclick="go(4)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5) الأنماط + تطبيق مطابقة ============ -->
+<section class="slide" id="s5" data-min="2">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٥ · تطبيق عملي (مطابقة)</span>
+      <span class="time-tag">⏱ ٢:٠٠ دقيقة</span>
+    </div>
+    <div class="card gold">
+      <h2>🎯 أنماط التحفيز: صِل المثال بنمطه</h2>
+      <p class="muted">أمام كل مثال أربعة أنماط — اختر النمط الصحيح. الإجابة الصحيحة = <b>٥ نقاط</b> للفريق الحاضر.</p>
+      <div class="grid2" id="matchWrap" style="margin-top:14px;"></div>
+      <div class="btn-group">
+        <span class="turn-tag" id="turnTag">الدور: الفريق الأول</span>
+        <button class="btn btn-purple" onclick="switchTurn()">🔁 تبديل الدور</button>
+        <button class="btn btn-ghost" onclick="go(5)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6) الربط بالواقع المدرسي ============ -->
+<section class="slide" id="s6" data-min="3">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٦ · التطبيق العملي في الحلقات القرآنية</span>
+      <span class="time-tag">⏱ ٣:٠٠ دقيقة</span>
+    </div>
+    <div class="card teal">
+      <h2>🕌 مواقف من إدارة حلقاتنا القرآنية… ما الحلّ التحفيزي؟</h2>
+      <p class="muted">اقرأ الموقف، اطلب من المتدربين اقتراح حلّهم، ثم اضغط «الحلّ الموصى به» للمقارنة.</p>
+      <div class="grid3" style="margin-top:14px;">
+        <div class="scen">
+          <div class="q">حافظٌ متقن لكنه يتلكّأ في الإقراء أمام الحلقة خوفاً من الخطأ.</div>
+          <button class="btn btn-teal" style="padding:8px 16px; font-size:14px;" onclick="this.parentElement.classList.add('open')">الحلّ الموصى به</button>
+          <div class="a">«لا نصحّح أمام الجميع الآن… أقرِئني بهدوء، ثم نقرأ سوياً. الخطأ <b>دليل محاولة</b>».<br>+ تدريب خاص معه قبل الإقراء العلني بدقائق.</div>
+        </div>
+        <div class="scen">
+          <div class="q">فوضى وضجيج في حلقة تحفيظ الأطفال النشطين قبل حفظهم.</div>
+          <button class="btn btn-teal" style="padding:8px 16px; font-size:14px;" onclick="this.parentElement.classList.add('open')">الحلّ الموصى به</button>
+          <div class="a">اتفاق مكتوب بين الحافظين + <b>نقاط جماعية للحلقة</b> تُضاف عند الإتقان وتُخصم عند الضجيج، مع مهلة ٣ دقائق للهدوء قبل بدء الحفظ.</div>
+        </div>
+        <div class="scen">
+          <div class="q">معلّم حلقة مبتدئ متحفّظ ولا يشارك في لقاء المشرفين.</div>
+          <button class="btn btn-teal" style="padding:8px 16px; font-size:14px;" onclick="this.parentElement.classList.add('open')">الحلّ الموصى به</button>
+          <div class="a">تكليفه بـ<b>أدوار صغيرة</b> (إقحام حافظ معيّن، تسجيل الحفظ)، ثم تقدير علني لدوره: «التزامك جعل الحلقة منضبطة».</div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-pink" onclick="award(15,turn()); toast('🏅 تعزيز: ١٥ نقطة لاقتراح واقعي من ميدان الحلقة')">🏅 تعزيز اقتراح ميداني</button>
+        <button class="btn btn-ghost" onclick="go(6)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7) النشاط الجماعي ============ -->
+<section class="slide" id="s7" data-min="4">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٧ · التكامل والتفاعل الجماعي</span>
+      <span class="time-tag">⏱ ٤:٠٠ دقيقة</span>
+    </div>
+    <div class="card purple">
+      <div class="ribbon-strip"></div>
+      <h2><span class="geo"><svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="#e91e63"/></svg></span>ورشة عمل: مشهد تمثيلي «حلقة تحفيظ محفّزة»</h2>
+      <p>تُقسَّم المتدربات إلى مجموعات، وتُضاف أسماء المشاركين في القائمة أدناه، ثم تُوزَّع الأدوار بينهن يدوياً ليمثّلن موقفاً في <b>٣ دقائق</b>:</p>
+
+      <div class="roles" style="margin:14px 0;">
+        <div class="role"><span class="geo"><svg width="30" height="30" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="none" stroke="#9c27b0" stroke-width="2" stroke-linejoin="round"/></svg></span><div class="nm">معلّم الحلقة</div><small class="muted">يصنع الأمان ويبتكر التعزيز</small></div>
+        <div class="role"><span class="geo"><svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e91e63" stroke-width="2"/><circle cx="12" cy="12" r="3.5" fill="#e91e63"/></svg></span><div class="nm">حافظ متردّد</div><small class="muted">يحتاج فرصة ثانية وتشجيعاً</small></div>
+        <div class="role"><span class="geo"><svg width="30" height="30" viewBox="0 0 24 24"><path d="M4 5 h16 v10 l-8 4 -8 -4 z" fill="none" stroke="#9c27b0" stroke-width="2" stroke-linejoin="round"/></svg></span><div class="nm">مشرف الحلقة والملاحظ</div><small class="muted">يرصد ويوثّق الملاحظات</small></div>
+      </div>
+
+      <h3>◆ أسماء المشاركين — أنتِ تتحكمين بها بالكامل</h3>
+      <p class="muted">أضيفي الأسماء يدوياً، وعدّليها أو احذفيها في أي وقت — لا تُدرج أي أسماء تلقائياً عند فتح العرض أو تحديثه.</p>
+      <div class="pname-row">
+        <input type="text" id="pName" placeholder="اكتبي الاسم هنا" onkeydown="if(event.key==='Enter')addParticipant()">
+        <button class="btn btn-purple" id="pAddBtn" onclick="addParticipant()">➕ إضافة الاسم</button>
+        <button class="btn btn-ghost hidden" id="pCancelBtn" onclick="cancelEdit()">إلغاء التعديل</button>
+      </div>
+      <div class="plist" id="pList"></div>
+      <button class="mini-btn clear" onclick="clearParticipants()">🗑 حذف جميع الأسماء</button>
+
+      <div class="btn-group" style="margin-top:14px;">
+        <button class="btn btn-gold" onclick="startRoleTimer()">⏱ ابدأ ٣ دقائق</button>
+        <button class="btn btn-ghost" onclick="resetRoleTimer()">إعادة</button>
+      </div>
+      <div class="big-timer" id="roleTimer" style="margin:12px 0;">٠٣:٠٠</div>
+
+      <div class="checklist">
+        <h3>✅ معايير نجاح المشهد (يحددها الملاحظ)</h3>
+        <label onclick="this.classList.toggle('done')"><input type="checkbox"> استخدم المعلّم جملة تحفيزية واحدة على الأقل.</label>
+        <label onclick="this.classList.toggle('done')"><input type="checkbox"> قدّم «فرصة ثانية» بعد الخطأ في التلاوة بدل التصحيح المباشر.</label>
+        <label onclick="this.classList.toggle('done')"><input type="checkbox"> شمل التحفيز كل الأدوار لا طالباً واحداً.</label>
+        <label onclick="this.classList.toggle('done')"><input type="checkbox"> اختُتم المشهد بتقدير علني وواضح.</label>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-pink" onclick="award(20, quizTurn); toast('⭐ ٢٠ نقطة لـ' + teamName(quizTurn))">⭐ تعزيز ٢٠ نقطة للفريق الحالي</button>
+        <button class="btn btn-purple" onclick="switchTurn(); toast('🔁 الدور الآن لـ' + teamName(quizTurn))">🔁 تبديل الدور</button>
+        <button class="btn btn-ghost" onclick="go(7)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8) التغذية الراجعة ============ -->
+<section class="slide" id="s8" data-min="2">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٨ · الاستفادة من التغذية الراجعة</span>
+      <span class="time-tag">⏱ ٢:٠٠ دقيقة</span>
+    </div>
+    <div class="card">
+      <h2>💬 لوحة التغذية الراجعة المباشرة</h2>
+      <p class="muted">سجّل ملاحظة أحد المتدربين فتظهر للجميع فوراً، واستجب لها بردّ فوري إيجابي (هذا هو الاستفادة من التغذية الراجعة).</p>
+      <div class="note-input" style="margin-top:12px;">
+        <input type="text" id="noteTxt" placeholder="اكتب ملاحظة/اقتراح المتدرب أو المتدربة…" onkeydown="if(event.key==='Enter')addNote()">
+        <button class="btn btn-pink" onclick="addNote()">➕ إضافة الملاحظة</button>
+      </div>
+      <div class="notes" id="notesBox">
+        <div class="note"><b>مثال:</b> «أرى أن نقاط الحلقة الجماعية أنفع من المقارنة الفردية للحافظين»</div>
+      </div>
+      <h3 style="margin-top:18px;">⚡ ردود الاستجابة الفورية (اضغط لتوثيقها)</h3>
+      <div class="reacts">
+        <button class="react" onclick="react(this,'أُعجبت بالاقتراح وسأطبّقه')">👏 أعجبت بالاقتراح</button>
+        <button class="react" onclick="react(this,'سأعيد صياغته أمام الجميع')">🔄 أعِد صياغته</button>
+        <button class="react" onclick="react(this,'ملاحظة مبنية على تجربة ميدانية — نوثّقها')">📌 نوثّقها كأفضل ممارسة</button>
+        <button class="react" onclick="react(this,'سؤال ممتاز — نخصّص له دقيقة')">❓ سؤال ممتاز</button>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-gold" onclick="award(5,turn()); toast('⭐ ٥ نقاط: مشاركة في التغذية الراجعة')">⭐ تعزيز كل مشارك</button>
+        <button class="btn btn-ghost" onclick="go(8)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9) المسابقة ============ -->
+<section class="slide" id="s9" data-min="2">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ٩ · أنشطة وتطبيقات ومسابقة</span>
+      <span class="time-tag">⏱ ٢:٠٠ دقيقة</span>
+    </div>
+    <div class="card gold">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+        <h2 style="margin:0;">🏆 مسابقة سريعة (أسئلة تفاعلية)</h2>
+        <span class="turn-tag" id="turnTag2">الدور: الفريق الأول</span>
+      </div>
+
+      <h3>◆ الفرق الأربعة (سمّي كل فريق وأضيفي أعضاءه بنفسك)</h3>
+      <p class="muted">بطاقات الفرق قابلة للتعديل في أي وقت — لا توجد أسماء أو أعضاء تلقائيين، ولا تُحفظ الأسماء الافتراضية كأسماء نهائية.</p>
+      <div class="teams" id="teamsBox"></div>
+      <div style="text-align:center;">
+        <button class="mini-btn clear" onclick="resetTeams()">🔄 تصفير الفرق الأربعة وتجهيز مجموعة جديدة</button>
+      </div>
+
+      <div class="quiz-q" style="margin-top:16px;">
+        <div class="quiz-text" id="qText"></div>
+        <div class="quiz-opts" id="qOpts"></div>
+        <div class="quiz-fb" id="qFb"></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-pink" id="nextQ" style="display:none;" onclick="loadQ()">السؤال التالي ▶</button>
+        <button class="btn btn-ghost" onclick="go(9)">التالي ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10) الخلاصة والخطة ============ -->
+<section class="slide" id="s10" data-min="1">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ١٠ · الخلاصة وخطة التطبيق</span>
+      <span class="time-tag">⏱ ١:٠٠ دقيقة</span>
+    </div>
+    <div class="card teal">
+      <h2>📅 خطة التحفيز في حلقتنا خلال أسبوع (اختر ما ستبدأ به)</h2>
+      <div class="plan-item" onclick="this.classList.toggle('done')"><span class="n">١</span><div><b>اليوم ١:</b> جملة تقدير علني واحدة لكل حافظ في الحلقة.</div></div>
+      <div class="plan-item" onclick="this.classList.toggle('done')"><span class="n">٢</span><div><b>اليوم ٢:</b> لوحة نقاط جماعية للحلقة بدل المقارنة الفردية.</div></div>
+      <div class="plan-item" onclick="this.classList.toggle('done')"><span class="n">٣</span><div><b>اليوم ٣:</b> «فرصة ثانية» واحدة على الأقل بعد الخطأ في التلاوة.</div></div>
+      <div class="plan-item" onclick="this.classList.toggle('done')"><span class="n">٤</span><div><b>اليوم ٤:</b> تسليم دور قيادي (إمامة/إقحام) لحافظ متحفّظ.</div></div>
+      <div class="plan-item" onclick="this.classList.toggle('done')"><span class="n">٥</span><div><b>اليوم ٥:</b> جمع تغذية راجعة من الحافظين وأولياء الأمور وتسجيلها.</div></div>
+      <div class="btn-group">
+        <button class="btn btn-teal" onclick="finishPlan()">✅ اعتماد الخطة</button>
+        <button class="btn btn-ghost" onclick="go(10)">النتيجة النهائية ←</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11) النتيجة ============ -->
+<section class="slide" id="s11" data-min="1">
+  <div class="wrap">
+    <div class="slide-head">
+      <span class="step-tag">الشريحة ١١ · النتيجة والختام</span>
+      <span class="time-tag">⏱ ١:٠٠ دقيقة</span>
+    </div>
+    <div class="card" style="text-align:center; background:linear-gradient(135deg,#fff,#fff8e1); border-color:var(--gold);">
+      <div style="font-size:70px;">🏅</div>
+      <h2>نتيجة المشاركة والتعزيزات</h2>
+      <div id="resRows"></div>
+      <p id="resMsg" style="font-weight:900; font-size:20px; color:var(--purple); min-height:30px;"></p>
+      <div class="banner" style="text-align:right; margin-top:16px;">
+        💡 <b>خلاصة المهارة:</b> تحفيزٌ = رؤية الفرد + فرصة نجاح قريبة + تقدير متكرر + عدالة مستمرة.
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-gold" onclick="showResults()">🏆 عرض النتيجة</button>
+        <button class="btn btn-purple" onclick="openModal()">📋 مراجعة معاير التقييم</button>
+        <button class="btn btn-ghost" onclick="location.reload()">↺ عرض العرض من جديد</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== التنقل ====== -->
+<div class="nav">
+  <button class="btn btn-ghost" style="padding:9px 18px;" onclick="prev()">▶ السابق</button>
+  <span class="label" id="navLabel">الشريحة ١ من ١١</span>
+  <button class="btn btn-pink" style="padding:9px 18px;" onclick="next()">التالي ◀</button>
+  <button class="btn btn-ghost" style="padding:9px 14px; font-size:14px;" onclick="award(5,turn()); toast('⭐ تعزيز ٥ نقاط')">⭐ تعزيز</button>
+</div>
+
+<!-- ====== نافذة المعاير ====== -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="box">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <h2 style="margin:0;">📋 ربط العرض بمعايير التقييم (٣٠ نقطة)</h2>
+      <button class="btn btn-ghost" onclick="closeModal()">✕ إغلاق</button>
+    </div>
+    <table>
+      <tr><th style="width:30%">المعيار</th><th style="width:12%">الدرجة</th><th>أين يستوفيه هذا العرض</th></tr>
+      <tr><td>وضوح عرض المهارة</td><td class="pts">٤</td><td>الشريحة ٣: تعريف مبسّط بلغة سهلة + أمثلة واقعية من الحلقات القرآنية + أهداف تعلّم واضحة.</td></tr>
+      <tr><td>التطبيق العملي والربط بالواقع الإداري في الحلقات القرآنية الناشئة</td><td class="pts">٤</td><td>الشريحة ٦: ثلاثة مواقف من إدارة الحلقات القرآنية (حافظ متردّد، فوضى حلقة الأطفال، معلّم مبتدئ) مع الحلول التحفيزية الموصى بها، والشريحة ١٠: خطة تطبيق ميداني أسبوعية داخل الحلقة.</td></tr>
+      <tr><td>مرونة الأساليب والإبداع في العرض واختيار طرائق التقييم المبتكرة</td><td class="pts">٤</td><td>بطاقات مقلوبة (٤)، مسابقة اختيار من متعدد (٩)، تمرين سريع ١٠ ثوانٍ (٣)، استطلاع تفاعلي (٢)، مشهد تمثيلي (٧) — بدائل تقليدية للسؤال اللفظي.</td></tr>
+      <tr><td>التكامل والتفاعل الجماعي</td><td class="pts">٤</td><td>استطلاع مشاركة الجميع (٢)، مطابقة تعاونية (٥)، توزيع أدوار وعمل جماعي (٧)، لوحة تغذية راجعة (٨)، تنافس بين أربعة فرق (٩).</td></tr>
+      <tr><td>الالتزام بالوقت المحدد (٢٠ دقيقة)</td><td class="pts">٢</td><td>مؤقّت عام ٢٠:٠٠ في الترويسة مع إنذار لوني، وبطاقة زمنية محددة لكل شريحة مجموعها ٢٠ دقيقة.</td></tr>
+      <tr><td>الاستفادة من التغذية الراجعة والمتكررة</td><td class="pts">٣</td><td>استطلاع فوري بنتائج مرئية (٢)، لوحة ملاحظات مع ردود استجابة فورية (٨)، مراجعة إجابات المسابقة لحظياً (٩).</td></tr>
+      <tr><td>الضوئية التقنية والفنية</td><td class="pts">٣</td><td>ألوان متدرّجة وانتقالات ورسوم متحركة، زخارف هندسية ونجوم ودوائر وشرائط ملوّنة، صوت تصفيق تشجيع اختياري، كونفيتي للفوز.</td></tr>
+      <tr><td>توفر النشاطات والتطبيقات</td><td class="pts">٣</td><td>تمرين ١٠ ثوانٍ (٣)، تطبيق مطابقة (٥)، مواقف تطبيقية (٦)، ورشة بمعايير نجاح (٧)، مسابقة (٩).</td></tr>
+      <tr><td>الأنشطة التحفيزية والتعزيزات</td><td class="pts">٣</td><td>نقاط وتعزيزات لأربعة فرق في كل شريحة، نجوم وشارة تعزيز في الترويسة والتنقل، عرض نهائي للنتيجة مع كونفيتي.</td></tr>
+      <tr><th>المجموع</th><th class="pts">٣٠</th><th>—</th></tr>
+    </table>
+    <p class="muted" style="margin-top:12px;">💡 نصيحة للتقديم: ابدأ بزر «▶ ابدأ العرض» لتشغيل المؤقّت، ووزّع التعزيزات أثناء العرض لا في نهايته.</p>
+  </div>
+</div>
+
+<div id="toast" style="position:fixed; bottom:80px; right:50%; transform:translateX(50%); background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; font-weight:800; padding:13px 24px; border-radius:40px; box-shadow:var(--shadow); z-index:300; display:none; font-size:16px;"></div>
+
+<script>
+/* ================= State ================= */
+let idx = 0;
+const slides = document.querySelectorAll('.slide');
+/* النقاط محفوظة في الفرق الأربعة: teams (شريحة ٩) */
+let started = false;
+let globalLeft = 20 * 60;   // 20 minutes
+let gTimer = null;
+
+/* ================= Navigation ================= */
+function render() {
+  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  document.getElementById('navLabel').textContent = 'الشريحة ' + (idx + 1) + ' من ' + slides.length;
+  document.getElementById('slideBar').style.width = ((idx + 1) / slides.length * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function go(i) { idx = Math.min(Math.max(i, 0), slides.length - 1); render(); }
+function next() { go(idx + 1); }
+function prev() { go(idx - 1); }
+document.addEventListener('keydown', e => {
+  if (document.getElementById('modal').classList.contains('open')) { if (e.key === 'Escape') closeModal(); return; }
+  if (e.key === 'ArrowLeft') next();
+  if (e.key === 'ArrowRight') prev();
+});
+render();
+
+/* ================= Global timer (20 min) ================= */
+function ar(n) { return String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]); }
+function fmt(s) {
+  const m = Math.floor(Math.abs(s) / 60), sec = Math.abs(s) % 60;
+  return ar(m) + ':' + ar(String(sec).padStart(2, '0'));
+}
+function begin() {
+  if (!started) {
+    started = true;
+    gTimer = setInterval(() => {
+      globalLeft--;
+      const el = document.getElementById('globalTimer');
+      el.textContent = (globalLeft < 0 ? '+' : '') + fmt(globalLeft);
+      el.classList.remove('warn', 'over');
+      if (globalLeft <= 0) el.classList.add('over');
+      else if (globalLeft <= 180) el.classList.add('warn');
+      if (globalLeft === 0) { toast('⏱ انتهى الوقت المحدد: ٢٠ دقيقة — اختم العرض'); timeUpChime(); }
+      if (globalLeft === -60) toast('⚠ تجاوزت الدقيقة الإضافية، انتقل للخلاصة');
+    }, 1000);
+  }
+  play('start');
+  go(1);
+}
+
+/* ================= Scoring / reinforcement ================= */
+function award(n, team) {
+  teams[team].pts += n;
+  updateTeamPts();
+  play('correct');
+  confetti(12);
+}
+function turn() { return quizTurn; }
+function switchTurn() {
+  quizTurn = (quizTurn + 1) % teams.length;
+  updateTurnTag();
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.style.display = 'none', 2600);
+}
+
+/* ================= Modal ================= */
+function openModal() { document.getElementById('modal').classList.add('open'); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+/* ================= Slide 2: poll ================= */
+function vote(el) {
+  const cnt = el.querySelector('.cnt');
+  cnt.style.display = 'block';
+  cnt.textContent = (parseInt(cnt.textContent) || 0) + 1;
+  el.style.borderColor = '#e91e63';
+  el.style.transform = 'translateY(-5px)';
+  play('correct');
+  const s = document.getElementById('pollSummary');
+  s.classList.remove('hidden');
+  s.innerHTML = '📊 <b>التغذية الراجعة المباشرة:</b> شارك ' + totalVotes() + ' من المتدربين — نبدأ التحفيز من احتياجهم الحقيقي.';
+  awardSilent();
+}
+function totalVotes() {
+  let t = 0;
+  document.querySelectorAll('.poll .cnt').forEach(c => t += (parseInt(c.textContent) || 0));
+  return t;
+}
+let silentGiven = false;
+function awardSilent() { if (!silentGiven) { silentGiven = true; teams[quizTurn].pts += 5; updateTeamPts(); } }
+
+/* ================= Slide 3: quick check ================= */
+function quickCheck() {
+  const b = document.getElementById('quickBox');
+  b.classList.remove('hidden');
+  b.innerHTML = '⚡ <b>التمرين (١٠ ثوانٍ):</b> اكتب في دفترك جملة تحفيزية واحدة لطالب تحفّظ على المشاركة — من يقرأها вслух يحصل على تعزيز.';
+  play('start');
+}
+
+/* ================= Slide 5: matching game ================= */
+const MATCH = [
+  { ex: '«وسام حفظ على لوحة الحلقة + إشادة بالاسم»', ans: 'مادي' },
+  { ex: '«كلمة شكر علنية: تعبتَ واستحققتَ التلاوة»', ans: 'معنوي' },
+  { ex: '«تحدي جماعي: نختم جزء عمّ قبل الخميس»', ans: 'اجتماعي' },
+  { ex: '«اختر أنت مراجعة الحفظ: جماعية أم فردية»', ans: 'ذاتي' }
+];
+const TYPES = ['مادي', 'معنوي', 'اجتماعي', 'ذاتي'];
+function buildMatch() {
+  const w = document.getElementById('matchWrap');
+  w.innerHTML = '';
+  MATCH.forEach((m, i) => {
+    const d = document.createElement('div');
+    d.className = 'match';
+    d.innerHTML = '<div class="ex">' + m.ex + '</div><div class="opts"></div>';
+    const o = d.querySelector('.opts');
+    TYPES.forEach(t => {
+      const b = document.createElement('button');
+      b.textContent = t;
+      b.onclick = () => answerMatch(d, b, t === m.ans, i);
+      o.appendChild(b);
+    });
+    w.appendChild(d);
+  });
+}
+function answerMatch(card, btn, ok, i) {
+  if (card.classList.contains('done')) return;
+  if (ok) {
+    card.classList.add('done');
+    btn.classList.add('ok');
+    award(5, quizTurn);
+    toast('✅ إجابة صحيحة! النمط: ' + MATCH[i].ans);
+    const all = document.querySelectorAll('.match.done').length;
+    if (all === MATCH.length) { toast('🎉 أتممتَ المطابقة كاملة!'); confetti(60); }
+  } else {
+    btn.classList.add('no');
+    play('wrong');
+    setTimeout(() => btn.classList.remove('no'), 600);
+  }
+}
+buildMatch();
+
+/* ================= Slide 7: أسماء المشاركين + مؤقّت المشهد ================= */
+let pNames = [];      /* قائمة الأسماء — بلا أي أسماء افتراضية أو تلقائية */
+let pEditId = null;   /* الاسم قيد التعديل حالياً */
+let pSeq = 0;
+function addParticipant() {
+  const inp = document.getElementById('pName');
+  const v = inp.value.trim();
+  if (!v) { inp.focus(); return; }
+  if (pEditId != null) {
+    const p = pNames.find(x => x.id === pEditId);
+    if (p) p.text = v;
+    pEditId = null;
+    document.getElementById('pAddBtn').textContent = '➕ إضافة الاسم';
+    document.getElementById('pCancelBtn').classList.add('hidden');
+    toast('✏️ تم تعديل الاسم');
+  } else {
+    pNames.push({ id: ++pSeq, text: v });
+    toast('✅ تمت إضافة الاسم');
+  }
+  inp.value = '';
+  inp.focus();
+  renderP();
+}
+function editParticipant(id) {
+  const p = pNames.find(x => x.id === id);
+  if (!p) return;
+  pEditId = id;
+  document.getElementById('pName').value = p.text;
+  document.getElementById('pAddBtn').textContent = '💾 تحديث الاسم';
+  document.getElementById('pCancelBtn').classList.remove('hidden');
+  document.getElementById('pName').focus();
+}
+function cancelEdit() {
+  pEditId = null;
+  document.getElementById('pName').value = '';
+  document.getElementById('pAddBtn').textContent = '➕ إضافة الاسم';
+  document.getElementById('pCancelBtn').classList.add('hidden');
+}
+function delParticipant(id) {
+  pNames = pNames.filter(x => x.id !== id);
+  if (pEditId === id) cancelEdit();
+  renderP();
+}
+function clearParticipants() {
+  if (!pNames.length) { toast('القائمة فارغة أصلاً'); return; }
+  if (!confirm('هل تريدين حذف جميع الأسماء (' + pNames.length + ')؟')) return;
+  pNames = [];
+  cancelEdit();
+  renderP();
+  toast('🗑 تم حذف جميع الأسماء');
+}
+function renderP() {
+  const box = document.getElementById('pList');
+  box.innerHTML = '';
+  if (!pNames.length) {
+    const d = document.createElement('div');
+    d.className = 'prow';
+    const s = document.createElement('span');
+    s.className = 'pempty';
+    s.textContent = 'لا توجد أسماء بعد — أضيفي الاسم الأول من الخانة أعلاه';
+    d.appendChild(s);
+    box.appendChild(d);
+    return;
+  }
+  pNames.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'prow';
+    const idx = document.createElement('span'); idx.className = 'idx'; idx.textContent = i + 1;
+    const nm = document.createElement('span'); nm.className = 'pn'; nm.textContent = p.text;
+    const be = document.createElement('button'); be.className = 'mini-btn edit'; be.textContent = '✏ تعديل'; be.onclick = () => editParticipant(p.id);
+    const bd = document.createElement('button'); bd.className = 'mini-btn del'; bd.textContent = '✕ حذف'; bd.onclick = () => delParticipant(p.id);
+    row.append(idx, nm, be, bd);
+    box.appendChild(row);
+  });
+}
+renderP();
+let roleLeft = 180, roleIv = null;
+function startRoleTimer() {
+  clearInterval(roleIv);
+  roleIv = setInterval(() => {
+    roleLeft--;
+    const el = document.getElementById('roleTimer');
+    el.textContent = fmt(roleLeft);
+    if (roleLeft <= 0) {
+      clearInterval(roleIv);
+      el.textContent = 'انتهى الوقت!';
+      timeUpChime();
+      confetti(50);
+    }
+    if (roleLeft <= 30) el.classList.add('small');
+  }, 1000);
+}
+function resetRoleTimer() { clearInterval(roleIv); roleLeft = 180; const el = document.getElementById('roleTimer'); el.textContent = fmt(roleLeft); el.classList.remove('small'); }
+
+/* ================= Slide 8: feedback ================= */
+function addNote() {
+  const i = document.getElementById('noteTxt');
+  const v = i.value.trim();
+  if (!v) { i.focus(); return; }
+  const box = document.getElementById('notesBox');
+  const n = document.createElement('div');
+  n.className = 'note';
+  n.innerHTML = '<b>ملاحظة:</b> ' + v.replace(/</g, '&lt;');
+  box.appendChild(n);
+  i.value = '';
+  play('correct');
+  awardSilent();
+}
+function react(btn, txt) {
+  btn.style.borderColor = '#2e7d32';
+  btn.style.background = '#e8f5e9';
+  const box = document.getElementById('notesBox');
+  const n = document.createElement('div');
+  n.className = 'note';
+  n.style.background = '#e8f5e9';
+  n.style.borderColor = '#a5d6a7';
+  n.innerHTML = '<b>ردّنا:</b> ' + txt;
+  box.appendChild(n);
+  play('correct');
+}
+
+/* ================= Slide 9: الفرق الأربعة + quiz ================= */
+const TEAM_DEFAULTS = ['الفريق الأول', 'الفريق الثاني', 'الفريق الثالث', 'الفريق الرابع'];
+const TEAM_SHAPES = [
+  '<svg width="22" height="22" viewBox="0 0 24 24"><polygon points="12,2 15,9 22,9 16.5,13.5 18.5,21 12,16.5 5.5,21 7.5,13.5 2,9 9,9" fill="#e91e63"/></svg>',
+  '<svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#9c27b0" stroke-width="2.4"/><circle cx="12" cy="12" r="3.4" fill="#9c27b0"/></svg>',
+  '<svg width="22" height="22" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)" fill="none" stroke="#f48fb1" stroke-width="2.4"/></svg>',
+  '<svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 5 h16 v10 l-8 4 -8 -4 z" fill="none" stroke="#ba68c8" stroke-width="2.2" stroke-linejoin="round"/></svg>'
+];
+let teams = TEAM_DEFAULTS.map(n => ({ name: n, members: [], pts: 0 }));
+let quizTurn = 0, mSeq = 0;
+function teamName(i) { return (teams[i].name || '').trim() || TEAM_DEFAULTS[i]; }
+function buildTeams() {
+  const box = document.getElementById('teamsBox');
+  box.innerHTML = '';
+  teams.forEach((t, i) => {
+    const c = document.createElement('div');
+    c.className = 'tm-card tm' + i;
+    c.id = 'tmCard' + i;
+    const head = document.createElement('div'); head.className = 'tm-head';
+    const badge = document.createElement('span'); badge.innerHTML = TEAM_SHAPES[i];
+    const nameIn = document.createElement('input'); nameIn.className = 'tm-name'; nameIn.type = 'text'; nameIn.value = t.name;
+    nameIn.title = 'اسم الفريق — اكتبيه بنفسك، قابل للتعديل في أي وقت';
+    nameIn.oninput = () => { teams[i].name = nameIn.value; updateTurnTag(); };
+    const pts = document.createElement('span'); pts.className = 'tm-pts'; pts.id = 'tmPts' + i; pts.textContent = t.pts;
+    head.append(badge, nameIn, pts);
+    const memRow = document.createElement('div'); memRow.className = 'mem-row';
+    const mIn = document.createElement('input'); mIn.type = 'text'; mIn.id = 'mIn' + i; mIn.placeholder = 'اسم العضوة';
+    mIn.onkeydown = e => { if (e.key === 'Enter') addMember(i); };
+    const mAdd = document.createElement('button'); mAdd.className = 'mini-btn'; mAdd.textContent = 'إضافة عضو'; mAdd.onclick = () => addMember(i);
+    memRow.append(mIn, mAdd);
+    const mList = document.createElement('div'); mList.className = 'mlist'; mList.id = 'mList' + i;
+    const reg = document.createElement('div'); reg.className = 'reg-line'; reg.id = 'regLine' + i;
+    const clr = document.createElement('button'); clr.className = 'mini-btn del'; clr.textContent = 'حذف جميع الأعضاء'; clr.onclick = () => clearMembers(i);
+    c.append(head, memRow, mList, reg, clr);
+    box.appendChild(c);
+  });
+  teams.forEach((t, i) => { renderMembers(i); renderReg(i); });
+  updateTurnTag();
+}
+function renderMembers(i) {
+  const box = document.getElementById('mList' + i);
+  box.innerHTML = '';
+  teams[i].members.forEach(m => {
+    const row = document.createElement('div'); row.className = 'mrow';
+    const nm = document.createElement('span'); nm.className = 'mn'; nm.textContent = m.text;
+    const bd = document.createElement('button'); bd.className = 'mini-btn del'; bd.textContent = '✕ حذف'; bd.onclick = () => delMember(i, m.id);
+    row.append(nm, bd);
+    box.appendChild(row);
+  });
+}
+function addMember(i) {
+  const inp = document.getElementById('mIn' + i);
+  const v = inp.value.trim();
+  if (!v) { inp.focus(); return; }
+  teams[i].members.push({ id: ++mSeq, text: v });
+  inp.value = '';
+  inp.focus();
+  renderMembers(i);
+  renderReg(i);
+  toast('➕ تمت إضافة العضوة إلى ' + teamName(i) + ' — وسُجّل الفريق تلقائياً ✔');
+}
+function delMember(i, mid) {
+  teams[i].members = teams[i].members.filter(m => m.id !== mid);
+  renderMembers(i);
+  renderReg(i);
+}
+function clearMembers(i) {
+  const n = teams[i].members.length;
+  if (!n) { toast('لا يوجد أعضاء في هذا الفريق'); return; }
+  if (!confirm('حذف جميع أعضاء «' + teamName(i) + '» (' + n + ' عضوة)؟')) return;
+  teams[i].members = [];
+  renderMembers(i);
+  renderReg(i);
+  toast('🗑 تم حذف أعضاء الفريق');
+}
+function resetTeams() {
+  if (!confirm('سيتم تصفير بيانات الفرق الأربعة (الأسماء والأعضاء والنقاط) وتجهيز مجموعة جديدة. هل تريدين المتابعة؟')) return;
+  teams = TEAM_DEFAULTS.map(n => ({ name: n, members: [], pts: 0 }));
+  quizTurn = 0;
+  buildTeams();
+  toast('🔄 تم تجهيز الفرق الأربعة لمجموعة جديدة');
+}
+function updateTeamPts() {
+  teams.forEach((t, i) => { const el = document.getElementById('tmPts' + i); if (el) el.textContent = t.pts; });
+  renderHeaderTeams();
+}
+function renderReg(i) {
+  const r = document.getElementById('regLine' + i);
+  if (!r) return;
+  const on = teams[i].members.length > 0;
+  r.className = 'reg-line' + (on ? ' on' : '');
+  r.textContent = on
+    ? '✔ مسجّل تلقائياً في لوحة النتائج (' + teams[i].members.length + ' عضوة)'
+    : 'غير مسجّل بعد — أضيفي عضوة واحدة لتسجيل الفريق تلقائياً';
+}
+function updateTurnTag() {
+  const t2 = document.getElementById('turnTag2');
+  if (t2) t2.textContent = 'الدور: ' + teamName(quizTurn);
+  const t1 = document.getElementById('turnTag');
+  if (t1) t1.textContent = 'الدور: ' + teamName(quizTurn);
+  teams.forEach((t, i) => {
+    const c = document.getElementById('tmCard' + i);
+    if (c) c.classList.toggle('turn', i === quizTurn);
+  });
+  renderHeaderTeams();
+}
+function renderHeaderTeams() {
+  const box = document.getElementById('headerTeams');
+  if (!box) return;
+  box.innerHTML = '';
+  teams.forEach((t, i) => {
+    const s = document.createElement('span');
+    s.className = 'mini-team' + (i % 2 ? ' b' : '');
+    if (i === quizTurn) s.style.outline = '2px solid var(--gold)';
+    const tn = document.createElement('span'); tn.className = 'tn'; tn.textContent = teamName(i);
+    const p = document.createElement('span'); p.className = 'pts'; p.textContent = t.pts;
+    const b = document.createElement('button'); b.className = 'plus'; b.textContent = '+';
+    b.title = 'تعزيز لـ' + teamName(i);
+    b.onclick = () => award(10, i);
+    s.append(tn, p, b);
+    box.appendChild(s);
+  });
+}
+buildTeams();
+const QS = [
+  { q: 'أيُّ العبارات أقرب لتعريف التحفيز الفعّال؟', o: ['إجبار الطالب على الحفظ', 'إيقاظ الدافع الداخلي وتوجيهه', 'التوبيخ أمام الجميع'], c: 1, why: 'التحفيز يبني الدافع من الداخل لا بالضغط الخارجي.' },
+  { q: 'أفضل تعزيز للحافظ المتردّد في الإقراء داخل الحلقة:', o: ['نقدّر المحاولة لا النتيجة', 'نتخطاه إلى آخر الحلقة', 'نطلب منه إعادة المحاولة أمام الجميع'], c: 0, why: 'التقدير على المحاولة يرفع الأمان النفسي ويشجّع على المحاولة الثانية.' },
+  { q: 'التحفيز الجماعي يُبنى عبر:', o: ['لوحة نقاط للفريق كله', 'ترتيب الأفراد علناً', 'حرمان الفئة المتأخرة'], c: 0, why: 'الهدف الجماعي يشدّ الجميع ويجعل التكافؤ حافزاً.' },
+  { q: 'عندما يخطئ حافظٌ أثناء التلاوة أمام الحلقة فالخطوة التحفيزية هي:', o: ['تصحيح فوري ومباشر', 'منح فرصة ثانية وتصحيح لاحقاً', 'إشادة بالمحاولة ثم تصحيح خاص'], c: 2, why: 'الإشادة بالمحاولة تحفظ الكرامة، والتصحيح الخاص يحفظ التعلّم.' }
+];
+let qi = 0, qAnswered = false;
+loadQ();
+function loadQ() {
+  qAnswered = false;
+  document.getElementById('qFb').textContent = '';
+  document.getElementById('qFb').className = 'quiz-fb';
+  document.getElementById('nextQ').style.display = 'none';
+  if (qi >= QS.length) {
+    document.getElementById('qText').textContent = '🎉 انتهت المسابقة — أحسنتم تفاعلًا!';
+    document.getElementById('qOpts').innerHTML = '';
+    confetti(70);
+    play('win');
+    return;
+  }
+  const q = QS[qi];
+  document.getElementById('qText').textContent = (qi + 1) + '. ' + q.q;
+  const w = document.getElementById('qOpts');
+  w.innerHTML = '';
+  q.o.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'qopt';
+    b.textContent = opt;
+    b.onclick = () => pick(b, i, q);
+    w.appendChild(b);
+  });
+}
+function pick(btn, i, q) {
+  if (qAnswered) return;
+  qAnswered = true;
+  const opts = document.querySelectorAll('.qopt');
+  opts.forEach((o, k) => { o.style.pointerEvents = 'none'; if (k === q.c) o.classList.add('correct'); });
+  const fb = document.getElementById('qFb');
+  if (i === q.c) {
+    teams[quizTurn].pts += 10;
+    updateTeamPts();
+    fb.textContent = '✅ صحيح! +١٠ نقاط لـ' + teamName(quizTurn) + ' — ' + q.why;
+    fb.className = 'quiz-fb ok';
+    play('correct');
+    confetti(12);
+  } else {
+    fb.textContent = '❌ ليس تماماً. ' + q.why;
+    fb.className = 'quiz-fb no';
+    play('wrong');
+  }
+  document.getElementById('nextQ').style.display = 'inline-flex';
+  qi++;
+  if (qi >= QS.length) document.getElementById('nextQ').textContent = 'إنهاء المسابقة 🏁';
+  quizTurn = (quizTurn + 1) % teams.length;
+  updateTurnTag();
+}
+
+/* ================= Slide 10: plan ================= */
+function finishPlan() {
+  const done = document.querySelectorAll('.plan-item.done').length;
+  play(done ? 'correct' : 'wrong');
+  toast(done ? '🎉 اعتمدت ' + done + ' خطوة — بداية مثالية!' : 'اختر خطوة واحدة على الأقل لتأمّل التحفيز عملياً');
+  if (done) { award(10, quizTurn); confetti(40); }
+}
+
+/* ================= Slide 11: results ================= */
+function renderResultRows() {
+  const box = document.getElementById('resRows');
+  if (!box) return;
+  box.innerHTML = '';
+  const max = Math.max(...teams.map(t => t.pts));
+  teams.forEach((t, i) => {
+    const row = document.createElement('div');
+    row.className = 'result-row' + (i % 2 ? ' b' : '');
+    if (t.pts === max && max > 0) row.style.borderColor = 'var(--gold)';
+    const s = document.createElement('span'); s.textContent = teamName(i) + (t.members.length ? ' (' + t.members.length + ' عضوة)' : '');
+    const v = document.createElement('span'); v.className = 'v'; v.textContent = t.pts;
+    row.append(s, v);
+    box.appendChild(row);
+  });
+}
+function showResults() {
+  renderResultRows();
+  const max = Math.max(...teams.map(t => t.pts));
+  const m = document.getElementById('resMsg');
+  const winners = teams.filter(t => t.pts === max);
+  if (max === 0) { m.textContent = '✨ هيّا نبدأ — أول إجابة صحيحة تفتح التسجيل!'; return; }
+  if (winners.length === 1) {
+    m.textContent = '🏆 ' + teamName(teams.indexOf(winners[0])) + ' هو الفائز بفارق الرافع!';
+    confetti(90); play('win');
+  } else {
+    m.textContent = '🤝 تعادل مشرّف بين ' + winners.map((t) => teamName(teams.indexOf(t))).join(' و ') + ' — التحفيز مكسب للجميع!';
+    confetti(60); play('win');
+  }
+}
+renderResultRows();
+
+/* ================= Sounds (WebAudio) ================= */
+let audioCtx = null;
+function initAudio() { if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } }
+function tone(freq, dur, type, vol, when) {
+  if (!audioCtx) return;
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = type || 'sine';
+  const t = audioCtx.currentTime + (when || 0);
+  o.frequency.setValueAtTime(freq, t);
+  g.gain.setValueAtTime(vol || 0.12, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+  o.start(t); o.stop(t + dur);
+}
+function play(kind) {
+  initAudio();
+  if (!audioCtx) return;
+  try {
+    if (kind === 'correct') { tone(660, .16, 'sine', .14, 0); tone(880, .22, 'sine', .14, .12); }
+    else if (kind === 'wrong') { tone(200, .25, 'sawtooth', .12, 0); tone(140, .3, 'sawtooth', .1, .1); }
+    else if (kind === 'start') { tone(523, .14, 'triangle', .14, 0); tone(659, .14, 'triangle', .14, .1); tone(784, .2, 'triangle', .14, .2); }
+    else if (kind === 'win') { [523, 659, 784, 1046].forEach((f, i) => tone(f, .25, 'square', .1, i * .12)); }
+  } catch (e) {}
+}
+
+/* ================= التشجيع: صوت تصفيق خفيف (بلا موسيقى) ================= */
+let cheerAudio = null, cheerOn = false;
+function toggleCheer() {
+  if (cheerOn) { stopCheer(); return; }
+  if (!cheerAudio) {
+    cheerAudio = new Audio('applause.wav');
+    cheerAudio.volume = 0.9;
+    cheerAudio.addEventListener('ended', () => { cheerOn = false; setCheerBtn(); });
+    cheerAudio.addEventListener('error', () => { synthClap(); });
+  }
+  try { cheerAudio.currentTime = 0; } catch (e) {}
+  const pr = cheerAudio.play();
+  if (pr && pr.catch) pr.catch(() => synthClap());
+  cheerOn = true;
+  setCheerBtn();
+}
+function stopCheer() {
+  if (cheerAudio) { try { cheerAudio.pause(); } catch (e) {} }
+  cheerOn = false;
+  setCheerBtn();
+}
+function setCheerBtn() {
+  const b = document.getElementById('cheerBtn');
+  b.classList.toggle('on', cheerOn);
+  b.textContent = cheerOn ? '🔇 إيقاف التشجيع' : '👏 التشجيع';
+}
+function synthClap() {
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    const dur = 1.6, sr = audioCtx.sampleRate, buf = audioCtx.createBuffer(1, sr * dur, sr);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) {
+      const t = i / sr;
+      const env = Math.exp(-t * 2.4);
+      const mod = 0.55 + 0.45 * Math.sin(t * 47) * Math.sin(t * 63);
+      d[i] = (Math.random() * 2 - 1) * env * mod * 0.7;
+    }
+    const src = audioCtx.createBufferSource(); src.buffer = buf;
+    const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1900; f.Q.value = 0.7;
+    const g = audioCtx.createGain(); g.gain.value = 0.5;
+    src.connect(f); f.connect(g); g.connect(audioCtx.destination);
+    src.start();
+  } catch (e) {}
+}
+
+/* ================= تنبيه انتهاء الوقت: نغمة خفيفة هادئة ================= */
+function timeUpChime() {
+  initAudio();
+  if (!audioCtx) return;
+  try {
+    tone(880, .5, 'sine', .07, 0);
+    tone(660, .8, 'sine', .06, .4);
+  } catch (e) {}
+}
+
+/* ================= Confetti ================= */
+function confetti(count) {
+  const colors = ['#e91e63', '#9c27b0', '#ffb300', '#00897b', '#42a5f5'];
+  for (let i = 0; i < (count || 40); i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    c.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+    c.style.animationDuration = (Math.random() * 1.6 + 1.2) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3200);
+  }
+}
+</script>
+</body>
+</html>
