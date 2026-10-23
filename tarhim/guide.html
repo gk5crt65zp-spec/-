@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل الاستخدام والتفعيل — عرض مهارة التحفيز</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --pink: #e91e63;
+    --pink-light: #f8bbd0;
+    --purple: #9c27b0;
+    --teal: #00897b;
+    --gold: #ffb300;
+    --green: #2e7d32;
+    --red: #c62828;
+    --dark: #263238;
+    --shadow: 0 8px 22px rgba(0,0,0,0.16);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #fce4ec 0%, #ede7f6 55%, #e0f2f1 100%);
+    background-attachment: fixed;
+    color: var(--dark);
+    line-height: 1.9;
+    min-height: 100vh;
+  }
+  header {
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 3px solid var(--pink);
+    padding: 16px 18px;
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: var(--pink); }
+  .mark {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff; display: grid; place-items: center; font-weight: bold; font-size: 20px;
+  }
+  .back-btn {
+    display: inline-block; text-decoration: none;
+    border: 2px solid #ddd; background: #fff; border-radius: 40px;
+    padding: 7px 15px; font-weight: 700; font-size: 14px; color: var(--dark); transition: .2s;
+  }
+  .back-btn:hover { border-color: var(--pink); color: var(--pink); }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 26px 16px 70px; }
+
+  /* table of contents */
+  .toc {
+    background: #fff; border-radius: 22px; padding: 22px;
+    border: 2px solid var(--pink-light); box-shadow: var(--shadow); margin-bottom: 28px;
+  }
+  .toc h2 { font-size: 18px; color: var(--purple); margin-bottom: 12px; }
+  .toc ol { padding-right: 22px; columns: 2; column-gap: 26px; }
+  .toc li { margin-bottom: 7px; break-inside: avoid; }
+  .toc a { color: var(--dark); text-decoration: none; font-weight: 600; font-size: 15px; }
+  .toc a:hover { color: var(--pink); }
+  @media (max-width: 600px) { .toc ol { columns: 1; } }
+
+  .card {
+    background: #fff; border-radius: 24px; padding: 26px;
+    box-shadow: var(--shadow); border: 2px solid #fce4ec; margin-bottom: 26px;
+  }
+  .card h2 {
+    font-size: 24px; color: var(--pink); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .num {
+    min-width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff; display: grid; place-items: center; font-size: 19px; font-weight: 800;
+  }
+  .card h3 { font-size: 19px; color: var(--purple); margin: 18px 0 8px; }
+  .card p { margin-bottom: 10px; font-size: 16.5px; }
+  .card ul, .card ol { padding-right: 26px; margin-bottom: 12px; }
+  .card li { margin-bottom: 7px; font-size: 16px; }
+
+  /* field explanation block */
+  .field {
+    background: #fdf3f7; border-radius: 16px;
+    border-right: 6px solid var(--pink);
+    padding: 14px 18px; margin: 12px 0;
+  }
+  .field .f-name {
+    display: inline-block; background: var(--pink); color: #fff;
+    border-radius: 30px; padding: 2px 14px; font-weight: 700; font-size: 15px; margin-bottom: 6px;
+  }
+  .field.p { border-color: var(--purple); background: #f8f0fc; }
+  .field.p .f-name { background: var(--purple); }
+  .field.t { border-color: var(--teal); background: #e9f6f4; }
+  .field.t .f-name { background: var(--teal); }
+  .field .f-desc { font-size: 15.5px; }
+  .field b { color: var(--pink); }
+
+  .tip {
+    background: var(--cream, #fff8e1); border: 2px dashed var(--gold);
+    border-radius: 16px; padding: 14px 18px; margin: 14px 0; font-size: 15.5px;
+  }
+  .tip b { color: #b8860b; }
+  .warn {
+    background: #fdecea; border: 2px solid var(--red);
+    border-radius: 16px; padding: 14px 18px; margin: 14px 0; font-size: 15.5px; color: #7f1d1d;
+  }
+
+  .steps { counter-reset: st; list-style: none; padding: 0; }
+  .steps li {
+    counter-increment: st; position: relative;
+    padding: 12px 58px 12px 12px; margin-bottom: 12px;
+    background: #fafafa; border-radius: 14px; border: 1px solid #eee;
+  }
+  .steps li::before {
+    content: counter(st);
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 16px;
+  }
+
+  code {
+    background: #f3e5f5; color: var(--purple);
+    border-radius: 8px; padding: 2px 9px; font-size: 15px;
+    direction: ltr; display: inline-block;
+  }
+  .link-box {
+    background: var(--dark); color: #a5d6a7; border-radius: 14px;
+    padding: 14px 18px; direction: ltr; text-align: left;
+    font-family: Consolas, monospace; font-size: 15px; margin: 10px 0;
+    word-break: break-all;
+  }
+
+  /* mock UI */
+  .mock {
+    background: linear-gradient(135deg, #fce4ec, #ede7f6);
+    border-radius: 18px; padding: 16px; margin: 14px 0;
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: center;
+    border: 1px solid #e1bee7;
+  }
+  .mock-btn {
+    background: #fff; border: 2px solid #ddd; border-radius: 40px;
+    padding: 7px 14px; font-weight: 700; font-size: 14px;
+  }
+  .mock-btn.pink { border-color: var(--pink); color: var(--pink); }
+  .mock-btn.gold { border-color: var(--gold); color: #a06a00; background: #fff8e1; }
+  .mock-team {
+    background: #fff; border: 2px solid var(--pink-light); border-radius: 14px;
+    padding: 6px 12px; display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 700;
+  }
+  .mock-team .pts { background: var(--pink); color: #fff; border-radius: 20px; padding: 1px 10px; font-size: 14px; }
+  .mock-team .plus { border: none; background: #f3e5f5; color: var(--purple); border-radius: 50%; width: 25px; height: 25px; font-weight: 900; }
+
+  .caption { text-align: center; font-size: 14px; color: #888; margin-top: -6px; margin-bottom: 14px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 15.5px; }
+  th, td { border: 1px solid #f3e5f5; padding: 9px 12px; text-align: right; }
+  th { background: #fce4ec; color: var(--pink); font-size: 15px; }
+
+  footer { text-align: center; color: #999; font-size: 14px; padding: 20px; }
+  .to-top {
+    position: fixed; left: 18px; bottom: 18px; z-index: 60;
+    width: 46px; height: 46px; border-radius: 50%; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--pink), var(--purple)); color: #fff; font-size: 20px;
+    box-shadow: var(--shadow); transition: .2s;
+  }
+  .to-top:hover { transform: scale(1.12); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="mark">؟</div> دليل الاستخدام والتفعيل — مهارة التحفيز</div>
+  <a class="back-btn" href="index.html">↩ العودة إلى العرض</a>
+</header>
+
+<div class="wrap">
+
+  <div class="toc">
+    <h2>📑 محتويات الدليل (اضغط على أي بند للانتقال)</h2>
+    <ol>
+      <li><a href="#s1">البدء السريع</a></li>
+      <li><a href="#s2">ترويسة العرض (أعلى الشاشة)</a></li>
+      <li><a href="#s3">شريط التنقل السفلي</a></li>
+      <li><a href="#s4">شريحة الأسماء والأدوار (٧)</a></li>
+      <li><a href="#s5">مسابقة الفرق الأربعة (٩)</a></li>
+      <li><a href="#s6">شريحة النتيجة والتعزيز (١١)</a></li>
+      <li><a href="#s7">الأصوات</a></li>
+      <li><a href="#s8">نصائح للمشاركة عبر Zoom</a></li>
+      <li><a href="#s9">تفعيل النشر على الإنترنت</a></li>
+      <li><a href="#s10">الأسئلة الشائعة</a></li>
+    </ol>
+  </div>
+
+  <!-- ================= 1 ================= -->
+  <div class="card" id="s1">
+    <h2><span class="num">١</span> البدء السريع</h2>
+    <p>العرض ملف واحد يعمل بدون إنترنت على الحاسوب والجوال. افتحه بإحدى الطرق الثلاث:</p>
+    <ol class="steps">
+      <li><b>طريقتان للتجربة المحلية:</b> اضغطي مرتين على الملف <code>index.html</code> (أو اسم الملف العربي) في المجلد، ويفتح مباشرة في المتصفح. أو افتحي المتصفح واسحبي الملف إليه.</li>
+      <li><b>للتجربة عبر رابط محلي</b> ( أثناء جلسة المساعدة): ضعي الرابط في شريط العنوان.</li>
+      <li><b>للنشر الدائم والمشاركة:</b> افعّلي النشر على GitHub Pages كما في القسم ٩ لتحصل على رابط دائم يعمل من أي جهاز.</li>
+    </ol>
+    <div class="tip">💡 لا تحتاجين إنترنت للاستخدام المحلي — يكفي وجود الملفين <code>index.html</code> و<code>applause.wav</code> في <b>نفس المجلد</b>.</div>
+    <h3>أزرار البداية</h3>
+    <div class="field">
+      <span class="f-name">▶ ابدأ العرض (٢٠ دقيقة)</span>
+      <div class="f-desc">يدخل الشريحة الأولى <b>ويبدأ مؤقّت الوقت الكامل ٢٠ دقيقة</b> للعرض كله. المؤقّت يظهر أعلى الشاشة ويستمر معك في كل الشرائح.</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">معايير التقييم</span>
+      <div class="f-desc">يفتح جدولاً فيه معايير تقييم مهارة التحفيز (٣٠ نقطة) — لتوضيح التقدير دون الخروج من العرض.</div>
+    </div>
+    <div class="field t">
+      <span class="f-name">بوّات التهيئة</span>
+      <div class="f-desc">خمسة أزرار لسؤال التهيئة في الشريحة ٢: الضغط على أي انطباع يسجّله فوراً تحته مع عدّاد، لتغذية راجعة حيّة مع المتدربات.</div>
+    </div>
+  </div>
+
+  <!-- ================= 2 ================= -->
+  <div class="card" id="s2">
+    <h2><span class="num">٢</span> ترويسة العرض (أعلى الشاشة)</h2>
+    <p>تظهر في كل الشرائح وتحتوي على:</p>
+    <div class="mock">
+      <span class="mock-btn gold">٢٠:٠٠</span>
+      <span class="mock-team">الفريق الأول <span class="pts">0</span> <span class="plus">+</span></span>
+      <span class="mock-team">الفريق الثاني <span class="pts">0</span> <span class="plus">+</span></span>
+      <span class="mock-btn pink">👏 التشجيع</span>
+      <span class="mock-btn">📋 المعاير</span>
+      <span class="mock-btn">📖 الدليل</span>
+    </div>
+    <p class="caption">شكل الترويسة — تظهر فرقك الأربعة عليها</p>
+
+    <div class="field">
+      <span class="f-name">٢٠:٠٠ (المؤقّت العام)</span>
+      <div class="f-desc">يبدأ فقط عند الضغط على «▶ ابدأ العرض»، ويحسب زمن العرض كله. عند تبقّي ٣ دقائق يتغيّر لونه برتقالياً تنبيهاً، وعند انتهاء الوقت يُضاء أحمر مع <b>نغمة خفيفة</b> لطيفة (لا نوافذ منبثقة).</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">شارات الفرق (٤ فرق)</span>
+      <div class="f-desc">لكل فريق شارة فيها اسمه ونقاطه. زر <b>+</b> بجانب كل شارة يضيف <b>١٠ نقاط</b> فوراً — مفيد للتعزيز السريع أثناء الشرح. الفريق صاحب الدور يظهر بإطار ذهبي. يمكنك تغيير أي اسم بالضغط عليه في شريحة المسابقة.</div>
+    </div>
+    <div class="field t">
+      <span class="f-name">👏 التشجيع</span>
+      <div class="f-desc">يشغّل صوت <b>تصفيق خفيف</b> مرحّلاً بالجوال (ملف applause.wav) مرة واحدة عند الضغط فقط. زر واحد يعمل بوظيفتين: ضغطة = تشغيل، وضغطة ثانية (يتحول إلى «إيقاف التشجيع») = إيقاف الصوت. <b>لا توجد أي موسيقى خلفية تلقائية</b> — العرض صامت تماماً حتى تضغطي الزر.</div>
+    </div>
+    <div class="field">
+      <span class="f-name">📋 المعاير</span>
+      <div class="f-desc">يفتح جدول «معايير التقييم» (٣٠ نقطة) داخل نافذة منبثقة، مع زر ✕ للإغلاق.</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">📖 الدليل</span>
+      <div class="f-desc">يفتح هذه الصفحة التي تقرأها الآن (شرح كل خانة).</div>
+    </div>
+  </div>
+
+  <!-- ================= 3 ================= -->
+  <div class="card" id="s3">
+    <h2><span class="num">٣</span> شريط التنقل السفلي</h2>
+    <div class="mock">
+      <span class="mock-btn">▶ السابق</span>
+      <span class="mock-btn pink">التالي ←</span>
+      <span class="mock-btn">٣ / ١١</span>
+      <span class="mock-btn gold">⭐ تعزيز</span>
+    </div>
+    <p class="caption">شريط التنقل أسفل الشاشة</p>
+    <div class="field">
+      <span class="f-name">▶ السابق / التالي ←</span>
+      <div class="f-desc">للتنقل بين الشرائح. تعمل أيضاً بلوحة المفاتيح: <code>←</code> و<code>→</code>.</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">٣ / ١١</span>
+      <div class="f-desc">عدّاد الشرائح: رقم الشريحة الحالية من العدد الكلي.</div>
+    </div>
+    <div class="field t">
+      <span class="f-name">⭐ تعزيز</span>
+      <div class="f-desc">يمنح <b>٥ نقاط</b> لفريق الدور الحالي احتفالاً بمشاركة أو إجابة. وينتقل الدور تلقائياً إلى الفريق التالي حتى يتناوب الجميع.</div>
+    </div>
+  </div>
+
+  <!-- ================= 4 ================= -->
+  <div class="card" id="s4">
+    <h2><span class="num">٤</span> شريحة الأسماء والأدوار (٧) — المشهد التمثيلي</h2>
+    <p>أنتِ تحكّمين كل شيء هنا: لا أسماء تلقائية ولا عشوائية — تضيفين ما تريدين وقت ما تريدين.</p>
+
+    <h3>أ) لوحة الأسماء</h3>
+    <div class="field">
+      <span class="f-name">خانة «اكتبي الاسم هنا»</span>
+      <div class="f-desc">خانة إدخال فارغة تماماً. اكتبي اسم المتدربة (مثل: أ. سعاد) ثم اضغطي «إضافة الاسم» أو مفتاح <code>Enter</code>.</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">زر «➕ إضافة الاسم»</span>
+      <div class="f-desc">يضيف ما كتبته في القائمة أسفل الخانة. يمكنك إضافة عدد ما تشاء من الأسماء.</div>
+    </div>
+    <div class="field t">
+      <span class="f-name">زر «✏ تعديل» بجانب كل اسم</span>
+      <div class="f-desc">ينقل الاسم إلى الخانة لتعديله، ويتحول الزر إلى «✅ تحديث الاسم» — عدّلي واضغطيه ليُحفظ التعديل.</div>
+    </div>
+    <div class="field">
+      <span class="f-name">زر «🗑 حذف» بجانب كل اسم</span>
+      <div class="f-desc">يحذف هذا الاسم وحده من القائمة.</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">زر «🗑 حذف جميع الأسماء»</span>
+      <div class="f-desc">يمسح القائمة كاملة، ويفتح سؤال تأكيد أولاً حتى لا يُحذف شيء بالخطأ.</div>
+    </div>
+
+    <h3>ب) بطاقات الأدوار الثلاثة</h3>
+    <p>ثلاث بطاقات جاهزة: <b>المعلّم</b> / <b>الحافظ المتذبذب</b> / <b>المشرف في الميدان</b>. اقرئيها ثم وظّفيها يدوياً للمتدربات اللواتي أضفتن أسماءهن.</p>
+
+    <h3>ج) مؤقّت المشهد التمثيلي (٣ دقائق)</h3>
+    <div class="field">
+      <span class="f-name">⏱ ابدأ ٣ دقائق / ⏹ إيقاف / 🔄 إعادة</span>
+      <div class="f-desc">مؤقّت مستقل خاص بالمشهد (لا يؤثر على مؤقّت العرض العام). عند انتهاء الثلاث دقائق تُسمع <b>نغمة خفيفة</b> لطيفة تنبّه المتدربات دون إزعاج، ويُضاء المؤقّت أحمر.</div>
+    </div>
+
+    <h3>د) معايير النجاح</h3>
+    <div class="field p">
+      <span class="f-name">قائمة معايير المشهد</span>
+      <div class="f-desc">قائمة تأشير ✓ (اضغطي أي بند ليُشطَب ويُحتسب) لتقييم أداء المشهد أمام الجميع مباشرة.</div>
+    </div>
+
+    <h3>هـ) أزرار التقييم</h3>
+    <div class="field t">
+      <span class="f-name">🎉 تعزيز ٢٠ نقطة</span>
+      <div class="f-desc">يضيف ٢٠ نقطة لفريق الدور الحالي بعد انتهاء المشهد.</div>
+    </div>
+    <div class="field">
+      <span class="f-name">🔄 تبديل الدور</span>
+      <div class="f-desc">ينقل الدور إلى الفريق التالي (يتناوب الفريقات الأربعة تلقائياً).</div>
+    </div>
+  </div>
+
+  <!-- ================= 5 ================= -->
+  <div class="card" id="s5">
+    <h2><span class="num">٥</span> شريحة المسابقة (٩) — الفرق الأربعة</h2>
+    <p>أربع بطاقات فرق ملوّنة ومتميزة، مصمّمة لتُشارك بشاشة Zoom بوضوح.</p>
+
+    <div class="field">
+      <span class="f-name">خانة اسم الفريق</span>
+      <div class="f-desc">اسم كل فريق قابل للتعديل في أي وقت (الافتراضي: الفريق الأول/الثاني/الثالث/الرابع). التسمية الإرشادية لا تُحفظ كأسمية نهائية — غيّريها لتناسب مجموعتك (مثل: فريق الإتقان، فريق العطاء...).</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">خانة «اسم عضوة الفريق» + «➕ إضافة عضو»</span>
+      <div class="f-desc">اكتبي اسم العضوة ثم اضغطي «إضافة عضو» أو <code>Enter</code>. بمجرد إضافة <b>عضوة واحدة</b> يُسجَّل الفريق تلقائياً في لوحة النتيجة (يظهر سطر أخضر «✔ مسجّل تلقائياً»).</div>
+    </div>
+    <div class="field t">
+      <span class="f-name">🗑 حذف (لكل عضوة)</span>
+      <div class="f-desc">يحذف العضوة وحدها من بطاقتك — يمكنك التعديل في أي لحظة.</div>
+    </div>
+    <div class="field">
+      <span class="f-name">🗑 حذف جميع الأعضاء</span>
+      <div class="f-desc">يمسح أعضاء هذا الفريق كاملاً بعد تأكيد. وإن أردتِ تجهيز مجموعة جديدة بالكامل استخدمي زر «🔄 تصفير الفرق الأربعة» أسفل الشريحة: يمسح الأسماء والأعضاء والنقاط ويعيد البطاقات كما كانت.</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">نقاط المسابقة (سؤال-إجابة)</span>
+      <div class="f-desc">لكل سؤال إجابات، وعند الضغط على الإجابة الصحيحة يُمنح <b>١٠ نقاط</b> لفريق الدور الحالي وينتقل الدور تلقائياً للفريق التالي. الدور الحالي بإطار ذهبي في البطاقة وفي الترويسة.</div>
+    </div>
+    <div class="tip">💡 <b>لا توجد أسماء أو فرق عشوائية</b> إطلاقاً — كل شيء تكتبيه أنتِ يدويًا، ويختفي بعد تحديث الصفحة (البيانات في الذاكرة فقط ولا تُحفظ).</div>
+  </div>
+
+  <!-- ================= 6 ================= -->
+  <div class="card" id="s6">
+    <h2><span class="num">٦</span> شريحة النتيجة والتعزيز (١١)</h2>
+    <div class="field">
+      <span class="f-name">🏆 عرض النتيجة</span>
+      <div class="f-desc">يعرض صفوف الفرق الأربعة مرتّبة حسب النقاط: الأول في الأعلى، ويعلن الفائز باسم فريقه. عند التعادل يعلن الفائدين (أو أكثر) معاً.</div>
+    </div>
+    <div class="field p">
+      <span class="f-name">صفوف النتيجة</span>
+      <div class="f-desc">لكل فريق: ترتيبه + اسمه + أعضاؤه + نقاطه. الفرق غير المسجّلة تظهر كـ «غير مسجّل».</div>
+    </div>
+    <div class="field t">
+      <span class="f-name">🎊 الكونفيتي والتعزيز</span>
+      <div class="f-desc">يظهر احتفال بالفريق الفائز عند عرض النتيجة. يمكنك عرض النتيجة والاحتفال أكثر من مرة أثناء العرض.</div>
+    </div>
+  </div>
+
+  <!-- ================= 7 ================= -->
+  <div class="card" id="s7">
+    <h2><span class="num">٧</span> الأصوات</h2>
+    <table>
+      <tr><th>الصوت</th><th>متى يعمل؟</th><th>الوصف</th></tr>
+      <tr><td>👏 التصفيق (التشجيع)</td><td>عند الضغط على زر «👏 التشجيع» فقط</td><td>تصفيق خفيف مرحّل ٢ ثانية، يتوقف بضغطة ثانية على الزر. ملف محلي <code>applause.wav</code>، ويعمل حتى بدون إنترنت.</td></tr>
+      <tr><td>🔔 نغمة انتهاء الوقت</td><td>عند انتهاء مؤقّت العرض أو مؤقّت المشهد</td><td>نغمة قصيرة لطيفة (نغمتان) تنبّه دون إزعاج — بديل هادئ للنوافذ المنبثقة.</td></tr>
+      <tr><td>🎵 إجابة صحيحة/خطأ</td><td>عند الضغط على إجابات المسابقة</td><td>مؤثرات قصيرة داخل شريحة المسابقة.</td></tr>
+    </table>
+    <div class="warn">⚠️ لا توجد أي موسيقى خلفية تلقائية ولا تشغيل ذاتي عند فتح العرض — كل الأصوات بالضغط فقط.</div>
+  </div>
+
+  <!-- ================= 8 ================= -->
+  <div class="card" id="s8">
+    <h2><span class="num">٨</span> نصائح للمشاركة عبر Zoom</h2>
+    <ul>
+      <li>🔗 عند بدء المشاركة: اخترِ «<b>مشاركة شاشة</b>» ثم اختر <b>نافذة المتصفح</b> التي فتح فيها العرض (ليبقى شريط Zoom خفيفاً).</li>
+      <li>🖥️ اجعل نافذة المتصفح عريضة (وضع ملء الشاشة <code>F11</code>) حتى تظهر بطاقات الفرق الأربعة كاملة.</li>
+      <li>🔊 عند مشاركة الصوت: فعّل خيار «<b>مشاركة صوت الكمبيوتر</b>» في Zoom لسماع التصفيق والنغمة.</li>
+      <li>⏱️ استخدمي مؤقّت المشهد ٣ دقائق بدل المؤقّت العام لنشاطات المجموعات.</li>
+      <li>🏆 أضيفي أعضاء الفرق قبل الجلسة لتجنّب الكتابة أمام الجميع.</li>
+    </ul>
+  </div>
+
+  <!-- ================= 9 ================= -->
+  <div class="card" id="s9">
+    <h2><span class="num">٩</span> تفعيل النشر على الإنترنت (رابط دائم)</h2>
+    <p>لجعل العرض متاحاً برابط دائم يعمل من الجوال وأي جهاز، انشئيه مرة واحدة بهذه الخطوات الواضحة على GitHub:</p>
+
+    <h3>الخطوات</h3>
+    <ol class="steps">
+      <li><b>سجّلي الدخول</b> إلى GitHub من المتصفح بحسابك.</li>
+      <li>من صفحة مستودعك اضغطي <b>Add file → Upload files</b>، ثم اسحبي إليه الملفين: <code>index.html</code> و<code>applause.wav</code> (يجب أن يكونا في نفس المجلد).</li>
+      <li>اضغطي <b>Commit changes</b> لرفعهما.</li>
+      <li>من صفحة المستودع افتحي <b>Settings ← Pages</b>.</li>
+      <li>في قسم <b>Build and deployment</b>: اختر Source = <b>Deploy from a branch</b>، والفرع = <b>main</b>، والمجلد = <b>/(root)</b>، ثم <b>Save</b>.</li>
+      <li>انتظري دقيقة أو دقيقتين، ثم افتحي الرابط الذي يظهر أعلى صفحة Pages بالشكل:</li>
+    </ol>
+    <div class="link-box">https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/</div>
+    <div class="tip">💡 <b>رابط العرض الحالي</b> (جاهز للتجربة الآن):<br>
+      <span class="link-box">https://gk5crt65zp-spec.github.io/-/tarhim/</span>
+      وصفحة الدليل التي تقرئيها:<br>
+      <span class="link-box">https://gk5crt65zp-spec.github.io/-/tarhim/guide.html</span>
+    </div>
+    <h3>تنبيهات مهمة</h3>
+    <ul>
+      <li>⚠️ رابط GitHub Pages لا يعمل إلا بعد تفعيل Pages من Settings ← Pages (الخطوة ٥).</li>
+      <li>⚠️ إذا حذفتِ <code>applause.wav</code> أو غيّرتِ مكانه، لن يعمل صوت التشجيع.</li>
+      <li>✅ البيانات (الأسماء والأعضاء والنقاط) في ذاكرة المتصفح فقط — تحديث الصفحة يبدأ العرض نظيفاً (وهو المطلوب عادةً قبل كل جلسة).</li>
+    </ul>
+
+    <h3>للتجربة المحلية على جهازك (بدون نشر)</h3>
+    <p>لا تفعلين شيئاً — اضغطي مرتين على <code>index.html</code> في المجلد، ويعمل فوراً بكل مزاياه.</p>
+  </div>
+
+  <!-- ================= 10 ================= -->
+  <div class="card" id="s10">
+    <h2><span class="num">١٠</span> الأسئلة الشائعة</h2>
+    <h3>ماذا يحدث عند تحديث الصفحة F5؟</h3>
+    <p>يعود كل شيء نظيفاً: لا أسماء ولا أعضاء ولا نقاط ولا دور محفوظ — جهّزي المجموعة الجديدة وابدئي.</p>
+    <h3>هل يعمل على الجوال؟</h3>
+    <p>نعم، التصميم متجاوب، وكل الأزرار كبيرة وواضحة للمس. الأفضل استخدامه على شاشة كبيرة عند مشاركة العرض في الجلسات.</p>
+    <h3>هل يحفظ الأسماء بعد إغلاق المتصفح؟</h3>
+    <p>لا — وهذا مقصود لخصوصية المتدربات وسهولة التجهيز لكل جلسة.</p>
+    <h3>هل يمكن تعديل أسئلة المسابقة أو النقاط؟</h3>
+    <p>الأسئلة مضمّنة جاهزة كما هي. أما النقاط فقابلة للتعديل بالضغط العلوي على الشارات (+١٠) وأزرار التعزيز (٥ و٢٠ نقطة).</p>
+  </div>
+
+  <footer>عرض مهارة التحفيز — دليل الاستخدام والتفعيل • بُني بنفس هوية العرض (وردي/بنفسجي/أبيض)</footer>
+</div>
+
+<button class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="العودة للأعلى">↑</button>
+
+</body>
+</html>
