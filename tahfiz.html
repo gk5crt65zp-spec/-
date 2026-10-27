@@ -658,14 +658,14 @@ function resetAll(){
 
 /* ================= مشاركة الرابط ================= */
 (function(){
-  const url = location.href.split("#")[0];
-  const msg = "🌟 نشاط تفاعلي: مهارة التحفيز داخل الحلقة (4 فرق — 3 مراحل — 15 نشاطًا)\nافتح الرابط في المتصفح:\n" + url;
+  const SHORT = "https://is.gd/c9rjNC";
+  const msg = "🌟 نشاط تفاعلي: مهارة التحفيز داخل الحلقة (4 فرق — 3 مراحل — 15 نشاطًا)\n" + SHORT;
   const wa = document.getElementById("waShare");
   if(wa) wa.href = "https://wa.me/?text=" + encodeURIComponent(msg);
   const cp = document.getElementById("copyLink");
   if(cp) cp.addEventListener("click", async ()=>{
-    try{ await navigator.clipboard.writeText(url); toast(true,"تم نسخ الرابط ✔ جاهز للمشاركة"); }
-    catch(e){ prompt("انسخي الرابط يدويًا:", url); }
+    try{ await navigator.clipboard.writeText(SHORT); toast(true,"تم نسخ الرابط القصير ✔ جاهز للمشاركة"); }
+    catch(e){ prompt("انسخي الرابط يدويًا:", SHORT); }
   });
 })();
 
