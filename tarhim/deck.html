@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شرح تطبيق «مهارة التحفيز» — عرض كامل (قابل للتحويل إلى PDF)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --pink: #e91e63; --pink-light: #f8bbd0; --purple: #9c27b0;
+    --teal: #00897b; --gold: #ffb300; --green: #2e7d32; --red: #c62828;
+    --dark: #263238; --shadow: 0 14px 34px rgba(0,0,0,.16);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #fce4ec 0%, #ede7f6 55%, #e0f2f1 100%);
+    background-attachment: fixed; color: var(--dark); min-height: 100vh;
+  }
+
+  /* ================= slide frame ================= */
+  .deck { padding: 24px 12px 100px; }
+  .slide {
+    position: relative; display: none; flex-direction: column; justify-content: center;
+    width: min(1120px, 94vw); aspect-ratio: 297 / 167;
+    margin: 0 auto 26px; background: #fff; border-radius: 22px;
+    border: 2px solid #fce4ec; box-shadow: var(--shadow); overflow: hidden;
+    padding: clamp(16px, 3vh, 38px) clamp(18px, 3.2vw, 52px) 48px;
+    font-size: clamp(12.5px, 1.5vw, 17.5px);
+  }
+  .slide.active { display: flex; animation: fade .45s; }
+  body.allmode .slide { display: flex; }
+  @keyframes fade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  .shead { display: flex; align-items: center; gap: 12px; margin-bottom: .7em; }
+  .sn {
+    min-width: 1.9em; height: 1.9em; border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff; display: grid; place-items: center;
+    font-weight: 800; font-size: .95em;
+  }
+  .shead h2 { font-size: 1.6em; color: var(--pink); font-weight: 800; }
+  .shead h2 small { display: block; font-size: .55em; color: #999; font-weight: 600; }
+
+  .pg { position: absolute; bottom: 12px; left: 20px; font-size: .72em; color: #b9a6c2; font-weight: 700; }
+  .ft { position: absolute; bottom: 12px; right: 20px; font-size: .7em; color: #c9b7d1; }
+
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75em; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .75em; }
+  .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: .7em; }
+
+  .box { background: #fdf3f7; border-radius: 14px; border-right: 5px solid var(--pink); padding: .7em .9em; }
+  .box.p { background: #f8f0fc; border-color: var(--purple); }
+  .box.t { background: #e9f6f4; border-color: var(--teal); }
+  .box.y { background: #fff8e1; border-color: var(--gold); }
+  .box.g { background: #eef7ee; border-color: var(--green); }
+  .box h3 { font-size: 1.05em; color: var(--purple); margin-bottom: .3em; display: flex; gap: .45em; align-items: center; }
+  .box p, .box li { font-size: .93em; line-height: 1.75; }
+  .box ul { padding-right: 1.3em; }
+
+  .lead { font-size: 1.08em; line-height: 1.85; margin-bottom: .6em; }
+  .lead b, li b { color: var(--pink); }
+
+  .pill {
+    display: inline-block; background: var(--pink); color: #fff; border-radius: 30px;
+    padding: .12em .8em; font-size: .85em; font-weight: 700; margin: 0 .25em .35em 0;
+  }
+  .pill.pp { background: var(--purple); } .pill.tl { background: var(--teal); }
+  .pill.gd { background: var(--gold); } .pill.gr { background: var(--green); }
+
+  table { width: 100%; border-collapse: collapse; font-size: .9em; }
+  th, td { border: 1px solid #f3e5f5; padding: .42em .6em; text-align: right; }
+  th { background: #fce4ec; color: var(--pink); font-size: .92em; }
+  tr:nth-child(even) td { background: #fcf9fd; }
+
+  .mock { display: flex; gap: .5em; flex-wrap: wrap; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #fce4ec, #ede7f6); border: 1px solid #e1bee7;
+    border-radius: 14px; padding: .7em; margin: .55em 0; }
+  .mb { background: #fff; border: 2px solid #ddd; border-radius: 40px; padding: .3em .8em; font-weight: 700; font-size: .85em; }
+  .mb.pk { border-color: var(--pink); color: var(--pink); }
+  .mb.gd { border-color: var(--gold); color: #a06a00; background: #fff8e1; }
+  .mteam { background: #fff; border: 2px solid var(--pink-light); border-radius: 12px;
+    padding: .25em .7em; display: flex; gap: .5em; align-items: center; font-size: .85em; font-weight: 700; }
+  .mteam .pts { background: var(--pink); color: #fff; border-radius: 20px; padding: 0 .6em; }
+  .mteam .plus { background: #f3e5f5; color: var(--purple); border-radius: 50%; width: 1.4em; height: 1.4em; display: grid; place-items: center; }
+
+  .note { background: #fff8e1; border: 2px dashed var(--gold); border-radius: 12px; padding: .55em .9em; font-size: .9em; margin-top: .6em; }
+  .note b { color: #b8860b; }
+
+  .steps { counter-reset: st; list-style: none; }
+  .steps li { counter-increment: st; position: relative; padding: .5em 2.6em .5em .6em; margin-bottom: .5em;
+    background: #fafafa; border: 1px solid #eee; border-radius: 10px; font-size: .95em; line-height: 1.7; }
+  .steps li::before { content: counter(st); position: absolute; right: .55em; top: 50%; transform: translateY(-50%);
+    width: 1.7em; height: 1.7em; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff; display: grid; place-items: center; font-weight: 800; font-size: .85em; }
+
+  code { background: #f3e5f5; color: var(--purple); border-radius: 6px; padding: 0 .45em; font-size: .9em; direction: ltr; display: inline-block; }
+
+  /* cover */
+  .cover { text-align: center; background: linear-gradient(135deg, #fce4ec 0%, #ede7f6 55%, #e0f2f1 100%); }
+  .cover .blob1, .cover .blob2 { position: absolute; border-radius: 50%; filter: blur(46px); opacity: .5; }
+  .cover .blob1 { width: 300px; height: 300px; background: var(--pink); top: -90px; right: -70px; }
+  .cover .blob2 { width: 260px; height: 260px; background: var(--purple); bottom: -80px; left: -60px; }
+  .cover .inner { position: relative; z-index: 2; }
+  .cover h1 { font-size: 2.5em; color: var(--pink); font-weight: 900; line-height: 1.4; }
+  .cover h1 span { color: var(--purple); }
+  .cover .sub { font-size: 1.15em; color: var(--dark); margin-top: .35em; font-weight: 600; }
+  .cover .badges { margin-top: 1em; }
+  .cover .sep { width: 130px; height: 5px; border-radius: 5px; background: linear-gradient(90deg, var(--pink), var(--purple), var(--teal)); margin: .9em auto; }
+  .cover .indep { display: inline-block; margin-top: .9em; background: #fff; border: 2px solid var(--green);
+    color: var(--green); border-radius: 30px; padding: .35em 1.2em; font-weight: 800; font-size: .95em; }
+
+  /* ================= nav ================= */
+  .nav {
+    position: fixed; bottom: 0; right: 0; left: 0; z-index: 90;
+    background: rgba(255,255,255,.95); backdrop-filter: blur(6px);
+    border-top: 3px solid var(--pink); padding: 10px 14px;
+    display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+  }
+  .nav button {
+    border: 2px solid #ddd; background: #fff; border-radius: 40px; padding: 8px 16px;
+    font-family: inherit; font-weight: 700; font-size: 14px; cursor: pointer; transition: .2s;
+  }
+  .nav button:hover { border-color: var(--pink); color: var(--pink); }
+  .nav .pdf { background: linear-gradient(135deg, var(--pink), var(--purple)); color: #fff; border: none; }
+  .nav .pdf:hover { filter: brightness(1.1); color: #fff; }
+  .nav .cnt { font-weight: 800; color: var(--purple); min-width: 64px; text-align: center; }
+  .hint { position: fixed; top: 10px; left: 12px; z-index: 90; background: rgba(38,50,56,.8); color: #fff;
+    border-radius: 30px; padding: 5px 14px; font-size: 12.5px; font-weight: 600; }
+
+  @media (max-width: 760px) {
+    .g2, .g3, .g4 { grid-template-columns: 1fr; }
+    .slide { aspect-ratio: auto; min-height: 62vh; }
+    .cover h1 { font-size: 1.8em; }
+  }
+
+  /* ================= print / PDF ================= */
+  @page { size: 297mm 167mm; margin: 0; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  @media print {
+    body { background: #fff; }
+    .nav, .hint { display: none !important; }
+    .deck { padding: 0; }
+    .slide {
+      display: flex !important; width: 297mm; height: 167mm; aspect-ratio: auto;
+      margin: 0; border: none; border-radius: 0; box-shadow: none;
+      font-size: 16.5px; page-break-after: always; break-after: page;
+      animation: none !important;
+    }
+    .slide:last-child { page-break-after: auto; break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hint">◀ ▶ للتنقل • أو اضغطي «📃 كل الشرائح»</div>
+
+<div class="deck">
+
+  <!-- 1 -->
+  <section class="slide cover active">
+    <div class="blob1"></div><div class="blob2"></div>
+    <div class="inner">
+      <h1>شرح تطبيق <span>«مهارة التحفيز»</span></h1>
+      <div class="sub">عرض تفاعلي متكامل — دليل كامل لكل خانة وزر</div>
+      <div class="sep"></div>
+      <div class="badges">
+        <span class="pill">١٦ شريحة</span>
+        <span class="pill pp">١١ شريحة داخل التطبيق</span>
+        <span class="pill tl">٢٠ دقيقة</span>
+        <span class="pill gd">٤ فرق</span>
+        <span class="pill gr">يعمل بدون إنترنت</span>
+      </div>
+      <div class="indep">✔ هذا العرض مستقل تماماً عن التطبيق — ملف منفصل لا يغيّر فيه شيئاً</div>
+    </div>
+    <div class="pg">١ / ١٦</div>
+    <div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٢</span><h2>ما هو تطبيق «مهارة التحفيز»؟<small>نظرة عامة في ٣٠ ثانية</small></h2></div>
+    <p class="lead">برنامج عرض تقديمي <b>تفاعلي</b> لمعلّمات ومشرفات الحلقات القرآنيّة، يقدّم مهارة التحفيز في <b>٢٠ دقيقة</b>: شرح مبسّط + أمثلة واقعية + نشاط جماعي + مسابقة بين الفرق + نتيجة نهائية.</p>
+    <div class="g3">
+      <div class="box"><h3>📄 ملف واحد</h3><p>صفحة HTML واحدة تُفتح بضغطة مزدوجة في أي متصفح (كروم/إيدج/سفاري) — بدون تثبيت أي برنامج.</p></div>
+      <div class="box p"><h3>🌐 بدون إنترنت</h3><p>كل شيء محلي: الشرح، الأصوات، المؤقتات — تعمل في أي مكان حتى دون اتصال.</p></div>
+      <div class="box t"><h3>🎯 محتوى جاهز</h3><p>١١ شريحة مرتّبة بتوقيتها (مجموعها ٢٠ دقيقة) مع نشاطات تفاعلية في كل شريحة.</p></div>
+    </div>
+    <div class="note"><b>لمن؟</b> لمن تقدّم ورشة أو تدريباً عن مهارة التحفيز وتحتاج عرضاً حيّاً يشارك فيه الحضور بفاعلية عبر Zoom أو الحضور المباشر.</div>
+    <div class="pg">٢ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٣</span><h2>أبرز مزايا التطبيق<small>لماذا هذا العرض تحديداً؟</small></h2></div>
+    <div class="g3">
+      <div class="box"><h3>👥 أربعة فرق</h3><p>بطاقات فرق أربعة قابلة للتعديل بالكامل: الاسم، الأعضاء، النقاط — بلا أسماء تلقائية.</p></div>
+      <div class="box p"><h3>⏱ مؤقّتان</h3><p>مؤقّت العرض ٢٠ دقيقة + مؤقّت مستقل ٣ دقائق للمشهد التمثيلي، مع تنبيه خفيف عند الانتهاء.</p></div>
+      <div class="box t"><h3>🔊 أصوات بالاختيار</h3><p>تصفيق تشجيع وزر إيقافه — ولا أي موسيقى تلقائية تبدأ من نفسها أبداً.</p></div>
+      <div class="box y"><h3>🗂 تحكّم كامل</h3><p>أنتِ تضيفين الأسماء والأعضاء وتحذفينها وتعدّلينها في أي لحظة، مع تأكيد قبل الحذف الشامل.</p></div>
+      <div class="box g"><h3>📱 تتجاوب مع كل الشاشات</h3><p>تعمل على الحاسوب والأيباد والجوال بتصميم ملوّن واضح (وردي/بنفسجي/أبيض).</p></div>
+      <div class="box"><h3>🏆 نتيجة فورية</h3><p>ترتيب الفرق الأربعة، إعلان الفائز، وكونفيتي احتفالي — مع كشف التعادل بإنصاف.</p></div>
+    </div>
+    <div class="pg">٣ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٤</span><h2>خريطة العرض الكامل<small>الشرائح الـ ١١ داخل التطبيق بتوقيتها</small></h2></div>
+    <table>
+      <tr><th>الشريحة</th><th>العنوان</th><th>المدة</th><th>ماذا يحدث فيها؟</th></tr>
+      <tr><td>١</td><td>الغلاف والبداية</td><td>—</td><td>عنوان العرض + زر «ابدأ العرض» + معايير التقييم</td></tr>
+      <tr><td>٢</td><td>تهيئة وتسخين</td><td>٢ د</td><td>سؤال تهيئة + استطلاع انطباعات فوري بالعدّادات</td></tr>
+      <tr><td>٣</td><td>وضوح عرض المهارة</td><td>٢ د</td><td>تعريف مبسّط + أمثلة من الحلقات + تمرين ١٠ ثوانٍ</td></tr>
+      <tr><td>٤</td><td>مرونة وأساليب إبداعية</td><td>٢ د</td><td>أربع بطاقات مقلوبة (عناصر التحفيز الأربعة)</td></tr>
+      <tr><td>٥</td><td>تطبيق عملي (مطابقة)</td><td>٢ د</td><td>مطابقة الأنماط — إجابة صحيحة = ٥ نقاط</td></tr>
+      <tr><td>٦</td><td>مواقف من حلقاتنا</td><td>٣ د</td><td>ثلاثة مواقف ميدانية + «الحلّ الموصى به» القابل للطي</td></tr>
+      <tr><td>٧</td><td>التكامل والتفاعل الجماعي</td><td>٤ د</td><td>ورشة المشهد التمثيلي: أسماء + أدوار + مؤقّت ٣ دقائق</td></tr>
+      <tr><td>٨</td><td>التغذية الراجعة</td><td>٢ د</td><td>لوحة ملاحظات + ردود استجابة فورية</td></tr>
+      <tr><td>٩</td><td>أنشطة ومسابقة</td><td>٢ د</td><td>مسابقة أسئلة + بطاقات الفرق الأربعة</td></tr>
+      <tr><td>١٠</td><td>الخلاصة وخطة التطبيق</td><td>١ د</td><td>خطة تحفيز أسبوعية قابلة للاختيار</td></tr>
+      <tr><td>١١</td><td>النتيجة والختام</td><td>١ د</td><td>ترتيب الفرق + الفائز + الكونفيتي</td></tr>
+    </table>
+    <div class="pg">٤ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٥</span><h2>شاشة البداية والتنقل<small>الخطوة الأولى مع التطبيق</small></h2></div>
+    <div class="g2">
+      <div class="box">
+        <h3>🚀 أزرار الشريحة الأولى</h3>
+        <ul>
+          <li><b>▶ ابدأ العرض (٢٠ دقيقة):</b> يدخل الشريحة الأولى ويُشغّل المؤقّت العام.</li>
+          <li><b>معايير التقييم:</b> يفتح جدول التقييم (٣٠ نقطة) داخل نافذة منبثقة.</li>
+          <li>أسفلها إرشاد: «استخدم ← → للتنقل».</li>
+        </ul>
+      </div>
+      <div class="box p">
+        <h3>🔽 شريط التنقل السفلي (في كل الشرائح)</h3>
+        <div class="mock">
+          <span class="mb">▶ السابق</span><span class="mb pk">التالي ←</span>
+          <span class="mb">٣ / ١١</span><span class="mb gd">⭐ تعزيز</span>
+        </div>
+        <ul>
+          <li><b>السابق/التالي</b> — أو مفتاحا ← → في لوحة المفاتيح.</li>
+          <li><b>عدّاد الشرائح</b>: رقمك الحالي من ١١.</li>
+          <li><b>⭐ تعزيز:</b> ٥ نقاط لفريق الدور + تناوب تلقائي للدور.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note"><b>شريط التقدّم:</b> خط ملوّن أعلى الشاشة يمتلئ مع تقدّمك بين الشرائح.</div>
+    <div class="pg">٥ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٦</span><h2>الترويسة العلوية<small>لوحة التحكم الدائمة أعلى كل شريحة</small></h2></div>
+    <div class="mock">
+      <span class="mb gd">٢٠:٠٠</span>
+      <span class="mteam">الفريق الأول <span class="pts">0</span> <span class="plus">+</span></span>
+      <span class="mteam">الفريق الثاني <span class="pts">20</span> <span class="plus">+</span></span>
+      <span class="mteam">الفريق الثالث <span class="pts">0</span> <span class="plus">+</span></span>
+      <span class="mteam">الفريق الرابع <span class="pts">0</span> <span class="plus">+</span></span>
+      <span class="mb pk">👏 التشجيع</span><span class="mb">📋 المعاير</span><span class="mb">📖 الدليل</span>
+    </div>
+    <div class="g2">
+      <div class="box"><h3>⏱ المؤقّت العام ٢٠:٠٠</h3><p>يبدأ بزر «ابدأ العرض». يتحوّل برتقالياً عند تبقّي ٣ دقائق، وأحمر مع <b>نغمة خفيفة</b> عند الانتهاء — بلا نوافذ منبثقة.</p></div>
+      <div class="box p"><h3>🏅 شارات الفرق الأربع</h3><p>اسم + نقاط لكل فريق. زر <b>+</b> يضيف ١٠ نقاط فوراً. صاحب الدور بإطار ذهبي. الأسماء تُغيَّر من شريحة المسابقة.</p></div>
+      <div class="box t"><h3>👏 التشجيع</h3><p>صوت تصفيق محلي عند الضغط فقط (ضغطة ثانية = إيقاف). <b>لا موسيقى تلقائية إطلاقاً.</b></p></div>
+      <div class="box y"><h3>📋 المعاير &amp; 📖 الدليل</h3><p>الأول: جدول ٣٠ نقطة. الثاني: صفحة شرح كل خانة (دليل الاستخدام).</p></div>
+    </div>
+    <div class="pg">٦ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٧</span><h2>الشرائح ٢ – ٤: التهيئة والشرح<small>بناء الفهم قبل التطبيق</small></h2></div>
+    <div class="g3">
+      <div class="box"><h3>🤝 الشريحة ٢ — تهيئة</h3><p>سؤال: «ما الموقف الذي رفع دافعيتك اليوم؟». خمسة أزرار انطباع (😊 تشجيع، 🎯 هدف، 👥 عمل، 🏅 تقدير، ☕ راحة) — الضغط يسجّل الفوتات فوراً تحته.</p></div>
+      <div class="box p"><h3>📖 الشريحة ٣ — التعريف</h3><p>تعريف مبسّط للمهارة + ٣ أمثلة من الحلقات القرآنية + ٣ أهداف تعلّم + <b>تمرين سريع ١٠ ثوانٍ</b>.</p></div>
+      <div class="box t"><h3>🧩 الشريحة ٤ — البطاقات المقلوبة</h3><p>أربع بطاقات تُقلَب بالضغط: الاعتراف الفردي، التقدير العلني، التحدي الممكن، الإنصاف والاستمرارية.</p></div>
+    </div>
+    <div class="note"><b>كل شريحة</b> تحمل بطاقة زمنية أعلى يسارها (مثل ⏱ ٢:٠٠) وتنتهي بزر «⭐ تعزيز» + «التالي».</div>
+    <div class="pg">٧ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 8 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٨</span><h2>الشرائح ٥ – ٦: التمارين التطبيقية<small>من المعرفة إلى المهارة</small></h2></div>
+    <div class="g2">
+      <div class="box">
+        <h3>🎯 الشريحة ٥ — مطابقة</h3>
+        <p>أمام كل مثال أربعة أنماط تحفيز. اختر النمط الصحيح → <b>٥ نقاط لفريق الدور</b> + صوت تأكيد، والدور ينتقل تلقائياً.</p>
+        <div class="mock"><span class="mb">الدور: الفريق الأول</span><span class="mb pk">🔁 تبديل الدور</span></div>
+      </div>
+      <div class="box p">
+        <h3>🕌 الشريحة ٦ — مواقف ميدانية</h3>
+        <p>ثلاثة مواقف من إدارة الحلقات (حافظ متردّد، فوضى الأطفال، معلّم مبتدئ). بعد مناقشة المتدربات يُضغط «<b>الحلّ الموصى به</b>» للكشف عن الحل الجاهز.</p>
+      </div>
+    </div>
+    <div class="box t"><h3>💡 الفكرة التربوية خلف الشرائح</h3><p>كل شريحة تفاعلية قصيرة تُبقي الحضور مستمعين نشطين: استطلاع ← تعريف ← قلب بطاقات ← مطابقة ← مواقف ← ورشة ← مسابقة.</p></div>
+    <div class="pg">٨ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 9 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">٩</span><h2>الشريحة ٧ — ورشة المشهد التمثيلي<small>أقوى أنشطة العرض (٤ دقائق)</small></h2></div>
+    <div class="g2">
+      <div class="box">
+        <h3>◆ لوحة الأسماء — أنتِ تتحكمين</h3>
+        <ul>
+          <li>خانة <b>«اكتبي الاسم هنا»</b> فارغة تماماً + «➕ إضافة الاسم» (أو Enter).</li>
+          <li>لكل اسم: «✏ تعديل» و«🗑 حذف».</li>
+          <li>«🗑 حذف جميع الأسماء» بسؤال تأكيد.</li>
+          <li><b>لا أسماء تلقائية</b> عند الفتح أو التحديث.</li>
+        </ul>
+        <div class="mock"><span class="mb pk">➕ إضافة الاسم</span><span class="mb">✏ تعديل</span><span class="mb">🗑 حذف</span></div>
+      </div>
+      <div class="box p">
+        <h3>🎭 الأدوار الثلاثة والمؤقّت</h3>
+        <ul>
+          <li>٣ بطاقات أدوار: <b>معلّم الحلقة</b> / <b>حافظ متردّد</b> / <b>مشرف وملاحظ</b> — تُوزَّع يدوياً.</li>
+          <li>مؤقّت <b>٣ دقائق</b> مستقل: ▶ ابدأ / ⏹ إيقاف / 🔄 إعادة + نغمة خفيفة عند الانتهاء.</li>
+          <li>قائمة <b>معايير نجاح</b> بتأشير ✓ يحددها الملاحظ.</li>
+          <li>اختم: «🎉 تعزيز ٢٠ نقطة» + «🔁 تبديل الدور».</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pg">٩ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 10 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">١٠</span><h2>الشريحة ٨ — لوحة التغذية الراجعة<small>ردّ فوري على اقتراحات المتدربات</small></h2></div>
+    <div class="g2">
+      <div class="box">
+        <h3>💬 تسجيل الملاحظة</h3>
+        <p>اكتبي ملاحظة أحد المتدربات ثم «➕ إضافة الملاحظة» — تظهر للجميع فوراً كمثال حيّ:</p>
+        <div class="mock"><span class="mb">«نقاط الحلقة الجماعية أنفع من المقارنة الفردية»</span></div>
+      </div>
+      <div class="box p">
+        <h3>⚡ ردود الاستجابة الفورية</h3>
+        <div class="mock">
+          <span class="mb pk">👏 أعجبت بالاقتراح</span><span class="mb">🔄 أعِد صياغته</span>
+          <span class="mb gd">📌 أفضل ممارسة</span><span class="mb">❓ سؤال ممتاز</span>
+        </div>
+        <p>أزرار تُوثّق الردّ فوراً + «⭐ تعزيز كل مشارك».</p>
+      </div>
+    </div>
+    <div class="note"><b>الرابط التربوي:</b> هذه الشريحة تطبّق مهارة الاستفادة من التغذية الراجعة عملياً أثناء العرض نفسه.</div>
+    <div class="pg">١٠ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 11 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">١١</span><h2>الشريحة ٩ — المسابقة والفرق الأربعة<small>قلب التنافس</small></h2></div>
+    <div class="g2">
+      <div class="box">
+        <h3>🏆 الأسئلة</h3>
+        <p>أسئلة اختيار من متعدد تظهر واحداً تلو الآخر («السؤال التالي ▶»). الإجابة الصحيحة = <b>١٠ نقاط لفريق الدور</b> + مؤثر صوتي، ثم ينتقل الدور تلقائياً للفريق التالي.</p>
+        <div class="mock"><span class="mb pk">السؤال التالي ▶</span><span class="mb">🔁 الدور: الفريق الثاني</span></div>
+      </div>
+      <div class="box p">
+        <h3>◆ بطاقات الفرق الأربع</h3>
+        <ul>
+          <li>خانة <b>اسم الفريق</b> قابلة للتعديل (الافتراضي إرشادي: الفريق الأول… الرابع).</li>
+          <li>خانة عضوة + «➕ إضافة عضو» → <b>تسجيل تلقائي</b> في لوحة النتيجة (سطر أخضر ✔).</li>
+          <li>حذف لكل عضوة + «حذف جميع الأعضاء» بتأكيد.</li>
+          <li>«🔄 تصفير الفرق الأربعة» لتجهيز مجموعة جديدة.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note"><b>مريح لـ Zoom:</b> البطاقات واضحة عند مشاركة الشاشة، ولا أي بيانات تُحفظ — تحديث الصفحة يبدأ كل جلسة نظيفة.</div>
+    <div class="pg">١١ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 12 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">١٢</span><h2>الشريحة ١١ — النتيجة والاحتفال<small>ختام يُرضي الجميع</small></h2></div>
+    <div class="g3">
+      <div class="box"><h3>🏆 زر عرض النتيجة</h3><p>يعرض صفوف الفرق الأربعة مرتّبة حسب النقاط: الترتيب + الاسم + الأعضاء + النقاط — ويمكن تكراره أكثر من مرة.</p></div>
+      <div class="box p"><h3>🤝 إعلان الفائز والتعادل</h3><p>يُعلن اسم الفريق الفائز، وعند التعادل يُعلَن الفائدون معاً بلا ظلم لأي فريق. الفرق غير المسجّلة تظهر «غير مسجّل».</p></div>
+      <div class="box t"><h3>🎊 كونفيتي واحتفال</h3><p>احتفال ملوّن بالفريق الفائز + خلاصة المهارة: «تحفيزٌ = رؤية الفرد + فرصة نجاح قريبة + تقدير متكرر + عدالة مستمرة».</p></div>
+    </div>
+    <div class="pg">١٢ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 13 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">١٣</span><h2>الأصوات والمؤقتات<small>كل ما يُسمع في التطبيق</small></h2></div>
+    <table>
+      <tr><th>الصوت / المؤقّت</th><th>متى يعمل؟</th><th>الوصف</th></tr>
+      <tr><td>👏 صوت التصفيق</td><td>عند الضغط على «👏 التشجيع» فقط</td><td>ملف محلي <code>applause.wav</code> — تصفيق خفيف مرّتين، وضغطة ثانية على الزر توقفه. لا يعمل تلقائياً أبداً.</td></tr>
+      <tr><td>🔔 نغمة انتهاء الوقت</td><td>نهاية مؤقّت ٢٠ دقيقة أو مؤقّت ٣ دقائق</td><td>نغمتان لطيفتان (بدلاً من المنبّهات الحادّة) — تنبيه هادئ دون إزعاج.</td></tr>
+      <tr><td>✅/❌ مؤثرات المسابقة</td><td>عند اختيار الإجابة</td><td>مؤثرات قصيرة داخل الشريحة ٩.</td></tr>
+      <tr><td>⏱ المؤقّت العام</td><td>يبدأ بزر «ابدأ العرض»</td><td>عدّ تنازلي ٢٠:٠٠ + تحوّل لوني (برتقالي ← أحمر).</td></tr>
+      <tr><td>⏱ مؤقّت المشهد</td><td>أزرار الشريحة ٧</td><td>عدّ تنازلي ٠٣:٠٠ مستقل لا يؤثر في المؤقّت العام.</td></tr>
+    </table>
+    <div class="note"><b>قاعدة ذهبية:</b> لا صوت في التطبيق يعمل إلا بضغطك أنتِ — افتتاحية العرض صامتة تماماً.</div>
+    <div class="pg">١٣ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">١٤</span><h2>طريقة الاستخدام الكاملة<small>من أول فتح حتى إعلان الفائز</small></h2></div>
+    <div class="g2">
+      <ol class="steps">
+        <li><b>افتحي الملف:</b> ضغطة مزدوجة على ملف التطبيق في المجلد — يعمل فوراً بأي متصفح.</li>
+        <li><b>جهّزي الفرق:</b> من شريحة المسابقة: عدّلي أسماء الفرق الأربع وأضيفي عضواتهن (يسجّلون تلقائياً ✔).</li>
+        <li><b>ابدئي:</b> زر «▶ ابدأ العرض» لتشغيل مؤقّت ٢٠ دقيقة، وتنقّلي بالتالي ← أو الأسهم.</li>
+      </ol>
+      <ol class="steps" start="4" style="counter-reset: st 3;">
+        <li><b>أضيفي الأسماء:</b> في الشريحة ٧ عند الوصول للورشة — يدوياً فقط، مع تعديل/حذف متاح دائماً.</li>
+        <li><b>شغّلي التفاعل:</b> استطلاعات، بطاقات مقلوبة، مطابقة، مسابقة — مع «⭐ تعزيز» و«👏 التشجيع» عند المناسبة.</li>
+        <li><b>اختتمي:</b> الشريحة ١١ ← «🏆 عرض النتيجة» لإعلان الفائز + الكونفيتي، ثم إعادة العرض بزر «↺».</li>
+      </ol>
+    </div>
+    <div class="note"><b>قبل كل جلسة:</b> حدّثي الصفحة F5 لتصفير كل شيء (أسماء/أعضاء/نقاط) وتجهيز مجموعة جديدة.</div>
+    <div class="pg">١٤ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 15 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">١٥</span><h2>حوّلي هذا العرض إلى PDF<small>خطوات واضحة على الحاسوب والأيباد</small></h2></div>
+    <div class="g2">
+      <div class="box">
+        <h3>🖨️ على الحاسوب (ويندوز/ماك)</h3>
+        <ol class="steps">
+          <li>افتحي هذا الملف في المتصفح واضغطي الزر <b>«🖨️ حفظ كـ PDF»</b> أسفل الشاشة (أو <code>Ctrl+P</code>).</li>
+          <li>الوجهة: <b>«حفظ كـ PDF»</b> (Print to PDF).</li>
+          <li>فعّلي خيار <b>«رسم الخلفيات»</b> (Background graphics) ليبقى التصميم ملوّناً.</li>
+          <li>اضغطي «حفظ» واسمّي الملف كما تشاءين.</li>
+        </ol>
+        <p style="margin-top:.4em"><b>الاتجاه الأفقي مضمون تلقائياً</b> — حجم الصفحة مضبوط ٢٩٧ × ١٦٧ مم (عرض شرائح) والشرائح تُطبع واحدة في كل صفحة.</p>
+      </div>
+      <div class="box p">
+        <h3>📱 على الأيباد (سفاري)</h3>
+        <ol class="steps">
+          <li>افتحي الملف في Safari.</li>
+          <li>اضغطي زر المشاركة <b>⬆️</b> أعلى يمين الشاشة.</li>
+          <li>اخترِ <b>«طباعة»</b>.</li>
+          <li>قرصِ بإصبعين <b>تكبيراً</b> على معاينة الصفحة الصغيرة.</li>
+          <li>ستظهر «<b>حفظ إلى الملفات</b>» — اضغطيها وستجدِ الـ PDF في تطبيق «الملفات».</li>
+        </ol>
+        <p style="margin-top:.4em"><b>النشر:</b> إن أردتِ نشر التطبيق نفسه على الإنترنت فخطوات GitHub Pages موثّقة في <b>دليل الاستخدام</b> المصاحب.</p>
+      </div>
+    </div>
+    <div class="pg">١٥ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+  <!-- 16 -->
+  <section class="slide">
+    <div class="shead"><span class="sn">١٦</span><h2>ملفات المشروع والخاتمة<small>كل ما تحتاجينه في مجلد واحد</small></h2></div>
+    <div class="g2">
+      <div class="box">
+        <h3>📁 ملفات المشروع</h3>
+        <ul>
+          <li><b>عرض_مهارة_التحفيز_تفعيلي.html</b> — التطبيق نفسه (العرض التفاعلي ١١ شريحة).</li>
+          <li><b>guide.html</b> — دليل الاستخدام والتفعيل (شرح كل خانة).</li>
+          <li><b>applause.wav</b> — صوت التصفيق (بحذفه يتوقف الصوت).</li>
+          <li><b>هذا الملف</b> — عرض شرح مستقل (للتحويل إلى PDF) — لا يعتمد على أي ملف آخر.</li>
+        </ul>
+      </div>
+      <div class="box t">
+        <h3>✨ خلاصة</h3>
+        <p>تطبيق واحد يجمع: <b>الشرح + التفاعل + التنافس + التقييم</b> في ٢٠ دقيقة، بتحكّم كامل في البيانات، وأربعة فرق، وتصميم لطيف للعين — يعمل على الحاسوب والأيباد ومشارَك في Zoom.</p>
+        <p style="margin-top:.5em">حمّلي هذا العرض PDF واحتفظي به كمرجع سريع أثناء التقديم 🎓</p>
+      </div>
+    </div>
+    <div class="note"><b>تذكّر:</b> هذا العرض ملف <b>منفصل تماماً</b> عن التطبيق — تعديلك أو حذفك له لا يؤثر في التطبيق نهائياً.</div>
+    <div class="pg">١٦ / ١٦</div><div class="ft">عرض شرح تطبيق مهارة التحفيز</div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button id="pv">▶ السابق</button>
+  <span class="cnt" id="cnt">١ / ١٦</span>
+  <button id="nx">التالي ◀</button>
+  <button id="allBtn">📃 كل الشرائح</button>
+  <button class="pdf" id="pdfBtn">🖨️ حفظ كـ PDF</button>
+</div>
+
+<script>
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0, all = false;
+  var arabic = function(n){ return String(n).replace(/\d/g, function(d){ return '٠١٢٣٤٥٦٧٨٩'[d]; }); };
+  function upd(){ document.getElementById('cnt').textContent = arabic(i + 1) + ' / ' + arabic(slides.length); }
+  function show(n){
+    if (all) { i = (n + slides.length) % slides.length; slides[i].scrollIntoView({behavior:'smooth'}); upd(); return; }
+    i = (n + slides.length) % slides.length;
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    window.scrollTo({top:0, behavior:'smooth'}); upd();
+  }
+  document.getElementById('nx').onclick = function(){ show(i + 1); };
+  document.getElementById('pv').onclick = function(){ show(i - 1); };
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowLeft') show(i + 1);
+    if (e.key === 'ArrowRight') show(i - 1);
+  });
+  document.getElementById('allBtn').onclick = function(){
+    all = !all;
+    document.body.classList.toggle('allmode', all);
+    this.textContent = all ? '🎞️ شريحة واحدة' : '📃 كل الشرائح';
+    if (all) { slides.forEach(function(s){ s.classList.add('active'); }); slides[i].scrollIntoView(); }
+    else { show(i); }
+  };
+  document.getElementById('pdfBtn').onclick = function(){ window.print(); };
+  upd();
+</script>
+
+</body>
+</html>

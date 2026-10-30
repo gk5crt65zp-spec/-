@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نشاط تفاعلي | مهارة التحفيز داخل الحلقة</title>
+<style>
+  :root{
+    --bg1:#fdf6ec; --bg2:#f6e7d3;
+    --ink:#33261a; --muted:#7a6249;
+    --card:#fffdf8;
+    --line:rgba(140,100,55,.18);
+    --amber:#f59e0b; --amber-d:#b45309;
+    --teal:#0d9488; --teal-d:#115e59;
+    --rose:#e11d48; --rose-d:#9f1239;
+    --violet:#7c3aed; --violet-d:#5b21b6;
+    --sky:#0284c7; --sky-d:#075985;
+    --green:#16a34a; --green-d:#14532d;
+    --radius:20px;
+    font-family:"Segoe UI",Tahoma,"Noto Kufi Arabic","Cairo",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(800px 400px at 100% 0%, rgba(245,158,11,.15), transparent 60%),
+      radial-gradient(700px 380px at 0% 8%, rgba(124,58,237,.12), transparent 55%),
+      radial-gradient(900px 500px at 50% 100%, rgba(13,148,136,.12), transparent 60%),
+      linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--ink); min-height:100vh; padding:20px 14px 70px; line-height:1.8;
+  }
+  .wrap{max-width:1050px;margin:auto}
+
+  /* ===== Header ===== */
+  header{
+    text-align:center; padding:30px 20px 24px; border-radius:26px;
+    background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(245,158,11,.14));
+    border:1px solid rgba(245,158,11,.35); backdrop-filter:blur(8px);
+    box-shadow:0 16px 40px rgba(120,80,20,.14); position:relative; overflow:hidden;
+  }
+  header::before{content:"۞";position:absolute;font-size:170px;opacity:.08;left:-14px;top:-52px;color:var(--amber)}
+  .kicker{
+    display:inline-block;font-size:13px;font-weight:800;letter-spacing:1px;
+    background:rgba(124,58,237,.12);color:var(--violet-d);
+    border:1px solid rgba(124,58,237,.4);padding:4px 16px;border-radius:999px;margin-bottom:10px;
+  }
+  h1{font-size:clamp(23px,4.4vw,36px);font-weight:900}
+  h1 .hl{background:linear-gradient(90deg,var(--amber),var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
+  header p{color:var(--muted);font-size:15px;max-width:740px;margin:8px auto 0}
+  .share-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .wa-btn{
+    font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    padding:9px 20px;border-radius:999px;border:none;transition:.18s;box-shadow:0 8px 20px rgba(37,211,102,.28);
+    background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;
+  }
+  .wa-btn:hover{filter:brightness(1.07);transform:translateY(-2px)}
+  .wa-btn.copy{background:linear-gradient(135deg,#7c3aed,#0284c7);box-shadow:0 8px 20px rgba(124,58,237,.25)}
+
+  /* ===== Teams ===== */
+  .teams{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+  @media(max-width:840px){.teams{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:440px){.teams{grid-template-columns:1fr}}
+  .team{
+    border-radius:var(--radius);padding:13px;border:1.5px solid var(--line);
+    background:var(--card);display:flex;flex-direction:column;gap:8px;align-items:center;
+    transition:.2s;cursor:pointer;box-shadow:0 6px 18px rgba(120,80,20,.08);position:relative;
+  }
+  .team:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(120,80,20,.14)}
+  .team .dot{width:13px;height:13px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+  .team .turn{
+    position:absolute;top:9px;left:9px;font-size:11px;font-weight:900;padding:2px 9px;border-radius:999px;
+    background:currentColor;color:#fff;opacity:0;transition:.2s;
+  }
+  .team.active .turn{opacity:1}
+  .team.active{transform:translateY(-4px);box-shadow:0 0 0 3px currentColor,0 12px 26px rgba(120,80,20,.18)}
+  .t1{color:#d97706}.t2{color:#0d9488}.t3{color:#7c3aed}.t4{color:#e11d48}
+  .team input.name{
+    width:100%;text-align:center;font-weight:800;font-size:16px;font-family:inherit;color:var(--ink);
+    background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:12px;padding:8px 10px;outline:none;
+  }
+  .team input.name:focus{box-shadow:0 0 0 2px currentColor;background:#fff}
+  .team .score{display:flex;align-items:center;gap:10px}
+  .team .score button{
+    width:34px;height:34px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.75);
+    color:currentColor;font-size:19px;font-weight:900;cursor:pointer;font-family:inherit;transition:.15s;
+  }
+  .team .score button:hover{background:currentColor;color:#fff}
+  .team .score button:active{transform:scale(.9)}
+  .team .score .val{font-size:25px;font-weight:900;min-width:42px;text-align:center;color:currentColor}
+  .team .lead{font-size:11.5px;font-weight:900;color:var(--amber-d);min-height:17px}
+
+  /* ===== HUD ===== */
+  .hud{
+    position:sticky;top:8px;z-index:50;margin-top:16px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;
+    background:rgba(255,253,248,.94);border:1px solid var(--line);border-radius:16px;
+    padding:10px 16px;backdrop-filter:blur(10px);box-shadow:0 8px 22px rgba(120,80,20,.10);
+  }
+  .hud .turnbox{font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px}
+  .hud .turnbox b{padding:3px 12px;border-radius:999px;color:#fff;font-size:13.5px}
+  .pbar{flex:1;min-width:150px;height:12px;background:rgba(140,100,55,.14);border-radius:99px;overflow:hidden}
+  .pbar > i{
+    display:block;height:100%;width:0%;border-radius:99px;
+    background:linear-gradient(90deg,var(--teal),var(--amber),var(--rose));
+    transition:width .5s cubic-bezier(.3,1.4,.5,1);
+  }
+  .hud .step{font-size:13.5px;color:var(--muted);font-weight:800}
+  .hud .btn-reset{
+    font-family:inherit;font-size:13px;font-weight:800;color:var(--sky-d);cursor:pointer;
+    background:rgba(2,132,199,.1);border:1px solid rgba(2,132,199,.35);border-radius:10px;padding:6px 12px;
+  }
+  .hud .btn-reset:hover{background:rgba(2,132,199,.2)}
+
+  /* ===== Section titles ===== */
+  .sec{margin-top:34px}
+  .sec-title{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .sec-title .ico{
+    width:52px;height:52px;flex:none;border-radius:16px;display:grid;place-items:center;font-size:26px;color:#fff;
+    box-shadow:0 8px 18px rgba(0,0,0,.18);
+  }
+  .sec-title h2{font-size:clamp(18px,3vw,24px);font-weight:900}
+  .sec-title small{display:block;color:var(--muted);font-size:13.5px;font-weight:600}
+  .sec-note{
+    font-size:13.5px;color:var(--muted);background:rgba(255,255,255,.65);
+    border:1px dashed var(--line);border-radius:12px;padding:8px 14px;margin-bottom:14px;
+  }
+
+  /* ===== Cards generic ===== */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;box-shadow:0 8px 20px rgba(120,80,20,.08);
+  }
+
+  /* ===== Activity 1: matching ===== */
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.match-grid{grid-template-columns:1fr}}
+  .m-card{
+    border-radius:16px;padding:14px;cursor:pointer;user-select:none;
+    border:2px solid var(--line);background:#fff;transition:.18s;
+    font-size:14.5px;font-weight:700;display:flex;gap:10px;align-items:flex-start;
+  }
+  .m-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(120,80,20,.14)}
+  .m-card .badge{
+    flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+    color:#fff;font-size:15px;font-weight:900;
+  }
+  .m-card[data-kind="q"] .badge{background:var(--violet)}
+  .m-card.sel{border-color:var(--violet);background:rgba(124,58,237,.07);box-shadow:0 0 0 3px rgba(124,58,237,.18)}
+  .m-card.done{opacity:.55;pointer-events:none;border-color:var(--green)}
+  .m-card.done .badge{background:var(--green)}
+  .m-card.wrongshake{animation:shake .4s;border-color:var(--rose);background:rgba(225,29,72,.06)}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+  .lane-label{
+    grid-column:1/-1;font-size:13px;font-weight:900;color:var(--muted);
+    display:flex;align-items:center;gap:8px;margin:6px 0 -4px;
+  }
+  .lane-label::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* ===== Activity 2: scenario quiz ===== */
+  .quiz{display:flex;flex-direction:column;gap:16px}
+  .q-item{border-radius:16px;border:1px solid var(--line);background:#fff;padding:16px}
+  .q-item .scene{
+    font-size:14.5px;font-weight:700;color:var(--sky-d);
+    background:rgba(2,132,199,.07);border-radius:12px;padding:10px 14px;margin-bottom:12px;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .q-opts{display:grid;gap:9px}
+  .q-opt{
+    text-align:right;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink);
+    background:rgba(255,255,255,.8);border:2px solid var(--line);border-radius:12px;
+    padding:10px 14px;cursor:pointer;transition:.16s;display:flex;gap:9px;align-items:flex-start;
+  }
+  .q-opt:hover{border-color:var(--amber);background:rgba(245,158,11,.07)}
+  .q-opt .tick{flex:none;width:22px;height:22px;border-radius:7px;background:rgba(140,100,55,.15);display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--muted)}
+  .q-opt.right{border-color:var(--green);background:rgba(22,163,74,.10)}
+  .q-opt.right .tick{background:var(--green);color:#fff}
+  .q-opt.bad{border-color:var(--rose);background:rgba(225,29,72,.07)}
+  .q-opt.bad .tick{background:var(--rose);color:#fff}
+  .q-opt.locked{pointer-events:none;opacity:.75}
+  .q-opt.locked.right{opacity:1}
+
+  /* ===== Activity 3: sorting ===== */
+  .sort-zone{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .basket{
+    flex:1;min-width:210px;border-radius:16px;padding:12px;text-align:center;
+    border:2px dashed;transition:.2s;
+  }
+  .basket.avoid{border-color:var(--rose);background:rgba(225,29,72,.06)}
+  .basket.keep{border-color:var(--teal);background:rgba(13,148,136,.06)}
+  .basket.hot{box-shadow:0 0 0 4px rgba(0,0,0,.08);transform:scale(1.02)}
+  .basket h3{font-size:15px;font-weight:900;margin-bottom:2px}
+  .basket.avoid h3{color:var(--rose-d)}
+  .basket.keep h3{color:var(--teal-d)}
+  .basket p{font-size:12px;color:var(--muted);font-weight:600}
+  .sort-card{
+    border-radius:14px;border:2px solid var(--line);background:#fff;padding:12px 14px;
+    font-size:14px;font-weight:700;margin-bottom:10px;transition:.18s;
+  }
+  .sort-card .btns{display:flex;gap:8px;margin-top:9px}
+  .sort-card .btns button{
+    flex:1;font-family:inherit;font-size:13px;font-weight:900;padding:7px 10px;border-radius:10px;cursor:pointer;transition:.15s;
+  }
+  .btn-avoid{color:var(--rose-d);background:rgba(225,29,72,.1);border:1.5px solid rgba(225,29,72,.4)}
+  .btn-avoid:hover{background:rgba(225,29,72,.22)}
+  .btn-keep{color:var(--teal-d);background:rgba(13,148,136,.1);border:1.5px solid rgba(13,148,136,.4)}
+  .btn-keep:hover{background:rgba(13,148,136,.22)}
+  .sort-card.ok{border-color:var(--green);background:rgba(22,163,74,.08);opacity:.7;pointer-events:none}
+  .sort-card.no{animation:shake .4s;border-color:var(--rose);background:rgba(225,29,72,.07)}
+  .sort-card .why{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:7px;display:none}
+  .sort-card.ok .why,.sort-card.no .why{display:block}
+
+  /* ===== Feedback toast ===== */
+  .toast{
+    position:fixed;bottom:22px;right:50%;transform:translate(50%,140%);
+    z-index:200;max-width:92vw;width:min(480px,92vw);
+    border-radius:16px;padding:13px 18px;color:#fff;font-weight:800;font-size:14.5px;
+    box-shadow:0 16px 40px rgba(0,0,0,.28);transition:transform .35s cubic-bezier(.3,1.5,.5,1);
+    display:flex;gap:10px;align-items:center;
+  }
+  .toast.show{transform:translate(50%,0)}
+  .toast.good{background:linear-gradient(135deg,var(--green),var(--teal))}
+  .toast.oops{background:linear-gradient(135deg,var(--rose),var(--amber-d))}
+  .toast .t-ico{font-size:22px}
+
+  /* ===== Finale ===== */
+  .finale{
+    display:none;margin-top:38px;text-align:center;padding:38px 22px;border-radius:26px;
+    background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(22,163,74,.12));
+    border:2px solid rgba(22,163,74,.4);box-shadow:0 20px 50px rgba(20,120,60,.18);
+    position:relative;overflow:hidden;
+  }
+  .finale.show{display:block;animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+  .finale .big-star{font-size:64px;line-height:1;animation:float 2.4s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .finale h2{font-size:clamp(20px,3.6vw,28px);font-weight:900;margin:8px 0}
+  .rank{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+  .rank .badge{
+    border-radius:14px;padding:10px 18px;font-weight:900;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.14);
+  }
+  .rank .badge small{display:block;font-size:11.5px;opacity:.9;font-weight:700}
+  .rank .badge span{font-size:20px}
+  .finale p{color:var(--muted);font-weight:700;font-size:15px;max-width:620px;margin:0 auto}
+  .finale .quote{
+    margin-top:16px;font-size:16px;font-weight:900;color:var(--violet-d);
+    background:rgba(124,58,237,.08);border:1px dashed rgba(124,58,237,.4);
+    border-radius:14px;padding:12px 16px;display:inline-block;
+  }
+  .finale button{
+    margin-top:18px;font-family:inherit;font-size:15px;font-weight:900;color:#fff;cursor:pointer;
+    background:linear-gradient(135deg,var(--violet),var(--sky));border:none;border-radius:14px;padding:11px 26px;
+    box-shadow:0 10px 24px rgba(124,58,237,.32);
+  }
+  .finale button:hover{filter:brightness(1.08)}
+
+  /* ===== Confetti ===== */
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:300;overflow:hidden}
+  .confetti i{position:absolute;top:-14px;width:10px;height:16px;border-radius:2px;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="kicker">نشاط تفاعلي</span>
+    <h1>مهارة <span class="hl">التحفيز</span> داخل الحلقة</h1>
+    <p>اختبر مهارة تحفيز الطالبات: تعرّفي على خطوات التحفيز، اخترِي العبارة المناسبة، وتجنّبي الأخطاء الشائعة. مع كل إجابة صحيحة نقطة لفريقكِ! 💫</p>
+    <div class="share-row">
+      <a class="wa-btn" id="waShare" href="#" target="_blank" rel="noopener">📱 مشاركة في واتساب</a>
+      <button class="wa-btn copy" id="copyLink">🔗 نسخ الرابط</button>
+    </div>
+  </header>
+
+  <!-- ===== الفرق الأربعة ===== -->
+  <div class="teams" id="teams">
+    <div class="team t1 active" data-i="0"><span class="turn">🎯 دور الفريق</span><span class="dot"></span>
+      <input class="name" data-i="0" placeholder="اسم الفريق الأول ✏️">
+      <div class="score"><button data-d="-1" title="خصم نقطة">−</button><span class="val" id="s0">0</span><button data-d="1" title="إضافة نقطة">+</button></div>
+      <span class="lead" id="l0"></span>
+    </div>
+    <div class="team t2" data-i="1"><span class="turn">🎯 دور الفريق</span><span class="dot"></span>
+      <input class="name" data-i="1" placeholder="اسم الفريق الثاني ✏️">
+      <div class="score"><button data-d="-1" title="خصم نقطة">−</button><span class="val" id="s1">0</span><button data-d="1" title="إضافة نقطة">+</button></div>
+      <span class="lead" id="l1"></span>
+    </div>
+    <div class="team t3" data-i="2"><span class="turn">🎯 دور الفريق</span><span class="dot"></span>
+      <input class="name" data-i="2" placeholder="اسم الفريق الثالث ✏️">
+      <div class="score"><button data-d="-1" title="خصم نقطة">−</button><span class="val" id="s2">0</span><button data-d="1" title="إضافة نقطة">+</button></div>
+      <span class="lead" id="l2"></span>
+    </div>
+    <div class="team t4" data-i="3"><span class="turn">🎯 دور الفريق</span><span class="dot"></span>
+      <input class="name" data-i="3" placeholder="اسم الفريق الرابع ✏️">
+      <div class="score"><button data-d="-1" title="خصم نقطة">−</button><span class="val" id="s3">0</span><button data-d="1" title="إضافة نقطة">+</button></div>
+      <span class="lead" id="l3"></span>
+    </div>
+  </div>
+
+  <div class="hud">
+    <div class="turnbox">🎯 الدور الآن: <b id="turnName">الفريق الأول</b></div>
+    <div class="pbar"><i id="pfill"></i></div>
+    <div class="step" id="stepTxt">٠ / ١٥</div>
+    <button class="btn-reset" onclick="resetAll()">🔄 إعادة</button>
+  </div>
+
+  <!-- ===== المرحلة 1: ترتيب خطوات التحفيز ===== -->
+  <section class="sec">
+    <div class="sec-title">
+      <div class="ico" style="background:linear-gradient(135deg,#7c3aed,#0284c7)">🧭</div>
+      <div><h2>المرحلة الأولى: ضعي كل خطوة في وقتها المناسب</h2>
+      <small>اضغطي على الخطوة ثم على الوقت المناسب لها داخل الحلقة</small></div>
+    </div>
+    <div class="sec-note">💡 رتّبي خطوات التحفيز الأربع: <b>قبل الحلقة</b> – <b>أثناءها</b> – <b>بعد إنجاز المهمة</b> – <b>في نهايتها</b>.</div>
+    <div class="card">
+      <div class="match-grid" id="matchGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== المرحلة 2: العبارة التحفيزية المناسبة ===== -->
+  <section class="sec">
+    <div class="sec-title">
+      <div class="ico" style="background:linear-gradient(135deg,#f59e0b,#e11d48)">💬</div>
+      <div><h2>المرحلة الثانية: اختاري العبارة التحفيزية المناسبة</h2>
+      <small>اقرأ الموقف وحدّدي أدقّ عبارة تقولها المعلمة</small></div>
+    </div>
+    <div class="quiz" id="quizBox"></div>
+  </section>
+
+  <!-- ===== المرحلة 3: تجنّبي الأخطاء ===== -->
+  <section class="sec">
+    <div class="sec-title">
+      <div class="ico" style="background:linear-gradient(135deg,#0d9488,#16a34a)">🎯</div>
+      <div><h2>المرحلة الثالثة: صنّفي السلوكيات</h2>
+      <small>ما الذي نتجنّبه؟ وما الذي نحافظ عليه ونتبنّاه؟</small></div>
+    </div>
+    <div class="sort-zone">
+      <div class="basket avoid"><h3>🚫 أخطاء نتجنّبها</h3><p>سلوكيات تُضعف الدافعية وتُسبب الإحباط</p></div>
+      <div class="basket keep"><h3>✅ سلوكيات نُحسّنها</h3><p>تحفيز صادق يبني الدافعية الداخلية</p></div>
+    </div>
+    <div id="sortBox"></div>
+  </section>
+
+  <!-- ===== النتيجة ===== -->
+  <div class="finale" id="finale">
+    <div class="big-star">🏆</div>
+    <h2 id="finTitle">أحسنتنَّ يا معلمات!</h2>
+    <div class="rank" id="finRank"></div>
+    <p id="finMsg"></p>
+    <div class="quote" id="finQuote"></div>
+    <br>
+    <button onclick="resetAll()">🔁 إعادة النشاط</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"><span class="t-ico"></span><span id="toastTxt"></span></div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+/* ================= النصوص التحفيزية ================= */
+const PRAISE = [
+  "بارك الله فيكِ، اجتهادكِ اليوم يستحق التقدير.",
+  "تقدّمكِ واضح، استمري وفقكِ الله.",
+  "أحسنتِ في تصحيح خطئكِ بنفسكِ.",
+  "أثق بقدرتكِ على التحسن مع التدريب والاستمرار.",
+  "أسعدني حرصكِ على المراجعة.",
+  "كل آية تتقنينها خطوة جميلة في رحلتكِ مع القرآن."
+];
+const ITSLIKE = "لا بأس بالخطأ، المهم أن نتعلم منه ونحاول مرة أخرى.";
+
+/* ===== نشاط ١: مطابقة الخطوات بأوقاتها ===== */
+const steps = [
+  {id:"s1", txt:"تهيئة الطالبات نفسيًا، والترحيب بهن، وتوضيح الهدف المطلوب من الحفظ والمراجعة.", when:"before"},
+  {id:"s2", txt:"تشجيع المحاولات، وتعزيز الإجابات الصحيحة، وتصحيح الأخطاء بهدوء دون إحراج.", when:"during"},
+  {id:"s3", txt:"تقديم الثناء المناسب، وتسجيل التقدم، ومساعدة الطالبة على معرفة ما أنجزته.", when:"after"},
+  {id:"s4", txt:"مراجعة الإنجازات، وشكر الطالبات على جهودهن، وتحديد هدف بسيط للحلقة القادمة.", when:"end"}
+];
+const whens = [
+  {id:"before", label:"🌅 قبل بدء الحلقة"},
+  {id:"during", label:"📖 أثناء الحلقة"},
+  {id:"after",  label:"🏅 بعد إنجاز المهمة"},
+  {id:"end",    label:"🌙 في نهاية الحلقة"}
+];
+
+/* ===== نشاط ٢: المواقف واختيار العبارة ===== */
+const scenes = [
+  {
+    scene:"طالبة أخطأت في آية كانت قد حفظتها، فصمتت وخجلت.",
+    opts:[
+      {t:"لا بأس بالخطأ، المهم أن نتعلم منه ونحاول مرة أخرى.", right:true},
+      {t:"كنتِ حافظتها من قبل… لماذا نسيتِها الآن؟", right:false},
+      {t:"لنقارن من حفظت أكثر اليوم ممن حفظت أقل.", right:false}
+    ]
+  },
+  {
+    scene:"طالبة أنهت مراجعة كاملة لأول مرة بجدٍّ ومثابرة.",
+    opts:[
+      {t:"أثق بقدرتكِ على التحسن مع التدريب والاستمرار.", right:true},
+      {t:"الجائزة ستحصلين عليها فقط عند الوصول إلى الدرجة الكاملة.", right:false},
+      {t:"كنتِ ستنتهين أسرع لو درستِه في المنزل.", right:false}
+    ]
+  },
+  {
+    scene:"طالبة كانت مترددة في المشاركة، ثم حاولت اليوم وتكلّمت أمام الحلقة.",
+    opts:[
+      {t:"أسعدني حرصكِ على المشاركة، تقدّمكِ واضح.", right:true},
+      {t:"لو حضرتِ بانتظام لكنتِ أفضل اليوم.", right:false},
+      {t:"البعض يتكلم بثقة أكبر منكِ، تدرّبي أكثر.", right:false}
+    ]
+  },
+  {
+    scene:"انتهى وقت الحلقة، وأنجزت الطالبات المهام المطلوبة بنجاح.",
+    opts:[
+      {t:"مراجعة إنجازات اليوم، وشكر على الجهود، وهدف بسيط للحلقة القادمة.", right:true},
+      {t:"الانتقال الفوري إلى الدرس التالي دون وقفة.", right:false},
+      {t:"متابعة النقائص فقط والإكثار من التنبيه إليها.", right:false}
+    ]
+  },
+  {
+    scene:"طالبة سألت سؤالًا دقيقًا عن معنى كلمة في الآية.",
+    opts:[
+      {t:"سؤالكِ جميل ودقيق، كل آية تتقنينها خطوة في رحلتكِ مع القرآن.", right:true},
+      {t:"هذا سؤال متقدم عليكِ، دعيه لوقتٍ آخر.", right:false},
+      {t:"سنتابع لاحقًا إن شاء الله، والتركيز اليوم على الحفظ فقط.", right:false}
+    ]
+  }
+];
+
+/* ===== نشاط ٣: تصنيف السلوكيات ===== */
+const behaviors = [
+  {t:"مقارنة الطالبات ببعضهنّ بطريقة تسبب الإحباط.", good:false, why:"المقارنة تُشعر الطالبة بالإحباط وتُضعف دافعها الداخلي."},
+  {t:"الثناء الصادق على الجهد مع تحديد الإنجاز بوضوح.", good:true,  why:"المدح المحدد والصادق يُرسّخ القيمة ويرفع الثقة."},
+  {t:"إحراج الطالبة أمام الحلقة عند الخطأ.", good:false, why:"الإحراج يربط الحفظ بالخوف بدلًا من الحب."},
+  {t:"تشجيع المحاولة ولو كانت الإجابة ناقصة.", good:true,  why:"تشجيع المحاولة يبني الشجاعة ويقلّل التردد."},
+  {t:"مكافأة النتائج فقط وإهمال الجهد والتقدم.", good:false, why:"التركيز على النتيجة وحدها يجعل الطالبة تهتم بالمكافأة لا بالتعلّم."},
+  {t:"تسجيل التقدم ومساعدة الطالبة على معرفة ما أنجزته.", good:true,  why:"رؤية تقدّمها بعينها تُغذّي الدافعية وتمنحها إحساسًا بالإنجاز."},
+  {t:"المبالغة في المدح دون صدق أو تحديد.", good:false, why:"المبالغة تفقد الثقة وتجعل المديح بلا قيمة."},
+  {t:"تسليم هدية صغيرة مقدَّمة بمحبة عند بلوغ هدف.", good:true,  why:"المكافأة المتواضعة مع تنمية الدافعية الداخلية تدعم الاستمرار."},
+  {t:"تحميل الطالبة أهدافًا تتجاوز قدرتها وظروفها.", good:false, why:"الأهداف البعيدة تسبب الإحباط والتوقف."},
+  {t:"شكر الطالبات على جهودهنّ وتحديد هدف بسيط للحلقة القادمة.", good:true,  why:"الخاتمة الإيجابية تترك أثرًا حلوًا وتُشجّع على العودة."}
+];
+
+/* ================= الحالة والفرق ================= */
+const TOTAL = steps.length + scenes.length + behaviors.length;
+const NAMES = ["الفريق الأول","الفريق الثاني","الفريق الثالث","الفريق الرابع"];
+const COLORS = ["#d97706","#0d9488","#7c3aed","#e11d48"];
+const KEY = "nashat-tahfiz-teams";
+let state = {names:[...NAMES], scores:[0,0,0,0], active:0, solved:0};
+try{ const raw=localStorage.getItem(KEY); if(raw){ state=Object.assign(state, JSON.parse(raw)); } }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+let solved = state.solved || 0;
+const pfill=document.getElementById("pfill"), stepTxt=document.getElementById("stepTxt");
+let selStep=null;
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const arabicNum = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+const tname = i => state.names[i] || NAMES[i];
+
+/* ===== عدّاد التقدّم + إضافة نقطة للفريق النشط ===== */
+function addScore(){
+  solved++;
+  state.solved = solved;
+  state.scores[state.active]++;
+  save(); renderBoard();
+  pfill.style.width = (solved/TOTAL*100)+"%";
+  stepTxt.textContent = arabicNum(solved)+" / "+arabicNum(TOTAL);
+  if(solved===TOTAL) finish();
+}
+
+/* ===== عرض لوحة الفرق ===== */
+function renderBoard(){
+  state.scores.forEach((s,i)=>{ const e=document.getElementById("s"+i); if(e) e.textContent=s; });
+  const max=Math.max(...state.scores);
+  state.scores.forEach((s,i)=>{
+    const e=document.getElementById("l"+i);
+    if(e) e.textContent = (s===max && s>0) ? "⭐ متصدّر الآن" : "";
+  });
+  document.querySelectorAll(".team").forEach((t,i)=>t.classList.toggle("active", i===state.active));
+  const tn=document.getElementById("turnName");
+  if(tn){ tn.textContent = tname(state.active); tn.style.background = COLORS[state.active]; }
+  const rank=document.getElementById("finRank");
+  if(rank){
+    const order=state.scores.map((s,i)=>({i,s})).sort((a,b)=>b.s-a.s);
+    rank.innerHTML = order.map((o,n)=>{
+      const medal = n===0?"🥇":n===1?"🥈":n===2?"🥉":"🎖️";
+      return '<div class="badge" style="background:'+COLORS[o.i]+'"><small>'+medal+" "+tname(o.i)+'</small><span>'+arabicNum(o.s)+" نقطة</span></div>";
+    }).join("");
+  }
+}
+
+/* ===== إدارة الفرق ===== */
+document.querySelectorAll(".team").forEach((team,i)=>{
+  const inp=team.querySelector(".name");
+  inp.value = state.names[i] || "";
+  inp.placeholder = `اسم ${NAMES[i]} ✏️`;
+  inp.addEventListener("input",()=>{ state.names[i]=inp.value.trim(); save(); renderBoard(); });
+  inp.addEventListener("keydown",e=>{ if(e.key==="Enter"){ inp.blur(); toast(true,"تم حفظ اسم: "+tname(i)+" ✨"); confetti(20); } });
+  team.addEventListener("click",e=>{
+    if(e.target.tagName==="INPUT" || e.target.tagName==="BUTTON") return;
+    state.active=i; save(); renderBoard();
+    toast(true, "🎯 الدور الآن على "+tname(i));
+  });
+  team.querySelectorAll(".score button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      state.scores[i]=Math.max(0, state.scores[i] + (+b.dataset.d));
+      save(); renderBoard();
+      if(+b.dataset.d>0){ toast(true,"🎉 +1 نقطة لـ"+tname(i)); confetti(16); }
+    });
+  });
+});
+
+/* ================= التنبيهات والاحتفال ================= */
+let toastTimer;
+function toast(good,msg){
+  const el=document.getElementById("toast");
+  el.className="toast show "+(good?"good":"oops");
+  el.querySelector(".t-ico").textContent=good?"🌟":"💪";
+  document.getElementById("toastTxt").textContent=msg;
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),3200);
+}
+function confetti(n=40){
+  const box=document.getElementById("confetti"), colors=["#f59e0b","#e11d48","#0d9488","#7c3aed","#0284c7","#16a34a"];
+  for(let i=0;i<n;i++){
+    const p=document.createElement("i");
+    p.style.left=Math.random()*100+"vw";
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDuration=(1.8+Math.random()*2)+"s";
+    p.style.animationDelay=(Math.random()*.6)+"s";
+    box.appendChild(p); setTimeout(()=>p.remove(),4600);
+  }
+}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* ================= نشاط ١ ================= */
+function buildMatch(){
+  const g=document.getElementById("matchGrid"); g.innerHTML="";
+  const qLane=document.createElement("div"); qLane.className="lane-label"; qLane.textContent="📌 الخطوات (اضغطي أولًا هنا)";
+  const wLane=document.createElement("div"); wLane.className="lane-label"; wLane.textContent="⏱️ الأوقات (ثم اختاري الوقت المناسب)";
+  g.appendChild(qLane);
+  shuffle(steps).forEach((s,i)=>{
+    const d=document.createElement("div");
+    d.className="m-card"; d.dataset.kind="q"; d.dataset.id=s.id;
+    d.innerHTML='<span class="badge">'+arabicNum(i+1)+'</span><span>'+s.txt+"</span>";
+    d.onclick=()=>{
+      if(d.classList.contains("done"))return;
+      g.querySelectorAll('.m-card[data-kind="q"]').forEach(x=>x.classList.remove("sel"));
+      d.classList.add("sel"); selStep=s;
+    };
+    g.appendChild(d);
+  });
+  g.appendChild(wLane);
+  shuffle(whens).forEach(w=>{
+    const d=document.createElement("div");
+    d.className="m-card"; d.dataset.kind="w"; d.dataset.id=w.id;
+    d.innerHTML='<span class="badge">✓</span><span>'+w.label+"</span>";
+    d.onclick=()=>{
+      if(!selStep){ toast(false,"اختاري أولًا الخطوة من الأعلى ثم وقتها المناسب."); return; }
+      if(selStep.when===w.id){
+        d.classList.add("done");
+        const q=g.querySelector('.m-card[data-id="'+selStep.id+'"]');
+        q.classList.remove("sel"); q.classList.add("done");
+        toast(true, tname(state.active)+": "+pick(PRAISE)); confetti(16);
+        addScore(); selStep=null;
+      }else{
+        d.classList.add("wrongshake");
+        setTimeout(()=>d.classList.remove("wrongshake"),450);
+        toast(false,ITSLIKE);
+      }
+    };
+    g.appendChild(d);
+  });
+}
+
+/* ================= نشاط ٢ ================= */
+function buildQuiz(){
+  const box=document.getElementById("quizBox"); box.innerHTML="";
+  shuffle(scenes).forEach((q,qi)=>{
+    const item=document.createElement("div"); item.className="q-item";
+    const scene=document.createElement("div"); scene.className="scene";
+    scene.innerHTML="<span>🗣️</span><span><b>الموقف "+arabicNum(qi+1)+":</b> "+q.scene+"</span>";
+    item.appendChild(scene);
+    const opts=document.createElement("div"); opts.className="q-opts";
+    shuffle(q.opts).forEach((o,oi)=>{
+      const b=document.createElement("button"); b.className="q-opt";
+      b.innerHTML='<span class="tick">'+arabicNum(oi+1)+'</span><span>'+o.t+"</span>";
+      b.onclick=()=>{
+        if(item.dataset.done) return;
+        item.dataset.done="1";
+        opts.querySelectorAll(".q-opt").forEach(x=>x.classList.add("locked"));
+        if(o.right){
+          b.classList.add("right");
+          toast(true, tname(state.active)+": "+pick(PRAISE)); confetti(22);
+          addScore();
+        }else{
+          b.classList.add("bad");
+          [...opts.children].find(x=>x!==b && x.lastElementChild.textContent===q.opts.find(k=>k.right).t).classList.add("right");
+          toast(false,ITSLIKE);
+        }
+      };
+      opts.appendChild(b);
+    });
+    item.appendChild(opts); box.appendChild(item);
+  });
+}
+
+/* ================= نشاط ٣ ================= */
+function buildSort(){
+  const box=document.getElementById("sortBox"); box.innerHTML="";
+  shuffle(behaviors).forEach(b=>{
+    const c=document.createElement("div"); c.className="sort-card";
+    c.innerHTML="<div>🧾 "+b.t+"</div>"+
+      '<div class="btns"><button class="btn-avoid">🚫 نتجنّبها</button><button class="btn-keep">✅ نُحسّنها</button></div>'+
+      '<div class="why"></div>';
+    const why=c.querySelector(".why");
+    c.querySelector(".btn-avoid").onclick=()=>judge(c,b,b.good?null:"avoid",why);
+    c.querySelector(".btn-keep").onclick=()=>judge(c,b,b.good?"keep":null,why);
+    box.appendChild(c);
+  });
+}
+function judge(card,b,ok,why){
+  if(card.classList.contains("ok")) return;
+  if(ok){
+    card.classList.add("ok"); why.textContent="✅ "+b.why;
+    toast(true, tname(state.active)+": "+pick(PRAISE)); confetti(16);
+    addScore();
+  }else{
+    card.classList.add("no"); why.textContent="❌ "+b.why;
+    toast(false,ITSLIKE);
+    setTimeout(()=>card.classList.remove("no"),900);
+  }
+}
+
+/* ================= النتيجة النهائية ================= */
+function finish(){
+  const f=document.getElementById("finale");
+  const order=state.scores.map((s,i)=>({i,s})).sort((a,b)=>b.s-a.s);
+  const max=order[0].s;
+  const winners=order.filter(o=>o.s===max).map(o=>tname(o.i));
+  document.getElementById("finTitle").textContent =
+    winners.length>1 ? "🏆 تعادل مشرّف بين: "+winners.join(" و ")
+                     : "🏆 الفائز: "+winners[0]+" — "+arabicNum(max)+" نقطة";
+  document.getElementById("finMsg").textContent =
+    "أنجزتُم "+arabicNum(TOTAL)+" نشاطًا في مهارة التحفيز. تذكّرنَّ: التحفيز الصادق يبني الدافعية الداخلية، والكلمة الطيبة قد تُغيّر رحلة طالبة كاملة مع القرآن.";
+  document.getElementById("finQuote").textContent="«"+pick(PRAISE)+"»";
+  f.classList.add("show"); confetti(140);
+  f.scrollIntoView({behavior:"smooth"});
+}
+
+/* ================= إعادة ضبط النشاط ================= */
+function resetAll(){
+  solved=0; selStep=null; state.solved=0; save();
+  pfill.style.width="0%"; stepTxt.textContent="٠ / "+arabicNum(TOTAL);
+  document.getElementById("finale").classList.remove("show");
+  buildMatch(); buildQuiz(); buildSort(); renderBoard();
+  window.scrollTo({top:0,behavior:"smooth"});
+  toast(true,"جاهز! ابدأوا ونتمنّى التوفيق 🌟");
+}
+
+/* ================= مشاركة الرابط ================= */
+(function(){
+  const SHORT = "https://is.gd/c9rjNC";
+  const msg = "🌟 نشاط تفاعلي: مهارة التحفيز داخل الحلقة (4 فرق — 3 مراحل — 15 نشاطًا)\n" + SHORT;
+  const wa = document.getElementById("waShare");
+  if(wa) wa.href = "https://wa.me/?text=" + encodeURIComponent(msg);
+  const cp = document.getElementById("copyLink");
+  if(cp) cp.addEventListener("click", async ()=>{
+    try{ await navigator.clipboard.writeText(SHORT); toast(true,"تم نسخ الرابط القصير ✔ جاهز للمشاركة"); }
+    catch(e){ prompt("انسخي الرابط يدويًا:", SHORT); }
+  });
+})();
+
+/* ================= تشغيل ================= */
+renderBoard();
+buildMatch(); buildQuiz(); buildSort();
+pfill.style.width=(solved/TOTAL*100)+"%";
+stepTxt.textContent=arabicNum(solved)+" / "+arabicNum(TOTAL);
+</script>
+</body>
+</html>
